@@ -14,6 +14,17 @@ notests *default:
     - Vostok.Singular.Core/bin/Release/netstandard2.0/Vostok.Singular.Core.dll
 
   deps:
+    - vostok.clusterconfig.client
+    - vostok.configuration.sources.cc
+    - vostok.clusterconfig.client.abstractions
+    - vostok.commons.collections/src
+    - vostok.configuration.logging
+    - vostok.configuration
+    - vostok.configuration.sources.json
+    - vostok.configuration.sources
+    - vostok.configuration.abstractions
+    - vostok.clusterclient.core
+    - vostok.logging.abstractions
     - vostok.devtools
 
 full-build > notests:
