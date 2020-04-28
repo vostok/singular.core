@@ -14,7 +14,7 @@ namespace Vostok.Singular.Core
         private readonly string servicePath;
         private static readonly NonIdempotencySignsSettings EmptySigns = new NonIdempotencySignsSettings {Signs = new List<NonIdempotencySignSettings>(0)};
 
-        public IdempotencySignsProvider(string serviceName, string configurationPathPrefix = SingularConstants.ServicesConfigurationNamePrefix)
+        public IdempotencySignsProvider(string serviceName, string configurationPathPrefix = SingularClientConstants.ServicesConfigurationNamePrefix)
         {
             servicePath = $"{configurationPathPrefix}{serviceName}.json";
             source = new ClusterConfigSource(

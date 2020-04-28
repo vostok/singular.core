@@ -6,6 +6,5 @@
         public const string ServiceName = "Singular";
         public const string CCTopologyName = "topology/singular";
         public const string DefaultZone = "default";
-        public const string ServicesConfigurationNamePrefix = "singular/global/services/";
     }
 }
