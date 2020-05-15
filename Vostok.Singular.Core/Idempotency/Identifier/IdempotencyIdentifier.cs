@@ -4,16 +4,16 @@ namespace Vostok.Singular.Core.Idempotency.Identifier
 {
     internal class IdempotencyIdentifier : IIdempotencyIdentifier
     {
-        private readonly IIdempotencySignsCache idempotencySignsCache;
+        private readonly INonIdempotencySignsCache nonIdempotencySignsCache;
 
-        public IdempotencyIdentifier(IIdempotencySignsCache idempotencySignsCache)
+        public IdempotencyIdentifier(INonIdempotencySignsCache nonIdempotencySignsCache)
         {
-            this.idempotencySignsCache = idempotencySignsCache;
+            this.nonIdempotencySignsCache = nonIdempotencySignsCache;
         }
 
         public bool IsIdempotent(string method, string path)
         {
-            var signs = idempotencySignsCache.Get();
+            var signs = nonIdempotencySignsCache.Get();
 
             foreach (var sign in signs)
             {
@@ -22,7 +22,7 @@ namespace Vostok.Singular.Core.Idempotency.Identifier
 
                 if (!string.Equals(sign.Method, method, StringComparison.OrdinalIgnoreCase) || path == null)
                     continue;
-                
+
                 if (sign.PathPattern.IsMatch(path))
                     return false;
             }

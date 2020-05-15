@@ -26,7 +26,7 @@ namespace Vostok.Singular.Core.Tests
         public void SetUp()
         {
             provider = Substitute.For<IIdempotencySignsProvider>();
-            var cache = new IdempotencySignsCache(provider);
+            var cache = new NonIdempotencySignsCache(provider);
             identifier = new IdempotencyIdentifier(cache);
         }
 
