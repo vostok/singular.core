@@ -1,30 +1,25 @@
+<<<<<<< HEAD:Vostok.Singular.Core/Idempotency/Identifier/IdempotencyIdentifier.cs
 ﻿using System;
 
 namespace Vostok.Singular.Core.Idempotency.Identifier
+=======
+﻿namespace Vostok.Singular.Core.Identifier
+>>>>>>> Move black list logic to BlackListIdempotencyResolver:Vostok.Singular.Core/Identifier/IdempotencyIdentifier.cs
 {
     internal class IdempotencyIdentifier : IIdempotencyIdentifier
     {
-        private readonly INonIdempotencySignsCache nonIdempotencySignsCache;
+        private readonly BlackListIdempotencyResolver blackListIdempotencyResolver;
 
-        public IdempotencyIdentifier(INonIdempotencySignsCache nonIdempotencySignsCache)
+        public IdempotencyIdentifier(BlackListIdempotencyResolver blackListIdempotencyResolver)
         {
-            this.nonIdempotencySignsCache = nonIdempotencySignsCache;
+            this.blackListIdempotencyResolver = blackListIdempotencyResolver;
         }
 
         public bool IsIdempotent(string method, string path)
         {
-            var signs = nonIdempotencySignsCache.Get();
-
-            foreach (var sign in signs)
+            if (!blackListIdempotencyResolver.IsIdempotent(method, path))
             {
-                if (sign.Method == null || sign.PathPattern == null)
-                    continue;
-
-                if (!string.Equals(sign.Method, method, StringComparison.OrdinalIgnoreCase) || path == null)
-                    continue;
-
-                if (sign.PathPattern.IsMatch(path))
-                    return false;
+                return false;
             }
 
             return true;

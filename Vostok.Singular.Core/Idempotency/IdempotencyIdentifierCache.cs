@@ -31,7 +31,7 @@ namespace Vostok.Singular.Core.Idempotency
         private static IIdempotencyIdentifier Create(string serviceName)
         {
             var idempotencySignsCache = new NonIdempotencySignsCache(new IdempotencySignsProvider(serviceName));
-            return new IdempotencyIdentifier(idempotencySignsCache);
+            return new IdempotencyIdentifier(new BlackListIdempotencyResolver(idempotencySignsCache));
         }
     }
 }
