@@ -5,6 +5,12 @@ namespace Vostok.Singular.Core.Identifier
     /// </summary>
     internal class IclResolver
     {
+        public IclResolver(
+            IIclCache iclCache
+            )
+        {
+        }
+
         public bool IsIdempotent(string method, string path)
         {
             return true;

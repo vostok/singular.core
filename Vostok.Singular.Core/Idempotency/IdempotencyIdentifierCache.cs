@@ -19,7 +19,7 @@ namespace Vostok.Singular.Core.Idempotency
 
             var provider = new ConfigurationProvider(providerSettings);
 
-            if(!ConfigurationProvider.TrySetDefault(provider))
+            if (!ConfigurationProvider.TrySetDefault(provider))
                 provider.Dispose();
         }
 
@@ -31,7 +31,10 @@ namespace Vostok.Singular.Core.Idempotency
         private static IIdempotencyIdentifier Create(string serviceName)
         {
             var idempotencySignsCache = new NonIdempotencySignsCache(new IdempotencySignsProvider(serviceName));
-            return new IdempotencyIdentifier(new BlackListIdempotencyResolver(idempotencySignsCache), new IclResolver());
+            return new IdempotencyIdentifier(
+                new BlackListIdempotencyResolver(idempotencySignsCache),
+                new IclResolver(new IclCache(new IclSettingsProvider()))
+            );
         }
     }
 }
