@@ -1,6 +1,6 @@
 using System;
 
-namespace Vostok.Singular.Core.Settings
+namespace Vostok.Singular.Core.Idempotency.Icl.Settings
 {
     [Serializable]
     internal class IdempotencyRuleSetting

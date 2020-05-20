@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Vostok.Commons.Collections;
-using Vostok.Singular.Core.Idempotency.Identifier;
-using Vostok.Singular.Core.Idempotency.Settings;
 
-namespace Vostok.Singular.Core.Idempotency
+namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
 {
     internal class NonIdempotencySignsCache : INonIdempotencySignsCache
     {

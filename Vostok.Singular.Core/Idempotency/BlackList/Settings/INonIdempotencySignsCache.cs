@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Vostok.Singular.Core.Idempotency.Identifier;
 
-namespace Vostok.Singular.Core.Idempotency
+namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
 {
     internal interface INonIdempotencySignsCache
     {

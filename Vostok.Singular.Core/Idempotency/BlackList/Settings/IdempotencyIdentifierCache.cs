@@ -3,10 +3,10 @@ using System.Collections.Concurrent;
 using Vostok.Configuration;
 using Vostok.Configuration.Logging;
 using Vostok.Logging.Abstractions;
-using Vostok.Singular.Core.Idempotency.Identifier;
-using Vostok.Singular.Core.Identifier;
+using Vostok.Singular.Core.Idempotency.Icl;
+using Vostok.Singular.Core.Idempotency.Icl.Settings;
 
-namespace Vostok.Singular.Core.Idempotency
+namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
 {
     internal static class IdempotencyIdentifierCache
     {

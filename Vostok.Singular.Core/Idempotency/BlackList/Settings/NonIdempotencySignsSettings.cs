@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Vostok.Singular.Core.Idempotency.Settings
+namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
 {
     [Serializable]
     internal class NonIdempotencySignsSettings

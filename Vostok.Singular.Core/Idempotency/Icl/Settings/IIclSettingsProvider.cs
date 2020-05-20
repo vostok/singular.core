@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Vostok.Singular.Core.Settings;
 
-namespace Vostok.Singular.Core
+namespace Vostok.Singular.Core.Idempotency.Icl.Settings
 {
     internal interface IIclSettingsProvider
     {

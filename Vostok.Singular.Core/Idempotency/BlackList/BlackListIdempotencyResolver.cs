@@ -1,7 +1,7 @@
 using System;
-using Vostok.Singular.Core.Idempotency;
+using Vostok.Singular.Core.Idempotency.BlackList.Settings;
 
-namespace Vostok.Singular.Core.Identifier
+namespace Vostok.Singular.Core.Idempotency.BlackList
 {
     internal class BlackListIdempotencyResolver
     {

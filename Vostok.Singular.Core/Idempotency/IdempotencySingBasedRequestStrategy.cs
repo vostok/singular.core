@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Clusterclient.Core.Sending;
 using Vostok.Clusterclient.Core.Strategies;
-using Vostok.Singular.Core.Idempotency.Identifier;
 
-namespace Vostok.Singular.Core
+namespace Vostok.Singular.Core.Idempotency
 {
     internal class IdempotencySingBasedRequestStrategy : IRequestStrategy
     {

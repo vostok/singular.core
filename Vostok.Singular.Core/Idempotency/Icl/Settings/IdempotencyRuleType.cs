@@ -1,4 +1,4 @@
-namespace Vostok.Singular.Core.Settings
+namespace Vostok.Singular.Core.Idempotency.Icl.Settings
 {
     internal enum IdempotencyRuleType
     {
