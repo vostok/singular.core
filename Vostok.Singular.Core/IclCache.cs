@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Vostok.Commons.Collections;
+using Vostok.Singular.Core.Idempotency.Identifier;
 using Vostok.Singular.Core.Identifier;
 using Vostok.Singular.Core.Settings;
 

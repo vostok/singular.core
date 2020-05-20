@@ -1,10 +1,6 @@
-<<<<<<< HEAD:Vostok.Singular.Core/Idempotency/Identifier/IdempotencyIdentifier.cs
-﻿using System;
+using Vostok.Singular.Core.Identifier;
 
-namespace Vostok.Singular.Core.Idempotency.Identifier
-=======
-﻿namespace Vostok.Singular.Core.Identifier
->>>>>>> Move black list logic to BlackListIdempotencyResolver:Vostok.Singular.Core/Identifier/IdempotencyIdentifier.cs
+ namespace Vostok.Singular.Core.Idempotency.Identifier
 {
     internal class IdempotencyIdentifier : IIdempotencyIdentifier
     {

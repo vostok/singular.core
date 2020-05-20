@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
+using Vostok.Singular.Core.Idempotency.Identifier;
 using Vostok.Singular.Core.Identifier;
 
 namespace Vostok.Singular.Core.Tests

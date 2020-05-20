@@ -1,3 +1,4 @@
+using Vostok.Singular.Core.Idempotency.Identifier;
 using Vostok.Singular.Core.Settings;
 
 namespace Vostok.Singular.Core.Identifier

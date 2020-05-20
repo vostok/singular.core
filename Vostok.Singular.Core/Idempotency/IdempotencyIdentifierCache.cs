@@ -4,6 +4,7 @@ using Vostok.Configuration;
 using Vostok.Configuration.Logging;
 using Vostok.Logging.Abstractions;
 using Vostok.Singular.Core.Idempotency.Identifier;
+using Vostok.Singular.Core.Identifier;
 
 namespace Vostok.Singular.Core.Idempotency
 {
