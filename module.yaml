@@ -2,7 +2,21 @@ src:
   build:
     target: None
     configuration: None
-
+    
+  deps:
+    - vostok.clusterconfig.client
+    - vostok.configuration.sources.cc
+    - vostok.clusterconfig.client.abstractions
+    - vostok.commons.collections/src
+    - vostok.configuration.logging
+    - vostok.configuration
+    - vostok.configuration.sources.json
+    - vostok.configuration.sources
+    - vostok.configuration.abstractions
+    - vostok.clusterclient.core
+    - vostok.logging.abstractions
+    - vostok.devtools
+    
 notests *default:
   build:
     target: Vostok.Singular.Core.sln
