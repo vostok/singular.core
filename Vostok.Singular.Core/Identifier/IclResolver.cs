@@ -10,7 +10,7 @@ namespace Vostok.Singular.Core.Identifier
     internal class IclResolver
     {
         private readonly IIclCache iclCache;
-        private readonly IdempotencyControlRule defualtIdempotencyRule = new IdempotencyControlRule
+        private readonly IdempotencyControlRule defaultIdempotencyRule = new IdempotencyControlRule
         {
             Method = "*",
             PathPattern = new Wildcard("*"),
@@ -26,8 +26,8 @@ namespace Vostok.Singular.Core.Identifier
 
         public bool IsIdempotent(string method, string path)
         {
-            var rules = iclCache.Get().Append(defualtIdempotencyRule);
-            var matchedRule = rules.First(r => IsMatch(r, method, path));
+            var rules = iclCache.Get().Append(defaultIdempotencyRule);
+            var matchedRule = rules.First(r => IclRuleMatcher.IsMatch(r, method, path));
 
             return IsIdempotent(matchedRule.Type);
         }
@@ -43,26 +43,6 @@ namespace Vostok.Singular.Core.Identifier
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        private static bool IsMethodMatched(IdempotencyControlRule rule, string method) =>
-            string.Equals(rule.Method, method, StringComparison.OrdinalIgnoreCase)
-            || rule.Method == "*";
-
-        private bool IsMatch(IdempotencyControlRule rule, string method, string path)
-        {
-            if (rule.Method == null || rule.PathPattern == null)
-                return false;
-
-            if (!IsMethodMatched(rule, method) || path == null)
-                return false;
-
-            if (rule.PathPattern.IsMatch(path))
-            {
-                return true;
-            }
-
-            return false;
         }
     }
 }
