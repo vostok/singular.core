@@ -1,4 +1,3 @@
-using System;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
@@ -10,11 +9,7 @@ namespace Vostok.Singular.Core.Tests
     public class IclResolverTests
     {
         private const string POST = "POST";
-        private const string GET = "GET";
-        private const string PATCH = "PATCH";
-        private string empty = new Uri("/", UriKind.Relative).OriginalString;
-        private string foo = new Uri("/foo", UriKind.Relative).OriginalString;
-        private string foobar = new Uri("/foo/bar", UriKind.Relative).OriginalString;
+        private const string fooPath = "/foo";
 
         private IIclCache iclCache;
         private IclResolver iclResolver;
@@ -30,11 +25,12 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_Be_Idempotent_When_NoRules()
         {
-            iclResolver.IsIdempotent(POST, foo).Should().BeTrue();
+            iclResolver.IsIdempotent(POST, fooPath).Should().BeTrue();
         }
 
-        [Test]
-        public void Should_Be_NonIdempotent_When_NonIdempotentRule()
+        [TestCase("*", "*")]
+        [TestCase(POST, fooPath)]
+        public void Should_Be_NonIdempotent_When_NonIdempotentRule(string methodPattern , string pathPattern)
         {
             iclCache.Get()
                 .Returns(
@@ -42,13 +38,38 @@ namespace Vostok.Singular.Core.Tests
                     {
                         new IdempotencyControlRule
                         {
-                            Method = "*",
+                            Method = methodPattern,
                             Type = IdempotencyRuleType.NonIdempotent,
-                            PathPattern = new Wildcard("*")
+                            PathPattern = new Wildcard(pathPattern)
                         }
                     });
 
-            iclResolver.IsIdempotent(POST, foo).Should().BeFalse();
+            iclResolver.IsIdempotent(POST, fooPath).Should().BeFalse();
+        }
+
+        [TestCase("*", "*")]
+        [TestCase(POST, "/foo")]
+        public void Should_Be_Idempotent_When_IdempotentRule_Is_First(string methodPattern , string pathPattern)
+        {
+            iclCache.Get()
+                .Returns(
+                    new[]
+                    {
+                        new IdempotencyControlRule
+                        {
+                            Method = methodPattern,
+                            Type = IdempotencyRuleType.Idempotent,
+                            PathPattern = new Wildcard(pathPattern)
+                        },
+                        new IdempotencyControlRule
+                        {
+                            Method = methodPattern,
+                            Type = IdempotencyRuleType.NonIdempotent,
+                            PathPattern = new Wildcard(pathPattern)
+                        },
+                    });
+
+            iclResolver.IsIdempotent(POST, fooPath).Should().BeTrue();
         }
     }
 }
