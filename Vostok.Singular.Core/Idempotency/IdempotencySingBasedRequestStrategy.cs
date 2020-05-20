@@ -12,13 +12,13 @@ namespace Vostok.Singular.Core.Idempotency
     {
         private readonly IRequestStrategy sequential1Strategy;
         private readonly IRequestStrategy idempotencyStrategy;
-        private IIdempotencyIdentifier notIdempotencyStrategy;
+        private IIdempotencyIdentifier idempotencyIdentifier;
 
-        public IdempotencySingBasedRequestStrategy(IIdempotencyIdentifier notIdempotencyStrategy, IRequestStrategy sequential1Strategy, IRequestStrategy idempotencyStrategy)
+        public IdempotencySingBasedRequestStrategy(IIdempotencyIdentifier idempotencyIdentifier, IRequestStrategy sequential1Strategy, IRequestStrategy idempotencyStrategy)
         {
             this.sequential1Strategy = sequential1Strategy;
             this.idempotencyStrategy = idempotencyStrategy;
-            this.notIdempotencyStrategy = notIdempotencyStrategy;
+            this.idempotencyIdentifier = idempotencyIdentifier;
         }
 
         public Task SendAsync(
@@ -33,7 +33,7 @@ namespace Vostok.Singular.Core.Idempotency
             var url = request.Url;
             var path = url.IsAbsoluteUri ? url.AbsolutePath : url.OriginalString;
             
-            var selectedStrategy = notIdempotencyStrategy.IsIdempotent(request.Method, path) ? idempotencyStrategy : sequential1Strategy;
+            var selectedStrategy = idempotencyIdentifier.IsIdempotent(request.Method, path) ? idempotencyStrategy : sequential1Strategy;
 
             return selectedStrategy.SendAsync(request, parameters, sender, budget, replicas, replicasCount, cancellationToken);
         }
