@@ -5,7 +5,7 @@ using Vostok.Singular.Core.Settings;
 namespace Vostok.Singular.Core.Identifier
 {
     /// <summary>
-    /// ICL - Idempotency Control List, аналог ACL (Access Control List)
+    /// ICL - Idempotency Control List, analog for ACL (Access Control List)
     /// </summary>
     internal class IclResolver
     {
