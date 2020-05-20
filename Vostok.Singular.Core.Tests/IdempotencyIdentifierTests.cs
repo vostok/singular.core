@@ -3,8 +3,9 @@ using System.Linq;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
-using Vostok.Singular.Core.Identifier;
-using Vostok.Singular.Core.Settings;
+using Vostok.Singular.Core.Idempotency;
+using Vostok.Singular.Core.Idempotency.Identifier;
+using Vostok.Singular.Core.Idempotency.Settings;
 
 namespace Vostok.Singular.Core.Tests
 {

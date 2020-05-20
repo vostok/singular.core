@@ -1,4 +1,4 @@
-﻿namespace Vostok.Singular.Core.Identifier
+﻿namespace Vostok.Singular.Core.Idempotency.Identifier
 {
     internal interface IIdempotencyIdentifier
     {

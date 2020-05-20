@@ -4,9 +4,9 @@ using Vostok.Configuration;
 using Vostok.Configuration.Abstractions;
 using Vostok.Configuration.Sources.ClusterConfig;
 using Vostok.Configuration.Sources.Json;
-using Vostok.Singular.Core.Settings;
+using Vostok.Singular.Core.Idempotency.Settings;
 
-namespace Vostok.Singular.Core
+namespace Vostok.Singular.Core.Idempotency
 {
     internal class IdempotencySignsProvider : IIdempotencySignsProvider
     {

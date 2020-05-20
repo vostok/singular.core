@@ -5,21 +5,21 @@ using System.Threading.Tasks;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Clusterclient.Core.Sending;
 using Vostok.Clusterclient.Core.Strategies;
-using Vostok.Singular.Core.Identifier;
+using Vostok.Singular.Core.Idempotency.Identifier;
 
 namespace Vostok.Singular.Core
 {
     internal class IdempotencySingBasedRequestStrategy : IRequestStrategy
     {
         private readonly IRequestStrategy sequential1Strategy;
-        private readonly IRequestStrategy forkingStrategy;
-        private IIdempotencyIdentifier idempotencyIdentifier;
+        private readonly IRequestStrategy idempotencyStrategy;
+        private IIdempotencyIdentifier notIdempotencyStrategy;
 
-        public IdempotencySingBasedRequestStrategy(IIdempotencyIdentifier idempotencyIdentifier, IRequestStrategy sequential1Strategy, IRequestStrategy forkingStrategy)
+        public IdempotencySingBasedRequestStrategy(IIdempotencyIdentifier notIdempotencyStrategy, IRequestStrategy sequential1Strategy, IRequestStrategy idempotencyStrategy)
         {
             this.sequential1Strategy = sequential1Strategy;
-            this.forkingStrategy = forkingStrategy;
-            this.idempotencyIdentifier = idempotencyIdentifier;
+            this.idempotencyStrategy = idempotencyStrategy;
+            this.notIdempotencyStrategy = notIdempotencyStrategy;
         }
 
         public Task SendAsync(
@@ -34,7 +34,7 @@ namespace Vostok.Singular.Core
             var url = request.Url;
             var path = url.IsAbsoluteUri ? url.AbsolutePath : url.OriginalString;
             
-            var selectedStrategy = idempotencyIdentifier.IsIdempotent(request.Method, path) ? forkingStrategy : sequential1Strategy;
+            var selectedStrategy = notIdempotencyStrategy.IsIdempotent(request.Method, path) ? idempotencyStrategy : sequential1Strategy;
 
             return selectedStrategy.SendAsync(request, parameters, sender, budget, replicas, replicasCount, cancellationToken);
         }

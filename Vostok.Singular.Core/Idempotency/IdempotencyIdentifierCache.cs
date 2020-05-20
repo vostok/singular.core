@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using Vostok.Configuration;
 using Vostok.Configuration.Logging;
 using Vostok.Logging.Abstractions;
-using Vostok.Singular.Core.Identifier;
+using Vostok.Singular.Core.Idempotency.Identifier;
 
-namespace Vostok.Singular.Core
+namespace Vostok.Singular.Core.Idempotency
 {
     internal static class IdempotencyIdentifierCache
     {
