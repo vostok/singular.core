@@ -16,13 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularHeaders.cs" Link="SingularCommons\SingularHeaders.cs" />
 	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularConstants.cs" Link="SingularCommons\SingularConstants.cs" />
 	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularClientConstants.cs" Link="SingularCommons\SingularClientConstants.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Idempotency\BlackList\Settings\*.cs" Link="SingularCommons\" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Idempotency\Icl\Settings\*.cs" Link="SingularCommons\" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Idempotency\BlackList\*.cs" Link="SingularCommons\" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Idempotency\Icl\*.cs" Link="SingularCommons\" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Idempotency\IIdempotencyIdentifier.cs" Link="SingularCommons\IIdempotencyIdentifier.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Idempotency\IdempotencyIdentifier.cs" Link="SingularCommons\IdempotencyIdentifier.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Idempotency\Wildcard.cs" Link="SingularCommons\Wildcard.cs" />
+	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Idempotency\**\*.cs" Link="SingularCommons\" />
 
   </ItemGroup>
 
