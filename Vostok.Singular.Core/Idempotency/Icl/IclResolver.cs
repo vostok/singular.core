@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Vostok.Singular.Core.Idempotency.Icl.Settings;
 
@@ -9,40 +8,26 @@ namespace Vostok.Singular.Core.Idempotency.Icl
     /// </summary>
     internal class IclResolver
     {
-        private readonly IIclCache iclCache;
-        private readonly IdempotencyControlRule defaultIdempotencyRule = new IdempotencyControlRule
+        private static readonly IdempotencyControlRule DefaultIdempotencyRule = new IdempotencyControlRule
         {
             Method = "*",
             PathPattern = new Wildcard("*"),
             Type = IdempotencyRuleType.Idempotent
         };
 
-        public IclResolver(
-            IIclCache iclCache
-        )
+        private readonly IIclCache iclCache;
+
+        public IclResolver(IIclCache iclCache)
         {
             this.iclCache = iclCache;
         }
 
         public bool IsIdempotent(string method, string path)
         {
-            var rules = iclCache.Get().Append(defaultIdempotencyRule);
+            var rules = iclCache.Get().Append(DefaultIdempotencyRule);
             var matchedRule = rules.First(r => IclRuleMatcher.IsMatch(r, method, path));
 
-            return IsIdempotent(matchedRule.Type);
-        }
-
-        private static bool IsIdempotent(IdempotencyRuleType ruleType)
-        {
-            switch (ruleType)
-            {
-                case IdempotencyRuleType.Idempotent:
-                    return true;
-                case IdempotencyRuleType.NonIdempotent:
-                    return false;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            return matchedRule.Type == IdempotencyRuleType.Idempotent;
         }
     }
 }

@@ -12,16 +12,10 @@ namespace Vostok.Singular.Core.Idempotency.Icl
             if (!IsMethodMatched(rule, method) || path == null)
                 return false;
 
-            if (rule.PathPattern.IsMatch(path))
-            {
-                return true;
-            }
-
-            return false;
+            return rule.PathPattern.IsMatch(path);
         }
 
         private static bool IsMethodMatched(IdempotencyControlRule rule, string method) =>
-            string.Equals(rule.Method, method, StringComparison.OrdinalIgnoreCase)
-            || rule.Method == "*";
+            string.Equals(rule.Method, method, StringComparison.OrdinalIgnoreCase) || rule.Method == "*";
     }
 }

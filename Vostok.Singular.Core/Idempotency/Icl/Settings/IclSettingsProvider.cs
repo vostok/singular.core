@@ -7,6 +7,10 @@ using Vostok.Configuration.Sources.Json;
 
 namespace Vostok.Singular.Core.Idempotency.Icl.Settings
 {
+    // CR: код один в один как в IdempotencySignsProvider, лучше избавиться от дублирования
+    // CR: Да и не понятно, зачем тут другой интерфейс
+
+    // CR: Еще я бы вынесла из папок Srttings все, что связано с кэшами и провайдерами.
     internal class IclSettingsProvider : IIclSettingsProvider
     {
         private readonly IConfigurationSource source;

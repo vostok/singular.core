@@ -8,6 +8,7 @@ using Vostok.Singular.Core.Idempotency.Icl.Settings;
 
 namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
 {
+    // CR: Этому файлику место где-то рядом с IdempotencyIdentifier
     internal static class IdempotencyIdentifierCache
     {
         private static readonly ConcurrentDictionary<string, Lazy<IIdempotencyIdentifier>> Cache = new ConcurrentDictionary<string, Lazy<IIdempotencyIdentifier>>();
