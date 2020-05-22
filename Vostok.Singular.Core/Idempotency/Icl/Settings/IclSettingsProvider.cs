@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Vostok.ClusterConfig.Client;
 using Vostok.Configuration;
 using Vostok.Configuration.Abstractions;
@@ -26,12 +25,12 @@ namespace Vostok.Singular.Core.Idempotency.Icl.Settings
                 });
         }
 
-        public List<IdempotencyRuleSetting> Get()
+        public IclRulesSettings Get()
         {
             if (ClusterConfigClient.Default.Get(servicePath) == null)
-                return new List<IdempotencyRuleSetting>(0);
+                return new IclRulesSettings();
 
-            return ConfigurationProvider.Default.Get<IdempotencyControlListSetting>(source).Rules;
+            return ConfigurationProvider.Default.Get<IclRulesServiceSettings>(source).Settings;
         }
     }
 }
