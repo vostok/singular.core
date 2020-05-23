@@ -27,6 +27,8 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_Be_Idempotent_When_NoRules()
         {
+            iclCache.Get().Returns(new List<IdempotencyControlRule>(0));
+
             iclResolver.IsIdempotent(POST, fooPath).Should().BeTrue();
         }
 
