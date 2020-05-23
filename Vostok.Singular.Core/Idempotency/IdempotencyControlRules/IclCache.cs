@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Vostok.Commons.Collections;
+using Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings;
 
-namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings
+namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 {
     internal class IclCache : ISettingsCache<IdempotencyControlRule>
     {

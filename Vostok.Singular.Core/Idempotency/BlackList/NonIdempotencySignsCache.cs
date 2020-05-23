@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Vostok.Commons.Collections;
+using Vostok.Singular.Core.Idempotency.BlackList.Settings;
 
-namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
+namespace Vostok.Singular.Core.Idempotency.BlackList
 {
     internal class NonIdempotencySignsCache : ISettingsCache<NonIdempotencySign>
     {
