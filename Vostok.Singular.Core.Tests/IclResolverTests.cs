@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
@@ -12,13 +13,13 @@ namespace Vostok.Singular.Core.Tests
         private const string POST = "POST";
         private const string fooPath = "/foo";
 
-        private IIclCache iclCache;
+        private ISettingsCache<IdempotencyControlRule> iclCache;
         private IclResolver iclResolver;
 
         [SetUp]
         public void SetUp()
         {
-            iclCache = Substitute.For<IIclCache>();
+            iclCache = Substitute.For<ISettingsCache<IdempotencyControlRule>>();
 
             iclResolver = new IclResolver(iclCache);
         }
@@ -31,29 +32,31 @@ namespace Vostok.Singular.Core.Tests
 
         [TestCase("*", "*")]
         [TestCase(POST, fooPath)]
-        public void Should_Be_NonIdempotent_When_NonIdempotentRule(string methodPattern , string pathPattern)
+        public void Should_Be_NonIdempotent_When_NonIdempotentRule(string methodPattern, string pathPattern)
         {
             iclCache.Get()
                 .Returns(
-                    new[]
-                    {
-                        new IdempotencyControlRule
+                    new List<IdempotencyControlRule>(
+                        new[]
                         {
-                            Method = methodPattern,
-                            Type = IdempotencyRuleType.NonIdempotent,
-                            PathPattern = new Wildcard(pathPattern)
-                        }
-                    });
+                            new IdempotencyControlRule
+                            {
+                                Method = methodPattern,
+                                Type = IdempotencyRuleType.NonIdempotent,
+                                PathPattern = new Wildcard(pathPattern)
+                            }
+                        }));
 
             iclResolver.IsIdempotent(POST, fooPath).Should().BeFalse();
         }
 
         [TestCase("*", "*")]
         [TestCase(POST, "/foo")]
-        public void Should_Be_Idempotent_When_IdempotentRule_Is_First(string methodPattern , string pathPattern)
+        public void Should_Be_Idempotent_When_IdempotentRule_Is_First(string methodPattern, string pathPattern)
         {
             iclCache.Get()
                 .Returns(
+                    new List<IdempotencyControlRule>(
                     new[]
                     {
                         new IdempotencyControlRule
@@ -68,7 +71,7 @@ namespace Vostok.Singular.Core.Tests
                             Type = IdempotencyRuleType.NonIdempotent,
                             PathPattern = new Wildcard(pathPattern)
                         },
-                    });
+                    }));
 
             iclResolver.IsIdempotent(POST, fooPath).Should().BeTrue();
         }

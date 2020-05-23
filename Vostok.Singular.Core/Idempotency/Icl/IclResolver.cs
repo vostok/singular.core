@@ -15,9 +15,9 @@ namespace Vostok.Singular.Core.Idempotency.Icl
             Type = IdempotencyRuleType.Idempotent
         };
 
-        private readonly IIclCache iclCache;
+        private readonly ISettingsCache<IdempotencyControlRule> iclCache;
 
-        public IclResolver(IIclCache iclCache)
+        public IclResolver(ISettingsCache<IdempotencyControlRule> iclCache)
         {
             this.iclCache = iclCache;
         }

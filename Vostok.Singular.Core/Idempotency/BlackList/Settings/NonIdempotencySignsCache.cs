@@ -6,7 +6,7 @@ namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
 {
     // CR: А тут имя файлика с именем класса разошлось. И если еще что-то переименовывал, то тоже проверь.
     // Зачем этим кэшам разные интерфейсы? Одного достаточно
-    internal class NonIdempotencySignsCache : INonIdempotencySignsCache
+    internal class NonIdempotencySignsCache : ISettingsCache<NonIdempotencySign>
     {
         private static readonly NonIdempotencyServiceSettings EmptySigns = new NonIdempotencyServiceSettings
         {

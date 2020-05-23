@@ -4,13 +4,13 @@ using Vostok.Commons.Collections;
 
 namespace Vostok.Singular.Core.Idempotency.Icl.Settings
 {
-    internal class IclCache : IIclCache
+    internal class IclCache : ISettingsCache<IdempotencyControlRule>
     {
-        private readonly CachingTransform<IclRulesServiceSettings, IdempotencyControlRule[]> cache;
+        private readonly CachingTransform<IclRulesServiceSettings, List<IdempotencyControlRule>> cache;
 
         public IclCache(SettingsProvider iclSettingsProvider)
         {
-            cache = new CachingTransform<IclRulesServiceSettings, IdempotencyControlRule[]>(
+            cache = new CachingTransform<IclRulesServiceSettings, List<IdempotencyControlRule>>(
                 PreprocessSigns,
                 () => iclSettingsProvider.Get(new IclRulesServiceSettings
                 {
@@ -21,12 +21,12 @@ namespace Vostok.Singular.Core.Idempotency.Icl.Settings
                 }));
         }
 
-        public IdempotencyControlRule[] Get()
+        public List<IdempotencyControlRule> Get()
         {
             return cache.Get();
         }
 
-        private static IdempotencyControlRule[] PreprocessSigns(IclRulesServiceSettings idempotencyControlSettings)
+        private static List<IdempotencyControlRule> PreprocessSigns(IclRulesServiceSettings idempotencyControlSettings)
         {
             return idempotencyControlSettings
                 .Settings
@@ -38,7 +38,7 @@ namespace Vostok.Singular.Core.Idempotency.Icl.Settings
                         Type = r.Type,
                         PathPattern = r.PathPattern == null ? null : new Wildcard(r.PathPattern)
                     })
-                .ToArray();
+                .ToList();
         }
     }
 }

@@ -3,8 +3,8 @@ using System.Linq;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
+using Vostok.Singular.Core.Idempotency;
 using Vostok.Singular.Core.Idempotency.BlackList;
-using Vostok.Singular.Core.Idempotency.BlackList.Settings;
 
 namespace Vostok.Singular.Core.Tests
 {
@@ -18,13 +18,13 @@ namespace Vostok.Singular.Core.Tests
         private readonly string foo = new Uri("/foo", UriKind.Relative).OriginalString;
         private readonly string foobar = new Uri("/foo/bar", UriKind.Relative).OriginalString;
 
-        private INonIdempotencySignsCache cache;
+        private ISettingsCache<NonIdempotencySign> cache;
         private BlackListIdempotencyResolver blackListIdempotencyResolver;
 
         [SetUp]
         public void SetUp()
         {
-            cache = Substitute.For<INonIdempotencySignsCache>();
+            cache = Substitute.For<ISettingsCache<NonIdempotencySign>>();
             blackListIdempotencyResolver = new BlackListIdempotencyResolver(cache);
         }
 

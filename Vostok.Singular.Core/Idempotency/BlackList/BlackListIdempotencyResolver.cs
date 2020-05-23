@@ -1,13 +1,12 @@
 using System;
-using Vostok.Singular.Core.Idempotency.BlackList.Settings;
 
 namespace Vostok.Singular.Core.Idempotency.BlackList
 {
     internal class BlackListIdempotencyResolver
     {
-        private readonly INonIdempotencySignsCache nonIdempotencySignsCache;
+        private readonly ISettingsCache<NonIdempotencySign> nonIdempotencySignsCache;
 
-        public BlackListIdempotencyResolver(INonIdempotencySignsCache nonIdempotencySignsCache)
+        public BlackListIdempotencyResolver(ISettingsCache<NonIdempotencySign> nonIdempotencySignsCache)
         {
             this.nonIdempotencySignsCache = nonIdempotencySignsCache;
         }
