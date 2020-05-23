@@ -6,7 +6,7 @@ using Vostok.Configuration.Sources.Json;
 
 namespace Vostok.Singular.Core.Idempotency
 {
-    internal class SettingsProvider
+    internal class SettingsProvider : ISettingsProvider
     {
         private readonly IConfigurationSource source;
         private readonly string servicePath;
