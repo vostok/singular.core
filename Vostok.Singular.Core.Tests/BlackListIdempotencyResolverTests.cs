@@ -14,18 +14,17 @@ namespace Vostok.Singular.Core.Tests
         private const string POST = "POST";
         private const string GET = "GET";
         private const string PATCH = "PATCH";
-        private string empty = new Uri("/", UriKind.Relative).OriginalString;
-        private string foo = new Uri("/foo", UriKind.Relative).OriginalString;
-        private string foobar = new Uri("/foo/bar", UriKind.Relative).OriginalString;
+        private readonly string empty = new Uri("/", UriKind.Relative).OriginalString;
+        private readonly string foo = new Uri("/foo", UriKind.Relative).OriginalString;
+        private readonly string foobar = new Uri("/foo/bar", UriKind.Relative).OriginalString;
 
-        private IIdempotencySignsProvider provider;
+        private INonIdempotencySignsCache cache;
         private BlackListIdempotencyResolver blackListIdempotencyResolver;
 
         [SetUp]
         public void SetUp()
         {
-            provider = Substitute.For<IIdempotencySignsProvider>();
-            var cache = new NonIdempotencySignsCache(provider);
+            cache = Substitute.For<INonIdempotencySignsCache>();
             blackListIdempotencyResolver = new BlackListIdempotencyResolver(cache);
         }
 
@@ -81,7 +80,7 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_detect_not_idempotent_methods_with_given_path_pattern_with_and_without_path_delimiter()
         {
-            MockCache(new NonIdempotencySignSettings { Method = POST, PathPattern = "/foo/*" }, new NonIdempotencySignSettings { Method = POST, PathPattern = "/foo" });
+            MockCache(new NonIdempotencySign(POST, "/foo/*"), new NonIdempotencySign(POST, "/foo"));
 
             blackListIdempotencyResolver.IsIdempotent(POST, empty).Should().BeTrue();
             blackListIdempotencyResolver.IsIdempotent(POST, "/foo1").Should().BeTrue();
@@ -93,7 +92,7 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_work_with_empty_signs()
         {
-            MockCache(new NonIdempotencySignSettings[0]);
+            MockCache();
 
             blackListIdempotencyResolver.IsIdempotent(GET, empty).Should().BeTrue();
             blackListIdempotencyResolver.IsIdempotent(POST, foo).Should().BeTrue();
@@ -105,9 +104,9 @@ namespace Vostok.Singular.Core.Tests
         public void Everything_is_not_idempotent()
         {
             MockCache(
-                new NonIdempotencySignSettings { Method = POST, PathPattern = "*" },
-                new NonIdempotencySignSettings { Method = GET, PathPattern = "*" },
-                new NonIdempotencySignSettings { Method = PATCH, PathPattern = "*" });
+                new NonIdempotencySign(POST, "*"),
+                new NonIdempotencySign(GET, "*"),
+                new NonIdempotencySign(PATCH, "*"));
 
             blackListIdempotencyResolver.IsIdempotent(POST, empty).Should().BeFalse();
             blackListIdempotencyResolver.IsIdempotent(POST, "/foo1").Should().BeFalse();
@@ -127,12 +126,12 @@ namespace Vostok.Singular.Core.Tests
 
         private void MockCache(string method, string pathPattern)
         {
-            MockCache(new NonIdempotencySignSettings { Method = method, PathPattern = pathPattern });
+            MockCache(new NonIdempotencySign(method, pathPattern));
         }
 
-        private void MockCache(params NonIdempotencySignSettings[] signs)
+        private void MockCache(params NonIdempotencySign[] signs)
         {
-            provider.Get().Returns(new NonIdempotencySignsSettings() { Signs = signs.ToList() });
+            cache.Get().Returns(signs.ToList());
         }
     }
 }

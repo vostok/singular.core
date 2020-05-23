@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
 using Vostok.ClusterConfig.Client;
 using Vostok.Configuration;
 using Vostok.Configuration.Abstractions;
 using Vostok.Configuration.Sources.ClusterConfig;
 using Vostok.Configuration.Sources.Json;
 
-namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
+namespace Vostok.Singular.Core.Idempotency
 {
-    internal class IdempotencySignsProvider : IIdempotencySignsProvider
+    internal class SettingsProvider
     {
         private readonly IConfigurationSource source;
         private readonly string servicePath;
-        private static readonly NonIdempotencySignsSettings EmptySigns = new NonIdempotencySignsSettings {Signs = new List<NonIdempotencySignSettings>(0)};
 
-        public IdempotencySignsProvider(string serviceName, string configurationPathPrefix = SingularClientConstants.ServicesConfigurationNamePrefix)
+        public SettingsProvider(string serviceName, string configurationPathPrefix = SingularClientConstants.ServicesConfigurationNamePrefix)
         {
             servicePath = $"{configurationPathPrefix}{serviceName}.json";
             source = new ClusterConfigSource(
@@ -23,12 +21,12 @@ namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
                 });
         }
 
-        public NonIdempotencySignsSettings Get()
+        public T Get<T>(T defaultValue)
         {
             if (ClusterConfigClient.Default.Get(servicePath) == null)
-                return EmptySigns;
+                return defaultValue;
 
-            return ConfigurationProvider.Default.Get<NonIdempotencyServiceSettings>(source).NonIdempotencySigns;
+            return ConfigurationProvider.Default.Get<T>(source);
         }
     }
 }

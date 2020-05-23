@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Vostok.Commons.Collections;
 
@@ -5,13 +6,19 @@ namespace Vostok.Singular.Core.Idempotency.Icl.Settings
 {
     internal class IclCache : IIclCache
     {
-        private readonly CachingTransform<IclRulesSettings, IdempotencyControlRule[]> cache;
+        private readonly CachingTransform<IclRulesServiceSettings, IdempotencyControlRule[]> cache;
 
-        public IclCache(IIclSettingsProvider iclSettingsProvider)
+        public IclCache(SettingsProvider iclSettingsProvider)
         {
-            cache = new CachingTransform<IclRulesSettings, IdempotencyControlRule[]>(
+            cache = new CachingTransform<IclRulesServiceSettings, IdempotencyControlRule[]>(
                 PreprocessSigns,
-                iclSettingsProvider.Get);
+                () => iclSettingsProvider.Get(new IclRulesServiceSettings
+                {
+                    Settings = new IclRulesSettings
+                    {
+                        Rules = new List<IdempotencyRuleSetting>(0)
+                    }
+                }));
         }
 
         public IdempotencyControlRule[] Get()
@@ -19,9 +26,10 @@ namespace Vostok.Singular.Core.Idempotency.Icl.Settings
             return cache.Get();
         }
 
-        private static IdempotencyControlRule[] PreprocessSigns(IclRulesSettings idempotencyControlSettings)
+        private static IdempotencyControlRule[] PreprocessSigns(IclRulesServiceSettings idempotencyControlSettings)
         {
             return idempotencyControlSettings
+                .Settings
                 .Rules
                 .Select(
                     r => new IdempotencyControlRule

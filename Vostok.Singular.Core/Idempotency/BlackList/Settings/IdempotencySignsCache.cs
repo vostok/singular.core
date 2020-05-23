@@ -8,12 +8,20 @@ namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
     // Зачем этим кэшам разные интерфейсы? Одного достаточно
     internal class NonIdempotencySignsCache : INonIdempotencySignsCache
     {
-        private CachingTransform<NonIdempotencySignsSettings, List<NonIdempotencySign>> cache;
-
-        public NonIdempotencySignsCache(IIdempotencySignsProvider idempotencySignsProvider)
+        private static readonly NonIdempotencyServiceSettings EmptySigns = new NonIdempotencyServiceSettings
         {
-            cache = new CachingTransform<NonIdempotencySignsSettings, List<NonIdempotencySign>>(PreprocessSigns,
-                idempotencySignsProvider.Get);
+            NonIdempotencySigns = new NonIdempotencySignsSettings
+            {
+                Signs = new List<NonIdempotencySignSettings>(0)
+            }
+        };
+        private readonly CachingTransform<NonIdempotencyServiceSettings, List<NonIdempotencySign>> cache;
+
+        public NonIdempotencySignsCache(SettingsProvider settingsProvider)
+        {
+            cache = new CachingTransform<NonIdempotencyServiceSettings, List<NonIdempotencySign>>(
+                PreprocessSigns,
+                () => settingsProvider.Get(EmptySigns));
         }
 
         public List<NonIdempotencySign> Get()
@@ -21,18 +29,18 @@ namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
             return cache.Get();
         }
 
-        private static List<NonIdempotencySign> PreprocessSigns(NonIdempotencySignsSettings nonIdempotencySignsSettings)
+        private static List<NonIdempotencySign> PreprocessSigns(NonIdempotencyServiceSettings nonIdempotencySignsSettings)
         {
-            var signs = nonIdempotencySignsSettings.Signs;
+            var signs = nonIdempotencySignsSettings.NonIdempotencySigns.Signs;
             var processedSigns = new List<NonIdempotencySign>(signs.Count);
 
             processedSigns.AddRange(
                 signs.Select(
-                    sign => new NonIdempotencySign
-                    {
-                        Method = sign.Method,
-                        PathPattern = sign.PathPattern == null ? null : new Wildcard(sign.PathPattern)
-                    }));
+                    sign => new NonIdempotencySign(
+                        sign.Method,
+                        sign.PathPattern
+                        )
+                ));
 
             return processedSigns;
         }
