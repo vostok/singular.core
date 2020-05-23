@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
 using Vostok.Singular.Core.Idempotency;
-using Vostok.Singular.Core.Idempotency.Icl;
+using Vostok.Singular.Core.Idempotency.IdempotencyControlRules;
 
 namespace Vostok.Singular.Core.Tests
 {

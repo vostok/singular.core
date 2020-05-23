@@ -1,5 +1,5 @@
 using Vostok.Singular.Core.Idempotency.BlackList;
-using Vostok.Singular.Core.Idempotency.Icl;
+using Vostok.Singular.Core.Idempotency.IdempotencyControlRules;
 
 namespace Vostok.Singular.Core.Idempotency
 {

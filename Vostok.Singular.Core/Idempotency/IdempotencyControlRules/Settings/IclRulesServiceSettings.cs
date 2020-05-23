@@ -1,4 +1,4 @@
-namespace Vostok.Singular.Core.Idempotency.Icl.Settings
+namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings
 {
     internal class IclRulesServiceSettings
     {

@@ -3,8 +3,8 @@ using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 using Vostok.Singular.Core.Idempotency;
-using Vostok.Singular.Core.Idempotency.Icl;
-using Vostok.Singular.Core.Idempotency.Icl.Settings;
+using Vostok.Singular.Core.Idempotency.IdempotencyControlRules;
+using Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings;
 
 namespace Vostok.Singular.Core.Tests
 {

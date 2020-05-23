@@ -1,7 +1,7 @@
 using System.Linq;
-using Vostok.Singular.Core.Idempotency.Icl.Settings;
+using Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings;
 
-namespace Vostok.Singular.Core.Idempotency.Icl
+namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 {
     /// <summary>
     /// ICL - Idempotency Control List, analog for ACL (Access Control List)

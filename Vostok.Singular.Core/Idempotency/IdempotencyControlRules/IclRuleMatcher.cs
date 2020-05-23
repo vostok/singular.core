@@ -1,6 +1,6 @@
 using System;
 
-namespace Vostok.Singular.Core.Idempotency.Icl
+namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 {
     internal static class IclRuleMatcher
     {
