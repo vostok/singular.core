@@ -9,7 +9,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
     {
         private readonly CachingTransform<IclRulesServiceSettings, List<IdempotencyControlRule>> cache;
 
-        public IclCache(SettingsProvider iclSettingsProvider)
+        public IclCache(SettingsProvider<IclRulesServiceSettings> iclSettingsProvider)
         {
             cache = new CachingTransform<IclRulesServiceSettings, List<IdempotencyControlRule>>(
                 PreprocessSigns,

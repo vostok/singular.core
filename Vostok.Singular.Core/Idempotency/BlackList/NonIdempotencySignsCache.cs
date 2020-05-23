@@ -16,7 +16,7 @@ namespace Vostok.Singular.Core.Idempotency.BlackList
         };
         private readonly CachingTransform<NonIdempotencyServiceSettings, List<NonIdempotencySign>> cache;
 
-        public NonIdempotencySignsCache(SettingsProvider settingsProvider)
+        public NonIdempotencySignsCache(SettingsProvider<NonIdempotencyServiceSettings> settingsProvider)
         {
             cache = new CachingTransform<NonIdempotencyServiceSettings, List<NonIdempotencySign>>(
                 PreprocessSigns,

@@ -1,7 +1,7 @@
 namespace Vostok.Singular.Core.Idempotency
 {
-    internal interface ISettingsProvider
+    internal interface ISettingsProvider<T>
     {
-        T Get<T>(T defaultValue);
+        T Get(T defaultValue);
     }
 }

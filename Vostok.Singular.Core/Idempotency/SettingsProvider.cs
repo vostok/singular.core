@@ -6,7 +6,7 @@ using Vostok.Configuration.Sources.Json;
 
 namespace Vostok.Singular.Core.Idempotency
 {
-    internal class SettingsProvider : ISettingsProvider
+    internal class SettingsProvider<T> : ISettingsProvider<T>
     {
         private readonly IConfigurationSource source;
         private readonly string servicePath;
@@ -21,7 +21,7 @@ namespace Vostok.Singular.Core.Idempotency
                 });
         }
 
-        public T Get<T>(T defaultValue)
+        public T Get(T defaultValue)
         {
             if (ClusterConfigClient.Default.Get(servicePath) == null)
                 return defaultValue;
