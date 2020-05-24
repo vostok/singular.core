@@ -7,20 +7,13 @@ namespace Vostok.Singular.Core.Idempotency.BlackList
 {
     internal class NonIdempotencySignsCache : ISettingsCache<NonIdempotencySign>
     {
-        private static readonly NonIdempotencyServiceSettings EmptySigns = new NonIdempotencyServiceSettings
-        {
-            NonIdempotencySigns = new NonIdempotencySignsSettings
-            {
-                Signs = new List<NonIdempotencySignSettings>(0)
-            }
-        };
-        private readonly CachingTransform<NonIdempotencyServiceSettings, List<NonIdempotencySign>> cache;
+        private readonly CachingTransform<NonIdempotencySignsSettings, List<NonIdempotencySign>> cache;
 
-        public NonIdempotencySignsCache(SettingsProvider<NonIdempotencyServiceSettings> settingsProvider)
+        public NonIdempotencySignsCache(INonIdempotencySignsSettingsProvider nonIdempotencySignsSettingsProvider)
         {
-            cache = new CachingTransform<NonIdempotencyServiceSettings, List<NonIdempotencySign>>(
+            cache = new CachingTransform<NonIdempotencySignsSettings, List<NonIdempotencySign>>(
                 PreprocessSigns,
-                () => settingsProvider.Get(EmptySigns));
+                nonIdempotencySignsSettingsProvider.Get);
         }
 
         public List<NonIdempotencySign> Get()
@@ -28,9 +21,9 @@ namespace Vostok.Singular.Core.Idempotency.BlackList
             return cache.Get();
         }
 
-        private static List<NonIdempotencySign> PreprocessSigns(NonIdempotencyServiceSettings nonIdempotencySignsSettings)
+        private static List<NonIdempotencySign> PreprocessSigns(NonIdempotencySignsSettings nonIdempotencySignsSettings)
         {
-            var signs = nonIdempotencySignsSettings.NonIdempotencySigns.Signs;
+            var signs = nonIdempotencySignsSettings.Signs;
             var processedSigns = new List<NonIdempotencySign>(signs.Count);
 
             processedSigns.AddRange(
