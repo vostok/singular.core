@@ -1,5 +1,4 @@
 using System.Linq;
-using Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings;
 
 namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 {
@@ -12,7 +11,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
         {
             Method = "*",
             PathPattern = new Wildcard("*"),
-            Type = IdempotencyRuleType.Idempotent
+            IsIdempotent = true
         };
 
         private readonly IIdempotencySettingsCache<IdempotencyControlRule> iclCache;
@@ -27,7 +26,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
             var rules = iclCache.Get().Append(DefaultIdempotencyRule);
             var matchedRule = rules.First(r => IclRuleMatcher.IsMatch(r, method, path));
 
-            return matchedRule.Type == IdempotencyRuleType.Idempotent;
+            return matchedRule.IsIdempotent;
         }
     }
 }
