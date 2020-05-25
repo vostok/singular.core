@@ -5,7 +5,7 @@ using Vostok.Singular.Core.Idempotency.BlackList.Settings;
 
 namespace Vostok.Singular.Core.Idempotency.BlackList
 {
-    internal class NonIdempotencySignsCache : ISettingsCache<NonIdempotencySign>
+    internal class NonIdempotencySignsCache : IIdempotencySettingsCache<NonIdempotencySign>
     {
         private readonly CachingTransform<NonIdempotencySignsSettings, List<NonIdempotencySign>> cache;
 

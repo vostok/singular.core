@@ -18,13 +18,13 @@ namespace Vostok.Singular.Core.Tests
         private readonly string foo = new Uri("/foo", UriKind.Relative).OriginalString;
         private readonly string foobar = new Uri("/foo/bar", UriKind.Relative).OriginalString;
 
-        private ISettingsCache<NonIdempotencySign> cache;
+        private IIdempotencySettingsCache<NonIdempotencySign> cache;
         private BlackListIdempotencyResolver blackListIdempotencyResolver;
 
         [SetUp]
         public void SetUp()
         {
-            cache = Substitute.For<ISettingsCache<NonIdempotencySign>>();
+            cache = Substitute.For<IIdempotencySettingsCache<NonIdempotencySign>>();
             blackListIdempotencyResolver = new BlackListIdempotencyResolver(cache);
         }
 

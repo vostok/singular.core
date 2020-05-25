@@ -5,7 +5,7 @@ using Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings;
 
 namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 {
-    internal class IclCache : ISettingsCache<IdempotencyControlRule>
+    internal class IclCache : IIdempotencySettingsCache<IdempotencyControlRule>
     {
         private readonly CachingTransform<IclRulesSettings, List<IdempotencyControlRule>> cache;
 

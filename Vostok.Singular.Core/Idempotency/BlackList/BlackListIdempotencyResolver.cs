@@ -4,9 +4,9 @@ namespace Vostok.Singular.Core.Idempotency.BlackList
 {
     internal class BlackListIdempotencyResolver
     {
-        private readonly ISettingsCache<NonIdempotencySign> nonIdempotencySignsCache;
+        private readonly IIdempotencySettingsCache<NonIdempotencySign> nonIdempotencySignsCache;
 
-        public BlackListIdempotencyResolver(ISettingsCache<NonIdempotencySign> nonIdempotencySignsCache)
+        public BlackListIdempotencyResolver(IIdempotencySettingsCache<NonIdempotencySign> nonIdempotencySignsCache)
         {
             this.nonIdempotencySignsCache = nonIdempotencySignsCache;
         }

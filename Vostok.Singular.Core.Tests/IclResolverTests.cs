@@ -13,13 +13,13 @@ namespace Vostok.Singular.Core.Tests
         private const string POST = "POST";
         private const string fooPath = "/foo";
 
-        private ISettingsCache<IdempotencyControlRule> iclCache;
+        private IIdempotencySettingsCache<IdempotencyControlRule> iclCache;
         private IclResolver iclResolver;
 
         [SetUp]
         public void SetUp()
         {
-            iclCache = Substitute.For<ISettingsCache<IdempotencyControlRule>>();
+            iclCache = Substitute.For<IIdempotencySettingsCache<IdempotencyControlRule>>();
 
             iclResolver = new IclResolver(iclCache);
         }
