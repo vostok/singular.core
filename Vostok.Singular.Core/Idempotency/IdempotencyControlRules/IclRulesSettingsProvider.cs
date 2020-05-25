@@ -9,7 +9,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 
         private static readonly IclRulesServiceSettings EmptyRules = new IclRulesServiceSettings
         {
-            NonIdempotencyIclRules = new IclRulesSettings
+            IdempotencySettings = new IdempotencySettings
             {
                 Rules = new List<IdempotencyRuleSetting>(0)
             }
@@ -19,9 +19,9 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
             this.settingsProvider = settingsProvider;
         }
 
-        public IclRulesSettings Get()
+        public IdempotencySettings Get()
         {
-            return settingsProvider.Get(EmptyRules).NonIdempotencyIclRules;
+            return settingsProvider.Get(EmptyRules).IdempotencySettings;
         }
     }
 }

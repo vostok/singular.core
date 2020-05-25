@@ -4,6 +4,6 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 {
     internal interface IIclRulesSettingsProvider
     {
-        IclRulesSettings Get();
+        IdempotencySettings Get();
     }
 }
