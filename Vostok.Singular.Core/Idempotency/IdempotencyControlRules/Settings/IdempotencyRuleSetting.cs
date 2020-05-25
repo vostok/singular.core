@@ -9,6 +9,6 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings
 
         public string PathPattern;
 
-        public IdempotencyRuleType Type;
+        public bool IsIdempotent;
     }
 }

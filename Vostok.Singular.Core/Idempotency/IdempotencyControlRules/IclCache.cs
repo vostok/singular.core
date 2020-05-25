@@ -29,7 +29,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
                     r => new IdempotencyControlRule
                     {
                         Method = r.Method,
-                        Type = r.Type,
+                        IsIdempotent = r.IsIdempotent,
                         PathPattern = r.PathPattern == null ? null : new Wildcard(r.PathPattern)
                     })
                 .ToList();

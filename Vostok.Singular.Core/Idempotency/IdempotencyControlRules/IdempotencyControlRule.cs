@@ -1,5 +1,3 @@
-using Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings;
-
 namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 {
     internal class IdempotencyControlRule
@@ -8,6 +6,6 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 
         public Wildcard PathPattern;
 
-        public IdempotencyRuleType Type;
+        public bool IsIdempotent;
     }
 }

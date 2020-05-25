@@ -4,7 +4,6 @@ using NSubstitute;
 using NUnit.Framework;
 using Vostok.Singular.Core.Idempotency;
 using Vostok.Singular.Core.Idempotency.IdempotencyControlRules;
-using Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings;
 
 namespace Vostok.Singular.Core.Tests
 {
@@ -44,7 +43,7 @@ namespace Vostok.Singular.Core.Tests
                             new IdempotencyControlRule
                             {
                                 Method = methodPattern,
-                                Type = IdempotencyRuleType.NonIdempotent,
+                                IsIdempotent = false,
                                 PathPattern = new Wildcard(pathPattern)
                             }
                         }));
@@ -64,13 +63,13 @@ namespace Vostok.Singular.Core.Tests
                         new IdempotencyControlRule
                         {
                             Method = methodPattern,
-                            Type = IdempotencyRuleType.Idempotent,
+                            IsIdempotent = true,
                             PathPattern = new Wildcard(pathPattern)
                         },
                         new IdempotencyControlRule
                         {
                             Method = methodPattern,
-                            Type = IdempotencyRuleType.NonIdempotent,
+                            IsIdempotent = false,
                             PathPattern = new Wildcard(pathPattern)
                         },
                     }));
