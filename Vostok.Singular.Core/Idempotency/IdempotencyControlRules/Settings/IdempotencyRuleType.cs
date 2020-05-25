@@ -2,7 +2,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings
 {
     internal enum IdempotencyRuleType
     {
-        Idempotent,
-        NonIdempotent
+        NonIdempotent = 0,
+        Idempotent = 1,
     }
 }
