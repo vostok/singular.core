@@ -7,6 +7,13 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 {
     internal class IclCache : IIdempotencySettingsCache<IdempotencyControlRule>
     {
+        private static readonly IdempotencyControlRule DefaultIdempotencyRule = new IdempotencyControlRule
+        {
+            Method = "*",
+            PathPattern = new Wildcard("*"),
+            IsIdempotent = true
+        };
+
         private readonly CachingTransform<IdempotencySettings, List<IdempotencyControlRule>> cache;
 
         public IclCache(IIclRulesSettingsProvider iclRulesSettingsProvider)
@@ -32,6 +39,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
                         IsIdempotent = r.IsIdempotent,
                         PathPattern = r.PathPattern == null ? null : new Wildcard(r.PathPattern)
                     })
+                .Append(DefaultIdempotencyRule)
                 .ToList();
         }
     }

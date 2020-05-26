@@ -4,6 +4,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Vostok.Singular.Core.Idempotency;
 using Vostok.Singular.Core.Idempotency.IdempotencyControlRules;
+using Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings;
 
 namespace Vostok.Singular.Core.Tests
 {
@@ -26,7 +27,11 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_Be_Idempotent_When_NoRules()
         {
-            iclCache.Get().Returns(new List<IdempotencyControlRule>(0));
+            var iclRulesProvider = Substitute.For<IIclRulesSettingsProvider>();
+            iclRulesProvider.Get().Returns(new IdempotencySettings());
+            var iclCache = new IclCache(iclRulesProvider);
+
+            var iclResolver = new IclResolver(iclCache);
 
             iclResolver.IsIdempotent(POST, fooPath).Should().BeTrue();
         }

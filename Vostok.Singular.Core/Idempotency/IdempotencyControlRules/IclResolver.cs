@@ -7,13 +7,6 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
     /// </summary>
     internal class IclResolver
     {
-        private static readonly IdempotencyControlRule DefaultIdempotencyRule = new IdempotencyControlRule
-        {
-            Method = "*",
-            PathPattern = new Wildcard("*"),
-            IsIdempotent = true
-        };
-
         private readonly IIdempotencySettingsCache<IdempotencyControlRule> iclCache;
 
         public IclResolver(IIdempotencySettingsCache<IdempotencyControlRule> iclCache)
@@ -23,7 +16,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 
         public bool IsIdempotent(string method, string path)
         {
-            var rules = iclCache.Get().Append(DefaultIdempotencyRule);
+            var rules = iclCache.Get();
             var matchedRule = rules.First(r => IclRuleMatcher.IsMatch(r, method, path));
 
             return matchedRule.IsIdempotent;
