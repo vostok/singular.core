@@ -6,6 +6,19 @@ using Vostok.Singular.Core.Idempotency.IdempotencyControlRules;
 
 namespace Vostok.Singular.Core.Tests
 {
+    //CR: (deniaa) There is complex comment about feature.
+
+    //CR: (deniaa) 1. Trailing and leading slashes are significant. At first, look at BlackListIdempotencyResolverTests. Old tests written with leading slashes in rules.
+    //CR: (deniaa) Then, look at Idempotency_Tests in Singular backend solution. All rules in tests written with leading slashes in path. Is you remove any one slashes from rule - the rule will not work.
+    //CR: (deniaa) This is because the Kestrel always gives urls with a slash in the beginning.
+    //CR: (deniaa) Then, easy to check, that existing or not leading slash on CLIENT side totally depends on how user write code.
+    //CR: (deniaa) If user write request with leading slash - path will be given to IdempotencyIdentifier with leading slash.
+    //CR: (deniaa) If user write request WITHOUT leading slash - path will be given to IdempotencyIdentifier WITHOUT leading slash.
+    //CR: (deniaa) So, rule in Configuration, which are used on backend side (Kestrel) AND client side, must return same result for "same" path. But it is not.
+    //CR: (deniaa) Regardless of the presence and absence of a slash, the code should work the same way and the user should hardly think about it.
+    //CR: (deniaa) Yes, this bug was allowed during the first implementation of idempotency on the client side. The code was simply copied from the backend, where the slash was guaranteed by Kestrel.
+
+    //CR: (deniaa) 2. We definitely need test on case with request on corner of the site (path is "/" or empty string "", i don't know).
     [TestFixture]
     internal class IclRuleMatcherTests
     {

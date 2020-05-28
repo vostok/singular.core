@@ -14,6 +14,7 @@ namespace Vostok.Singular.Core.Idempotency.BlackList
                 Signs = new List<NonIdempotencySignSettings>(0)
             }
         };
+
         public NonIdempotencySignsSettingsProvider(SettingsProvider settingsProvider)
         {
             this.settingsProvider = settingsProvider;

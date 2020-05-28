@@ -14,6 +14,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
                 Rules = new List<IdempotencyRuleSetting>(0)
             }
         };
+
         public IclRulesSettingsProvider(SettingsProvider settingsProvider)
         {
             this.settingsProvider = settingsProvider;

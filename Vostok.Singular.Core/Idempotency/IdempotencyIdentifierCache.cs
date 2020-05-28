@@ -33,6 +33,9 @@ namespace Vostok.Singular.Core.Idempotency
         {
             var settingsProvider = new SettingsProvider(serviceName);
             var idempotencySignsCache = new NonIdempotencySignsCache(new NonIdempotencySignsSettingsProvider(settingsProvider));
+            //CR: (deniaa) The complicated creation of the first argument was given a separate line.
+            //CR: (deniaa) But the second one (absolutely same) was not.
+            //CR: (deniaa) Where is your sense of perfectionism?
             return new IdempotencyIdentifier(
                 new BlackListIdempotencyResolver(idempotencySignsCache),
                 new IclResolver(new IclCache(new IclRulesSettingsProvider(settingsProvider)))
