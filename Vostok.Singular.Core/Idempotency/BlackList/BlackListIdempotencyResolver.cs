@@ -14,6 +14,8 @@ namespace Vostok.Singular.Core.Idempotency.BlackList
         public bool IsIdempotent(string method, string path)
         {
             var signs = nonIdempotencySignsCache.Get();
+            if(signs.Count > 0 && path.StartsWith("/")) 
+                path = path.TrimStart('/');
 
             foreach (var sign in signs)
             {

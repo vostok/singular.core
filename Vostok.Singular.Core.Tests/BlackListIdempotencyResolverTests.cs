@@ -45,7 +45,7 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_detect_not_idempotent_methods_with_given_path()
         {
-            MockCache(POST, "/foo");
+            MockCache(POST, "foo");
 
             blackListIdempotencyResolver.IsIdempotent(POST, empty).Should().BeTrue();
             blackListIdempotencyResolver.IsIdempotent(POST, foobar).Should().BeTrue();
@@ -56,7 +56,7 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_detect_not_idempotent_methods_with_given_path_pattern()
         {
-            MockCache(POST, "/foo*");
+            MockCache(POST, "foo*");
 
             blackListIdempotencyResolver.IsIdempotent(POST, empty).Should().BeTrue();
 
@@ -68,7 +68,7 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_detect_not_idempotent_methods_with_given_path_pattern_with_path_delimiter()
         {
-            MockCache(POST, "/foo/*");
+            MockCache(POST, "foo/*");
 
             blackListIdempotencyResolver.IsIdempotent(POST, empty).Should().BeTrue();
             blackListIdempotencyResolver.IsIdempotent(POST, "/foo1").Should().BeTrue();
@@ -80,7 +80,7 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_detect_not_idempotent_methods_with_given_path_pattern_with_and_without_path_delimiter()
         {
-            MockCache(new NonIdempotencySign(POST, "/foo/*"), new NonIdempotencySign(POST, "/foo"));
+            MockCache(new NonIdempotencySign(POST, "foo/*"), new NonIdempotencySign(POST, "foo"));
 
             blackListIdempotencyResolver.IsIdempotent(POST, empty).Should().BeTrue();
             blackListIdempotencyResolver.IsIdempotent(POST, "/foo1").Should().BeTrue();

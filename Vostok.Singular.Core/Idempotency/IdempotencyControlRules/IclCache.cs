@@ -37,7 +37,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
                     {
                         Method = r.Method,
                         IsIdempotent = r.IsIdempotent,
-                        PathPattern = r.PathPattern == null ? null : new Wildcard(r.PathPattern)
+                        PathPattern = r.PathPattern == null ? null : new Wildcard(r.PathPattern.TrimStart('/'))
                     })
                 .Append(DefaultIdempotencyRule)
                 .ToList();

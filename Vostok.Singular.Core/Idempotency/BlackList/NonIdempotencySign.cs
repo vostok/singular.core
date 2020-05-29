@@ -9,7 +9,7 @@
         public NonIdempotencySign(string method, string pathPattern)
         {
             Method = method;
-            PathPattern = pathPattern == null ? null : new Wildcard(pathPattern);
+            PathPattern = pathPattern == null ? null : new Wildcard(pathPattern.TrimStart('/'));
         }
     }
 }

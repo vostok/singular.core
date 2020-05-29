@@ -11,7 +11,7 @@ namespace Vostok.Singular.Core.Tests
     public class IclResolverTests
     {
         private const string POST = "POST";
-        private const string fooPath = "/foo";
+        private const string fooPath = "foo";
 
         private IIdempotencySettingsCache<IdempotencyControlRule> iclCache;
         private IclResolver iclResolver;
@@ -57,7 +57,7 @@ namespace Vostok.Singular.Core.Tests
         }
 
         [TestCase("*", "*")]
-        [TestCase(POST, "/foo")]
+        [TestCase(POST, "foo")]
         public void Should_Be_Idempotent_When_IdempotentRule_Is_First(string methodPattern, string pathPattern)
         {
             iclCache.Get()
