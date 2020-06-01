@@ -17,7 +17,8 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
         public bool IsIdempotent(string method, string path)
         {
             var rules = iclCache.Get();
-            if(rules.Count > 1 && path.StartsWith("/"))
+            //We are assume here that last rule is always {* * Idempotent}. See IclCache.
+            if (rules.Count > 1 && path.StartsWith("/"))
                 path = path.TrimStart('/');
 
             var matchedRule = rules.First(r => IclRuleMatcher.IsMatch(r, method, path));

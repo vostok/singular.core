@@ -10,8 +10,7 @@ namespace Vostok.Singular.Core.Idempotency
 
         public IdempotencyIdentifier(
             BlackListIdempotencyResolver blackListIdempotencyResolver,
-            IclResolver iclResolver
-        )
+            IclResolver iclResolver)
         {
             this.blackListIdempotencyResolver = blackListIdempotencyResolver;
             this.iclResolver = iclResolver;
