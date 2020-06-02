@@ -1,5 +1,8 @@
-﻿namespace Vostok.Singular.Core
+﻿using JetBrains.Annotations;
+
+namespace Vostok.Singular.Core
 {
+    [PublicAPI]
     internal static class SingularConstants
     {
         public const string ProjectName = "Infrastructure";
