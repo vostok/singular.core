@@ -2,7 +2,6 @@
 
 namespace Vostok.Singular.Core
 {
-    [PublicAPI]
     internal class SingularHeaders
     {
         public const string Environment = "X-Singular-Zone";

@@ -2,7 +2,6 @@
 
 namespace Vostok.Singular.Core
 {
-    [PublicAPI]
     internal static class SingularConstants
     {
         public const string ProjectName = "Infrastructure";
