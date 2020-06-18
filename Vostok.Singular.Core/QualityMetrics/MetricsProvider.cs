@@ -1,4 +1,4 @@
-﻿using Vostok.Commons.Time;
+﻿using System;
 using Vostok.Metrics;
 using Vostok.Metrics.Grouping;
 using Vostok.Metrics.Models;
@@ -15,7 +15,7 @@ namespace Vostok.Singular.Core.QualityMetrics
         {
             var sendZeroValuesCounterConfig = new CounterConfig
             {
-                ScrapePeriod = 1.Minutes(),
+                ScrapePeriod = TimeSpan.FromMinutes(1),
                 SendZeroValues = false
             };
 
