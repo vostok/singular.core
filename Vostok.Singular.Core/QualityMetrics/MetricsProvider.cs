@@ -29,6 +29,8 @@ namespace Vostok.Singular.Core.QualityMetrics
             );
 
             var metricsContext = metricContext.WithTags(metricsTags);
+
+            // CR: "WithoutHost"?
             requestsWithoutHost = metricsContext.CreateCounter("singularClient", "reason", sendZeroValuesCounterConfig);
         }
 

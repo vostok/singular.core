@@ -6,6 +6,7 @@ namespace Vostok.Singular.Core.QualityMetrics
 {
     internal class BriefClusterResult
     {
+        // CR: { get;  }. Ну решарпер же все тут подчеркивает.
         public ClusterResultStatus Status;
         public IList<BriefReplicaResult> ReplicaResults;
 
@@ -15,6 +16,7 @@ namespace Vostok.Singular.Core.QualityMetrics
             ReplicaResults = briefReplicaResults;
         }
 
+        // CR: зачем у названия аргумента префикс vostok? Этот код и так в восточной либе.
         public BriefClusterResult(ClusterResult vostokClusterResult)
         {
             Status = vostokClusterResult.Status;

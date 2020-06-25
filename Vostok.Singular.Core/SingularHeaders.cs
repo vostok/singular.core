@@ -8,6 +8,8 @@
         public const string Backend = "X-Singular-Backend";
         public const string Replica = "X-Singular-Replica";
         public const string NginxMarker = "X-Singular-Nginx-Marker";
+
+        // CR: IsSingularInternalQuotasThrottling or IsSingulatResourcesThrottling? 
         public const string IsSingularThrottlingTrigger = "X-Singular-Throttling-Trigger";
         public const string XRealIP = "X-Real-IP";
         public const string XAccelBuffering = "X-Accel-Buffering";

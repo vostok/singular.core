@@ -2,10 +2,15 @@
 
 namespace Vostok.Singular.Core.QualityMetrics
 {
+    // CR: комментарии как в BriefClusterResult.
     internal class BriefReplicaResult
     {
         public ResponseCode Code;
+
+        // CR: IsSingularInternalQuotasThrottling?.
         public bool HasIsSingularThrottlingTriggerHeader;
+
+        // CR: IsBackendResponse? 
         public bool HasBackendHeader;
 
         public BriefReplicaResult(ResponseCode code, bool hasIsSingularThrottlingTriggerHeader, bool hasBackendHeader)
@@ -17,9 +22,11 @@ namespace Vostok.Singular.Core.QualityMetrics
 
         public BriefReplicaResult(ReplicaResult vostokReplicaResult)
         {
-            Code = vostokReplicaResult.Response.Code;
-            HasBackendHeader = vostokReplicaResult.Response.Headers[SingularHeaders.Backend] != null;
-            HasIsSingularThrottlingTriggerHeader = vostokReplicaResult.Response.Headers[SingularHeaders.IsSingularThrottlingTrigger] != null;
+            var response = vostokReplicaResult.Response;
+
+            Code = response.Code;
+            HasBackendHeader = response.Headers[SingularHeaders.Backend] != null;
+            HasIsSingularThrottlingTriggerHeader = response.Headers[SingularHeaders.IsSingularThrottlingTrigger] != null;
         }
     }
 }
