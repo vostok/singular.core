@@ -14,8 +14,9 @@ src:
     - vostok.configuration.sources
     - vostok.configuration.abstractions
     - vostok.clusterclient.core
-    - vostok.logging.abstractions
     - vostok.devtools
+    - vostok.logging.abstractions
+    - vostok.metrics
     
 notests *default:
   build:
@@ -28,9 +29,6 @@ notests *default:
     - Vostok.Singular.Core/bin/Release/netstandard2.0/Vostok.Singular.Core.dll
     
   deps:
-    - vostok.commons.time
-    - vostok.metrics
-    - clusterclient.core
     - vostok.clusterconfig.client
     - vostok.configuration.sources.cc
     - vostok.clusterconfig.client.abstractions

@@ -9,7 +9,7 @@ namespace Vostok.Singular.Core.QualityMetrics
     internal class MetricsProvider
     {
         private const string Version = "v0";
-        private readonly IMetricGroup1<ICounter> requestsWithoutHost;
+        private readonly IMetricGroup1<ICounter> requestReasonsCounter;
 
         public MetricsProvider(IMetricContext metricContext, string environment, string clientName)
         {
@@ -29,12 +29,12 @@ namespace Vostok.Singular.Core.QualityMetrics
             );
 
             var metricsContext = metricContext.WithTags(metricsTags);
-            requestsWithoutHost = metricsContext.CreateCounter("singularClient", "reason", sendZeroValuesCounterConfig);
+            requestReasonsCounter = metricsContext.CreateCounter("singularClient", "reason", sendZeroValuesCounterConfig);
         }
 
         public void RecordRequest(ResultReason reason)
         {
-            requestsWithoutHost.For(reason.ToString()).Add(1);
+            requestReasonsCounter.For(reason.ToString()).Add(1);
         }
     }
 }

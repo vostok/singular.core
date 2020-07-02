@@ -6,19 +6,19 @@ namespace Vostok.Singular.Core.QualityMetrics
 {
     internal class BriefClusterResult
     {
-        public ClusterResultStatus Status;
-        public IList<BriefReplicaResult> ReplicaResults;
-
         public BriefClusterResult(ClusterResultStatus clusterResultStatus, IList<BriefReplicaResult> briefReplicaResults)
         {
             Status = clusterResultStatus;
             ReplicaResults = briefReplicaResults;
         }
 
-        public BriefClusterResult(ClusterResult vostokClusterResult)
+        public BriefClusterResult(ClusterResult clusterResult)
         {
-            Status = vostokClusterResult.Status;
-            ReplicaResults = vostokClusterResult.ReplicaResults.Select(result => new BriefReplicaResult(result)).ToList();
+            Status = clusterResult.Status;
+            ReplicaResults = clusterResult.ReplicaResults.Select(result => new BriefReplicaResult(result)).ToList();
         }
+
+        public ClusterResultStatus Status { get; }
+        public IList<BriefReplicaResult> ReplicaResults { get; }
     }
 }

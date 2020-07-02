@@ -21,10 +21,10 @@ namespace Vostok.Singular.Core.QualityMetrics
             {ResponseCode.StreamInputFailure, ResultReason.StreamInputFailure}
         };
 
-        public static ResultReason FindResultSource(ClusterResult result) =>
-            FindResultSource(new BriefClusterResult(result));
+        public static ResultReason FindResultReason(ClusterResult result) =>
+            FindResultReason(new BriefClusterResult(result));
 
-        public static ResultReason FindResultSource(BriefClusterResult result)
+        public static ResultReason FindResultReason(BriefClusterResult result)
         {
             switch (result.Status)
             {
@@ -43,7 +43,6 @@ namespace Vostok.Singular.Core.QualityMetrics
 
         private static ResultReason FindResultReason(IList<BriefReplicaResult> replicaResults)
         {
-            var severalDifferentReasons = false;
             ResultReason? lastReason = null;
             foreach (var replicaResult in replicaResults.Select(FindResultReason))
             {
@@ -52,23 +51,19 @@ namespace Vostok.Singular.Core.QualityMetrics
                 if (lastReason == null || lastReason == replicaResult)
                     lastReason = replicaResult;
                 else
-                    severalDifferentReasons = true;
+                    return ResultReason.Complex;
             }
-
-            if (severalDifferentReasons)
-                return ResultReason.Complex;
-            if (lastReason == null)
-                return ResultReason.Backend;
-            return (ResultReason)lastReason;
+            
+            return lastReason ?? ResultReason.Backend;
         }
 
         private static ResultReason FindResultReason(BriefReplicaResult replicaResult)
         {
-            if (replicaResult.Code == ResponseCode.BadGateway || replicaResult.HasBackendHeader)
+            if (replicaResult.Code == ResponseCode.BadGateway || replicaResult.IsBackendResponse)
                 return ResultReason.Backend;
             if (ReplicaExhaustedReasons.TryGetValue(replicaResult.Code, out var resultReason))
                 return resultReason;
-            if (replicaResult.Code == ResponseCode.TooManyRequests && replicaResult.HasIsSingularThrottlingTriggerHeader)
+            if (replicaResult.Code == ResponseCode.TooManyRequests && replicaResult.IsSingularInternalQuotasThrottled)
                 return ResultReason.SingularThrottling;
 
             return ResultReason.Backend;

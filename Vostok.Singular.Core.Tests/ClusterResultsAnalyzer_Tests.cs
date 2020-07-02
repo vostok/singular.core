@@ -23,7 +23,7 @@ namespace Vostok.Singular.Core.Tests
             request = new Request("GET", anyUri);
             cleanHeaders = new Headers(2).Set("test", "true");
             xSingularBackendHeaders = cleanHeaders.Set(SingularHeaders.Backend, "true");
-            xSingularThrottlingTriggerHeaders = cleanHeaders.Set(SingularHeaders.IsSingularThrottlingTrigger, "true");
+            xSingularThrottlingTriggerHeaders = cleanHeaders.Set(SingularHeaders.IsSingularInternalQuotasThrottling, "true");
         }
 
         [TestCase(ClusterResultStatus.Success, ResultReason.Backend)]
@@ -38,7 +38,7 @@ namespace Vostok.Singular.Core.Tests
         {
             var emptyReplicaResults = new List<ReplicaResult>();
             var clusterResult = new ClusterResult(status, emptyReplicaResults, null, request);
-            ClusterResultsAnalyzer.FindResultSource(clusterResult).Should().Be(result);
+            ClusterResultsAnalyzer.FindResultReason(clusterResult).Should().Be(result);
         }
 
         [TestCase(true, ResultReason.SingularThrottling)]
@@ -54,7 +54,7 @@ namespace Vostok.Singular.Core.Tests
             };
 
             var clusterResult = new ClusterResult(ClusterResultStatus.ReplicasExhausted, replicaResults, null, request);
-            ClusterResultsAnalyzer.FindResultSource(clusterResult).Should().Be(result);
+            ClusterResultsAnalyzer.FindResultReason(clusterResult).Should().Be(result);
         }
 
         [TestCase(ResponseCode.RequestTimeout, ResultReason.RequestTimeout)]
@@ -76,14 +76,14 @@ namespace Vostok.Singular.Core.Tests
                 CreateRejectReplicaResult(responseCode, cleanHeaders)
             };
             var clusterResult = new ClusterResult(ClusterResultStatus.ReplicasExhausted, replicaResults, null, request);
-            ClusterResultsAnalyzer.FindResultSource(clusterResult).Should().Be(result);
+            ClusterResultsAnalyzer.FindResultReason(clusterResult).Should().Be(result);
 
             var backendReplicaResults = new List<ReplicaResult>
             {
                 CreateRejectReplicaResult(responseCode, xSingularBackendHeaders)
             };
             clusterResult = new ClusterResult(ClusterResultStatus.ReplicasExhausted, backendReplicaResults, null, request);
-            ClusterResultsAnalyzer.FindResultSource(clusterResult).Should().Be(ResultReason.Backend);
+            ClusterResultsAnalyzer.FindResultReason(clusterResult).Should().Be(ResultReason.Backend);
         }
 
         [TestCase(502, 502, ResultReason.Backend)]
@@ -100,7 +100,7 @@ namespace Vostok.Singular.Core.Tests
             };
 
             var clusterResult = new ClusterResult(ClusterResultStatus.ReplicasExhausted, replicaResults, null, request);
-            ClusterResultsAnalyzer.FindResultSource(clusterResult).Should().Be(result);
+            ClusterResultsAnalyzer.FindResultReason(clusterResult).Should().Be(result);
         }
 
         private ReplicaResult CreateRejectReplicaResult(ResponseCode code, Headers headers)
