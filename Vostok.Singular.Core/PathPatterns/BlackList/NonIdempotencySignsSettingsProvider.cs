@@ -6,7 +6,7 @@ namespace Vostok.Singular.Core.Idempotency.BlackList
     internal class NonIdempotencySignsSettingsProvider : INonIdempotencySignsSettingsProvider
     {
         private readonly SettingsProvider settingsProvider;
-        
+
         private static readonly NonIdempotencyServiceSettings EmptySigns = new NonIdempotencyServiceSettings
         {
             NonIdempotencySigns = new NonIdempotencySignsSettings
