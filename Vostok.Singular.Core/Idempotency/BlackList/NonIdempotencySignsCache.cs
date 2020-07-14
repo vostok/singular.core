@@ -5,7 +5,7 @@ using Vostok.Singular.Core.Idempotency.BlackList.Settings;
 
 namespace Vostok.Singular.Core.Idempotency.BlackList
 {
-    internal class NonIdempotencySignsCache : IIdempotencySettingsCache<NonIdempotencySign>
+    internal class NonIdempotencySignsCache : ISettingsCache<NonIdempotencySign>
     {
         private readonly CachingTransform<NonIdempotencySignsSettings, List<NonIdempotencySign>> cache;
 
@@ -31,7 +31,7 @@ namespace Vostok.Singular.Core.Idempotency.BlackList
                     sign => new NonIdempotencySign(
                         sign.Method,
                         sign.PathPattern
-                        )
+                    )
                 ));
 
             return processedSigns;

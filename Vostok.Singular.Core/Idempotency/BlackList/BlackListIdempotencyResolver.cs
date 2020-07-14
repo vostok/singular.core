@@ -4,9 +4,9 @@ namespace Vostok.Singular.Core.Idempotency.BlackList
 {
     internal class BlackListIdempotencyResolver
     {
-        private readonly IIdempotencySettingsCache<NonIdempotencySign> nonIdempotencySignsCache;
+        private readonly ISettingsCache<NonIdempotencySign> nonIdempotencySignsCache;
 
-        public BlackListIdempotencyResolver(IIdempotencySettingsCache<NonIdempotencySign> nonIdempotencySignsCache)
+        public BlackListIdempotencyResolver(ISettingsCache<NonIdempotencySign> nonIdempotencySignsCache)
         {
             this.nonIdempotencySignsCache = nonIdempotencySignsCache;
         }
@@ -14,7 +14,7 @@ namespace Vostok.Singular.Core.Idempotency.BlackList
         public bool IsIdempotent(string method, string path)
         {
             var signs = nonIdempotencySignsCache.Get();
-            if(signs.Count > 0 && path.StartsWith("/")) 
+            if (signs.Count > 0 && path.StartsWith("/"))
                 path = path.TrimStart('/');
 
             foreach (var sign in signs)

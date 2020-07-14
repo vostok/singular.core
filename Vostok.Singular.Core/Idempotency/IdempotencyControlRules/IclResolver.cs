@@ -7,9 +7,9 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
     /// </summary>
     internal class IclResolver
     {
-        private readonly IIdempotencySettingsCache<IdempotencyControlRule> iclCache;
+        private readonly ISettingsCache<IdempotencyControlRule> iclCache;
 
-        public IclResolver(IIdempotencySettingsCache<IdempotencyControlRule> iclCache)
+        public IclResolver(ISettingsCache<IdempotencyControlRule> iclCache)
         {
             this.iclCache = iclCache;
         }
@@ -21,7 +21,7 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
             if (rules.Count > 1 && path.StartsWith("/"))
                 path = path.TrimStart('/');
 
-            var matchedRule = rules.First(r => IclRuleMatcher.IsMatch(r, method, path));
+            var matchedRule = rules.First(r => PathPatternRuleMatcher.IsMatch(r, method, path));
 
             return matchedRule.IsIdempotent;
         }

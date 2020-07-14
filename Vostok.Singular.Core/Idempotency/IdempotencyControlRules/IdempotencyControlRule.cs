@@ -1,11 +1,7 @@
 namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 {
-    internal class IdempotencyControlRule
+    internal class IdempotencyControlRule : PathPatternRule
     {
-        public string Method;
-
-        public Wildcard PathPattern;
-
         public bool IsIdempotent;
     }
 }
