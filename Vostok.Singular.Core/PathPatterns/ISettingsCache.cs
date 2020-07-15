@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Vostok.Singular.Core.Idempotency
 {
-    internal interface IIdempotencySettingsCache<TSettings>
+    internal interface ISettingsCache<TSettings>
     {
         List<TSettings> Get();
     }

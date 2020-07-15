@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Vostok.Commons.Collections;
 using Vostok.Singular.Core.Idempotency.IdempotencyControlRules.Settings;
 
 namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
 {
-    internal class IclCache : IIdempotencySettingsCache<IdempotencyControlRule>
+    internal class IclCache : SettingsCacheBase<IdempotencySettings, IdempotencyControlRule>
     {
         private static readonly IdempotencyControlRule DefaultIdempotencyRule = new IdempotencyControlRule
         {
@@ -14,21 +13,12 @@ namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
             IsIdempotent = true
         };
 
-        private readonly CachingTransform<IdempotencySettings, List<IdempotencyControlRule>> cache;
-
         public IclCache(IIclRulesSettingsProvider iclRulesSettingsProvider)
+            : base(iclRulesSettingsProvider.Get)
         {
-            cache = new CachingTransform<IdempotencySettings, List<IdempotencyControlRule>>(
-                PreprocessSigns,
-                iclRulesSettingsProvider.Get);
         }
 
-        public List<IdempotencyControlRule> Get()
-        {
-            return cache.Get();
-        }
-
-        private static List<IdempotencyControlRule> PreprocessSigns(IdempotencySettings idempotencySettings)
+        protected override List<IdempotencyControlRule> PreprocessSettings(IdempotencySettings idempotencySettings)
         {
             return idempotencySettings
                 .Rules

@@ -12,7 +12,7 @@ namespace Vostok.Singular.Core.Tests
         [TestCaseSource(nameof(GenerateTestCases))]
         public void IsMatch_Should_Math_When_TestCases(IdempotencyControlRule rule, string method, string path, bool expected)
         {
-            IclRuleMatcher.IsMatch(rule, method, path).Should().Be(expected);
+            PathPatternRuleMatcher.IsMatch(rule, method, path).Should().Be(expected);
         }
 
         private static IEnumerable<TestCaseData> GenerateTestCases()
