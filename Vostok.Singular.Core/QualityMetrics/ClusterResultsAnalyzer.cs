@@ -15,16 +15,12 @@ namespace Vostok.Singular.Core.QualityMetrics
             {ResponseCode.SendFailure, ResultReason.SendFailure},
             {ResponseCode.InternalServerError, ResultReason.InternalServerError},
             {ResponseCode.ServiceUnavailable, ResultReason.ServiceUnavailable},
-            {ResponseCode.ProxyTimeout, ResultReason.ProxyTimeout},
             {ResponseCode.UnknownFailure, ResultReason.UnknownFailure},
             {ResponseCode.StreamReuseFailure, ResultReason.StreamReuseFailure},
             {ResponseCode.StreamInputFailure, ResultReason.StreamInputFailure}
         };
 
-        public static ResultReason FindResultReason(ClusterResult result) =>
-            FindResultReason(new BriefClusterResult(result));
-
-        public static ResultReason FindResultReason(BriefClusterResult result)
+        public static ResultReason FindResultReason(ClusterResult result)
         {
             switch (result.Status)
             {
@@ -41,7 +37,7 @@ namespace Vostok.Singular.Core.QualityMetrics
             }
         }
 
-        private static ResultReason FindResultReason(IList<BriefReplicaResult> replicaResults)
+        private static ResultReason FindResultReason(IList<ReplicaResult> replicaResults)
         {
             ResultReason? lastReason = null;
             foreach (var replicaResult in replicaResults.Select(FindResultReason))
@@ -57,13 +53,17 @@ namespace Vostok.Singular.Core.QualityMetrics
             return lastReason ?? ResultReason.Backend;
         }
 
-        private static ResultReason FindResultReason(BriefReplicaResult replicaResult)
+        private static ResultReason FindResultReason(ReplicaResult replicaResult)
         {
-            if (replicaResult.Code == ResponseCode.BadGateway || replicaResult.IsBackendResponse)
+            var response = replicaResult.Response;
+            var isBackendResponse = response.Headers[SingularHeaders.Backend] != null;
+            var isSingularInternalQuotasThrottled = response.Headers[SingularHeaders.IsSingularInternalQuotasThrottling] != null;
+            
+            if (response.Code == ResponseCode.BadGateway || isBackendResponse)
                 return ResultReason.Backend;
-            if (ReplicaExhaustedReasons.TryGetValue(replicaResult.Code, out var resultReason))
+            if (ReplicaExhaustedReasons.TryGetValue(response.Code, out var resultReason))
                 return resultReason;
-            if (replicaResult.Code == ResponseCode.TooManyRequests && replicaResult.IsSingularInternalQuotasThrottled)
+            if (response.Code == ResponseCode.TooManyRequests && isSingularInternalQuotasThrottled)
                 return ResultReason.SingularThrottling;
 
             return ResultReason.Backend;

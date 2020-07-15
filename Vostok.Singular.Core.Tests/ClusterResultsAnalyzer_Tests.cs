@@ -64,7 +64,6 @@ namespace Vostok.Singular.Core.Tests
         [TestCase(ResponseCode.InternalServerError, ResultReason.InternalServerError)]
         [TestCase(ResponseCode.BadGateway, ResultReason.Backend)]
         [TestCase(ResponseCode.ServiceUnavailable, ResultReason.ServiceUnavailable)]
-        [TestCase(ResponseCode.ProxyTimeout, ResultReason.ProxyTimeout)]
         [TestCase(ResponseCode.Unknown, ResultReason.Unknown)]
         [TestCase(ResponseCode.UnknownFailure, ResultReason.UnknownFailure)]
         [TestCase(ResponseCode.StreamReuseFailure, ResultReason.StreamReuseFailure)]
