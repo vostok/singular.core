@@ -24,12 +24,12 @@ namespace Vostok.Singular.Core.QualityMetrics
                 new MetricTag("environment", environment),
                 new MetricTag("application", SingularConstants.ServiceName),
                 new MetricTag("cluster", SingularConstants.DefaultCluster),
-                new MetricTag("client", clientName),
-                new MetricTag("version", Version)
+                new MetricTag("version", Version),
+                new MetricTag("clientName", clientName)
             );
 
             var metricsContext = metricContext.WithTags(metricsTags);
-            requestReasonsCounter = metricsContext.CreateCounter("singularClient", "reason", sendZeroValuesCounterConfig);
+            requestReasonsCounter = metricsContext.CreateCounter("client", "reason", sendZeroValuesCounterConfig);
         }
 
         public void RecordRequest(ResultReason reason)

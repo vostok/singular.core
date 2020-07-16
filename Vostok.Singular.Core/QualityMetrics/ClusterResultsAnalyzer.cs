@@ -59,7 +59,7 @@ namespace Vostok.Singular.Core.QualityMetrics
             var isBackendResponse = response.Headers[SingularHeaders.Backend] != null;
             var isSingularInternalQuotasThrottled = response.Headers[SingularHeaders.IsSingularInternalQuotasThrottling] != null;
             
-            if (response.Code == ResponseCode.BadGateway || isBackendResponse)
+            if (response.Code == ResponseCode.BadGateway)
                 return ResultReason.Backend;
             if (ReplicaExhaustedReasons.TryGetValue(response.Code, out var resultReason))
                 return resultReason;

@@ -7,5 +7,9 @@
         public const string CCTopologyName = "topology/singular";
         public const string DefaultZone = "default";
         public const string DefaultCluster = "global";
+
+        public const string EnvironmentNamePath = "singular/environment/DefaultEnvironmentName";
+        public const string CloudEnvironment = "Cloud";
+        public const string ProdEnvironment = "Production";
     }
 }
