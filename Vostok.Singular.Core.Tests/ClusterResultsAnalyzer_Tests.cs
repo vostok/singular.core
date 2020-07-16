@@ -13,7 +13,6 @@ namespace Vostok.Singular.Core.Tests
         private Request request;
         private Uri anyUri;
         private Headers cleanHeaders;
-        private Headers xSingularBackendHeaders;
         private Headers xSingularThrottlingTriggerHeaders;
 
         [SetUp]
@@ -22,7 +21,6 @@ namespace Vostok.Singular.Core.Tests
             anyUri = new Uri("http://tmp.com");
             request = new Request("GET", anyUri);
             cleanHeaders = new Headers(2).Set("test", "true");
-            xSingularBackendHeaders = cleanHeaders.Set(SingularHeaders.Backend, "true");
             xSingularThrottlingTriggerHeaders = cleanHeaders.Set(SingularHeaders.IsSingularInternalQuotasThrottling, "true");
         }
 
@@ -68,7 +66,7 @@ namespace Vostok.Singular.Core.Tests
         [TestCase(ResponseCode.UnknownFailure, ResultReason.UnknownFailure)]
         [TestCase(ResponseCode.StreamReuseFailure, ResultReason.StreamReuseFailure)]
         [TestCase(ResponseCode.StreamInputFailure, ResultReason.StreamInputFailure)]
-        public void Should_choose_correct_verdict_for_one_replica_with_exhausted_status_depends_on_code_and_header(ResponseCode responseCode, ResultReason result)
+        public void Should_choose_correct_verdict_for_one_replica_with_exhausted_status_depends_on_code(ResponseCode responseCode, ResultReason result)
         {
             var replicaResults = new List<ReplicaResult>
             {
@@ -76,13 +74,6 @@ namespace Vostok.Singular.Core.Tests
             };
             var clusterResult = new ClusterResult(ClusterResultStatus.ReplicasExhausted, replicaResults, null, request);
             ClusterResultsAnalyzer.FindResultReason(clusterResult).Should().Be(result);
-
-            var backendReplicaResults = new List<ReplicaResult>
-            {
-                CreateRejectReplicaResult(responseCode, xSingularBackendHeaders)
-            };
-            clusterResult = new ClusterResult(ClusterResultStatus.ReplicasExhausted, backendReplicaResults, null, request);
-            ClusterResultsAnalyzer.FindResultReason(clusterResult).Should().Be(ResultReason.Backend);
         }
 
         [TestCase(502, 502, ResultReason.Backend)]
