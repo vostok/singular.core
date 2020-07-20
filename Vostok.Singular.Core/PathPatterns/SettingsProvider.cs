@@ -4,7 +4,7 @@ using Vostok.Configuration.Abstractions;
 using Vostok.Configuration.Sources.ClusterConfig;
 using Vostok.Configuration.Sources.Json;
 
-namespace Vostok.Singular.Core.Idempotency
+namespace Vostok.Singular.Core.PathPatterns
 {
     internal class SettingsProvider
     {

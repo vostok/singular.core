@@ -1,4 +1,4 @@
-﻿namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
+﻿namespace Vostok.Singular.Core.PathPatterns.BlackList.Settings
 {
     internal class NonIdempotencyServiceSettings
     {

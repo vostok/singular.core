@@ -5,6 +5,8 @@ using NSubstitute;
 using NUnit.Framework;
 using Vostok.Singular.Core.Idempotency;
 using Vostok.Singular.Core.Idempotency.BlackList;
+using Vostok.Singular.Core.PathPatterns;
+using Vostok.Singular.Core.PathPatterns.BlackList;
 
 namespace Vostok.Singular.Core.Tests
 {

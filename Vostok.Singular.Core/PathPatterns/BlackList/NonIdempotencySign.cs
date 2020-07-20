@@ -1,4 +1,4 @@
-﻿namespace Vostok.Singular.Core.Idempotency.BlackList
+﻿namespace Vostok.Singular.Core.PathPatterns.BlackList
 {
     internal class NonIdempotencySign
     {

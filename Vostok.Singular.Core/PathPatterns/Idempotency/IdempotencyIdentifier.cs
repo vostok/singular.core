@@ -1,7 +1,7 @@
-using Vostok.Singular.Core.Idempotency.BlackList;
-using Vostok.Singular.Core.Idempotency.IdempotencyControlRules;
+using Vostok.Singular.Core.PathPatterns.BlackList;
+using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
 
-namespace Vostok.Singular.Core.Idempotency
+namespace Vostok.Singular.Core.PathPatterns.Idempotency
 {
     internal class IdempotencyIdentifier : IIdempotencyIdentifier
     {

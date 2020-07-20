@@ -1,6 +1,6 @@
 using System;
 
-namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
+namespace Vostok.Singular.Core.PathPatterns
 {
     internal static class PathPatternRuleMatcher
     {

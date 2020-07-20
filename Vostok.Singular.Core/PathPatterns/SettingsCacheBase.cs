@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Vostok.Commons.Collections;
 
-namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
+namespace Vostok.Singular.Core.PathPatterns
 {
     internal abstract class SettingsCacheBase<TSettings, TRule> : ISettingsCache<TRule>
     {

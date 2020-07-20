@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Vostok.Singular.Core.Idempotency.BlackList.Settings;
+using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
 
-namespace Vostok.Singular.Core.Idempotency.BlackList
+namespace Vostok.Singular.Core.PathPatterns.BlackList
 {
     internal class NonIdempotencySignsSettingsProvider : INonIdempotencySignsSettingsProvider
     {
