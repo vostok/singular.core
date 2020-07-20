@@ -16,7 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularHeaders.cs" Link="SingularCommons\SingularHeaders.cs" />
 	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularConstants.cs" Link="SingularCommons\SingularConstants.cs" />
 	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularClientConstants.cs" Link="SingularCommons\SingularClientConstants.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Idempotency\**\*.cs" Link="SingularCommons\" />
+  <Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\PathPatterns\**\*.cs" Link="PathPatterns\" />
 
   </ItemGroup>
 
