@@ -3,8 +3,6 @@ using System.Linq;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
-using Vostok.Singular.Core.Idempotency;
-using Vostok.Singular.Core.Idempotency.BlackList;
 using Vostok.Singular.Core.PathPatterns;
 using Vostok.Singular.Core.PathPatterns.BlackList;
 
