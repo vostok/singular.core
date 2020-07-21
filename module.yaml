@@ -14,8 +14,9 @@ src:
     - vostok.configuration.sources
     - vostok.configuration.abstractions
     - vostok.clusterclient.core
-    - vostok.logging.abstractions
     - vostok.devtools
+    - vostok.logging.abstractions
+    - vostok.metrics
     
 notests *default:
   build:
@@ -39,6 +40,7 @@ notests *default:
     - vostok.configuration.abstractions
     - vostok.clusterclient.core
     - vostok.logging.abstractions
+    - vostok.metrics
     - vostok.devtools
 
 full-build > notests:
