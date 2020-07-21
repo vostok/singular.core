@@ -2,8 +2,8 @@
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
-using Vostok.Singular.Core.Idempotency.BlackList;
-using Vostok.Singular.Core.Idempotency.BlackList.Settings;
+using Vostok.Singular.Core.PathPatterns.BlackList;
+using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
 
 namespace Vostok.Singular.Core.Tests
 {

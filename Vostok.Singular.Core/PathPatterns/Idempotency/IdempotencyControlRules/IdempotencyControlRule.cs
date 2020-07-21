@@ -1,4 +1,4 @@
-namespace Vostok.Singular.Core.Idempotency.IdempotencyControlRules
+namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
 {
     internal class IdempotencyControlRule : PathPatternRule
     {

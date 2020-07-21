@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\vostok.devtools\library-common-props\Test-Project.props" />
   <Import Project="..\..\vostok.devtools\git-commit-to-assembly-title\Vostok.Tools.GitCommit2AssemblyTitle.props" />
@@ -21,4 +21,10 @@
     <ProjectReference Include="..\Vostok.Singular.Core\Vostok.Singular.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Vostok.ClusterClient.Core">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\vostok.clusterclient.core\Vostok.ClusterClient.Core\bin\Release\netstandard2.0\Vostok.ClusterClient.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

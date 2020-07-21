@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
-using Vostok.Singular.Core.Idempotency;
-using Vostok.Singular.Core.Idempotency.IdempotencyControlRules;
+using Vostok.Singular.Core.PathPatterns;
+using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
 
 namespace Vostok.Singular.Core.Tests
 {

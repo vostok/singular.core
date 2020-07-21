@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vostok.Singular.Core.Idempotency.BlackList.Settings
+namespace Vostok.Singular.Core.PathPatterns.BlackList.Settings
 {
     [Serializable]
     internal class NonIdempotencySignSettings

@@ -16,8 +16,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularHeaders.cs" Link="SingularCommons\SingularHeaders.cs" />
 	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularConstants.cs" Link="SingularCommons\SingularConstants.cs" />
 	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularClientConstants.cs" Link="SingularCommons\SingularClientConstants.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Idempotency\**\*.cs" Link="SingularCommons\" />
-
+  <Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\PathPatterns\**\*.cs" Link="PathPatterns\" />
+	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\QualityMetrics\MetricsProvider.cs" Link="QualityMetrics\Commons\MetricsProvider.cs" />
+	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\QualityMetrics\MetricsProviderCache.cs" Link="QualityMetrics\Commons\MetricsProviderCache.cs" />
+	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\QualityMetrics\ResultReason.cs" Link="QualityMetrics\Commons\ResultReason.cs" />
   </ItemGroup>
 
 </Project>
