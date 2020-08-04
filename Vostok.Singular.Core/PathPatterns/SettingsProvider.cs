@@ -10,21 +10,21 @@ namespace Vostok.Singular.Core.PathPatterns
     internal class SettingsProvider
     {
         private readonly IConfigurationSource source;
-        private readonly IConfigurationSource zoneSource;
+        private readonly IConfigurationSource environmentSource;
         private readonly IConfigurationSource combinedSource;
         private readonly string servicePath;
-        private readonly string zonePath;
+        private readonly string environmentPath;
 
         public SettingsProvider(
-            string zone,
+            string environment,
             string serviceName,
-            string zonesConfigurationPathPrefix = SingularClientConstants.ZonesConfigurationNamePrefix,
+            string environmentsConfigurationPathPrefix = SingularClientConstants.EnvironmentsConfigurationNamePrefix,
             string configurationPathPrefix = SingularClientConstants.ServicesConfigurationNamePrefix)
         {
             servicePath = $"{configurationPathPrefix}{serviceName}.json";
-            zonePath = $"{zonesConfigurationPathPrefix}{zone}/singular.config.json";
-            zoneSource = new ClusterConfigSource(
-                new ClusterConfigSourceSettings(ClusterConfigClient.Default, zonePath)
+            environmentPath = $"{environmentsConfigurationPathPrefix}{environment}/singular.config.json";
+            environmentSource = new ClusterConfigSource(
+                new ClusterConfigSourceSettings(ClusterConfigClient.Default, environmentPath)
                 {
                     ValuesParser = (value, path) => JsonConfigurationParser.Parse(value)
                 });
@@ -34,13 +34,13 @@ namespace Vostok.Singular.Core.PathPatterns
                 {
                     ValuesParser = (value, path) => JsonConfigurationParser.Parse(value)
                 });
-            combinedSource = zoneSource.CombineWith(source);
+            combinedSource = environmentSource.CombineWith(source);
         }
 
         public T Get<T>(T defaultValue)
         {
             var resultNumber = 0;
-            if (ClusterConfigClient.Default.Get(zonePath) != null)
+            if (ClusterConfigClient.Default.Get(environmentPath) != null)
                 resultNumber += 1;
             if (ClusterConfigClient.Default.Get(servicePath) != null)
                 resultNumber += 2;
@@ -49,7 +49,7 @@ namespace Vostok.Singular.Core.PathPatterns
                 case 0:
                     return defaultValue;
                 case 1:
-                    return ConfigurationProvider.Default.Get<T>(zoneSource);
+                    return ConfigurationProvider.Default.Get<T>(environmentSource);
                 case 2:
                     return ConfigurationProvider.Default.Get<T>(source);
                 case 3:

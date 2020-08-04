@@ -24,14 +24,14 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
                 provider.Dispose();
         }
 
-        public static IIdempotencyIdentifier Get(string zone, string serviceName)
+        public static IIdempotencyIdentifier Get(string environment, string serviceName)
         {
-            return Cache.GetOrAdd((zone, serviceName), s => new Lazy<IIdempotencyIdentifier>(() => Create(s.Item1, s.Item2))).Value;
+            return Cache.GetOrAdd((environment, serviceName), s => new Lazy<IIdempotencyIdentifier>(() => Create(s.Item1, s.Item2))).Value;
         }
 
-        private static IIdempotencyIdentifier Create(string zone, string serviceName)
+        private static IIdempotencyIdentifier Create(string environment, string serviceName)
         {
-            var settingsProvider = new SettingsProvider(zone, serviceName);
+            var settingsProvider = new SettingsProvider(environment, serviceName);
             var idempotencySignsCache = new NonIdempotencySignsCache(new NonIdempotencySignsSettingsProvider(settingsProvider));
             var iclCache = new IclCache(new IclRulesSettingsProvider(settingsProvider));
             return new IdempotencyIdentifier(
