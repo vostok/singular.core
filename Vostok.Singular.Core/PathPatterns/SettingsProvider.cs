@@ -9,7 +9,7 @@ namespace Vostok.Singular.Core.PathPatterns
 {
     internal class SettingsProvider
     {
-        private readonly IConfigurationSource source;
+        private readonly IConfigurationSource serviceSource;
         private readonly IConfigurationSource environmentSource;
         private readonly IConfigurationSource combinedSource;
         private readonly string servicePath;
@@ -17,11 +17,11 @@ namespace Vostok.Singular.Core.PathPatterns
 
         public SettingsProvider(
             string environment,
-            string serviceName,
+            string application,
             string environmentsConfigurationPathPrefix = SingularClientConstants.EnvironmentsConfigurationNamePrefix,
             string configurationPathPrefix = SingularClientConstants.ServicesConfigurationNamePrefix)
         {
-            servicePath = $"{configurationPathPrefix}{serviceName}.json";
+            servicePath = $"{configurationPathPrefix}{application}.json";
             environmentPath = $"{environmentsConfigurationPathPrefix}{environment}/singular.config.json";
             environmentSource = new ClusterConfigSource(
                 new ClusterConfigSourceSettings(ClusterConfigClient.Default, environmentPath)
@@ -29,34 +29,32 @@ namespace Vostok.Singular.Core.PathPatterns
                     ValuesParser = (value, path) => JsonConfigurationParser.Parse(value)
                 });
 
-            source = new ClusterConfigSource(
+            serviceSource = new ClusterConfigSource(
                 new ClusterConfigSourceSettings(ClusterConfigClient.Default, servicePath)
                 {
                     ValuesParser = (value, path) => JsonConfigurationParser.Parse(value)
                 });
-            combinedSource = environmentSource.CombineWith(source);
+            combinedSource = environmentSource.CombineWith(serviceSource);
         }
 
         public T Get<T>(T defaultValue)
         {
-            var resultNumber = 0;
-            if (ClusterConfigClient.Default.Get(environmentPath) != null)
-                resultNumber += 1;
-            if (ClusterConfigClient.Default.Get(servicePath) != null)
-                resultNumber += 2;
-            switch (resultNumber)
-            {
-                case 0:
-                    return defaultValue;
-                case 1:
-                    return ConfigurationProvider.Default.Get<T>(environmentSource);
-                case 2:
-                    return ConfigurationProvider.Default.Get<T>(source);
-                case 3:
-                    return ConfigurationProvider.Default.Get<T>(combinedSource);
-            }
+            var environmentSettingsExists = ClusterConfigClient.Default.Get(environmentPath) != null;
+            var serviceSettingsExists = ClusterConfigClient.Default.Get(servicePath) != null;
 
-            return ConfigurationProvider.Default.Get<T>(source);
+            if (!environmentSettingsExists && !serviceSettingsExists)
+                return defaultValue;
+
+            IConfigurationSource resultSource;
+
+            if (environmentSettingsExists && serviceSettingsExists)
+                resultSource = combinedSource;
+            else if (environmentSettingsExists)
+                resultSource = environmentSource;
+            else
+                resultSource = serviceSource;
+
+            return ConfigurationProvider.Default.Get<T>(resultSource);
         }
     }
 }
