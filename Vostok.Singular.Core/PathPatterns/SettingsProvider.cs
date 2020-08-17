@@ -22,7 +22,7 @@ namespace Vostok.Singular.Core.PathPatterns
             string configurationPathPrefix = SingularClientConstants.ServicesConfigurationNamePrefix)
         {
             servicePath = $"{configurationPathPrefix}{application}.json";
-            environmentPath = $"{environmentsConfigurationPathPrefix}{environment}/singular.config.json";
+            environmentPath = $"{environmentsConfigurationPathPrefix}{environment}/{SingularConstants.SingularSettingsFileName}";
             environmentSource = new ClusterConfigSource(
                 new ClusterConfigSourceSettings(ClusterConfigClient.Default, environmentPath)
                 {
