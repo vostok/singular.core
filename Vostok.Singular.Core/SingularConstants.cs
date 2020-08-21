@@ -11,5 +11,10 @@
         public const string EnvironmentNamePath = "singular/environment/DefaultEnvironmentName";
         public const string CloudEnvironment = "Cloud";
         public const string ProdEnvironment = "Production";
+
+        public class DistributedProperties
+        {
+            public const string ForcedEnvironment = "forced-environment";
+        }
     }
 }
