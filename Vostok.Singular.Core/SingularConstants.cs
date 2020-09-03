@@ -11,6 +11,7 @@
         public const string EnvironmentNamePath = "singular/environment/DefaultEnvironmentName";
         public const string CloudEnvironment = "Cloud";
         public const string ProdEnvironment = "Production";
+        public const string SingularSettingsFileName = "singular.config.json";
 
         public class DistributedProperties
         {
