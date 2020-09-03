@@ -10,7 +10,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
 {
     internal static class IdempotencyIdentifierCache
     {
-        private static readonly ConcurrentDictionary<string, Lazy<IIdempotencyIdentifier>> Cache = new ConcurrentDictionary<string, Lazy<IIdempotencyIdentifier>>();
+        private static readonly ConcurrentDictionary<(string, string), Lazy<IIdempotencyIdentifier>> Cache = new ConcurrentDictionary<(string, string), Lazy<IIdempotencyIdentifier>>();
 
         static IdempotencyIdentifierCache()
         {
@@ -24,14 +24,14 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
                 provider.Dispose();
         }
 
-        public static IIdempotencyIdentifier Get(string serviceName)
+        public static IIdempotencyIdentifier Get(string environment, string serviceName)
         {
-            return Cache.GetOrAdd(serviceName, s => new Lazy<IIdempotencyIdentifier>(() => Create(s))).Value;
+            return Cache.GetOrAdd((environment, serviceName), s => new Lazy<IIdempotencyIdentifier>(() => Create(s.Item1, s.Item2))).Value;
         }
 
-        private static IIdempotencyIdentifier Create(string serviceName)
+        private static IIdempotencyIdentifier Create(string environment, string serviceName)
         {
-            var settingsProvider = new SettingsProvider(serviceName);
+            var settingsProvider = new SettingsProvider(environment, serviceName);
             var idempotencySignsCache = new NonIdempotencySignsCache(new NonIdempotencySignsSettingsProvider(settingsProvider));
             var iclCache = new IclCache(new IclRulesSettingsProvider(settingsProvider));
             return new IdempotencyIdentifier(
