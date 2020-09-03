@@ -15,7 +15,7 @@
 
         public class DistributedProperties
         {
-            public const string ForcedEnvironment = "forced-environment";
+            public const string ForcedEnvironment = "forced.sd.environment";
         }
     }
 }
