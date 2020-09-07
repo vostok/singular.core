@@ -1,7 +1,9 @@
-﻿namespace Vostok.Singular.Core.PathPatterns.Idempotency
+﻿using System.Threading.Tasks;
+
+namespace Vostok.Singular.Core.PathPatterns.Idempotency
 {
     internal interface IIdempotencyIdentifier
     {
-        bool IsIdempotent(string method, string path);
+        Task<bool> IsIdempotent(string method, string path);
     }
 }

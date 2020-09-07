@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
 
 namespace Vostok.Singular.Core.PathPatterns.BlackList
@@ -20,9 +21,9 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
             this.settingsProvider = settingsProvider;
         }
 
-        public NonIdempotencySignsSettings Get()
+        public Task<NonIdempotencySignsSettings> Get()
         {
-            return settingsProvider.Get(EmptySigns).NonIdempotencySigns;
+            return Task.FromResult(settingsProvider.Get(EmptySigns).NonIdempotencySigns);
         }
     }
 }

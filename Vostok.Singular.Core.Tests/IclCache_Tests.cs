@@ -39,7 +39,7 @@ namespace Vostok.Singular.Core.Tests
 
             singsProvider.Get().Returns(settings);
 
-            var cached = cache.Get();
+            var cached = cache.Get().GetAwaiter().GetResult();
             cached.Count.Should().Be(2);
 
             cached.Last().Method.Should().Be("*");
@@ -64,7 +64,7 @@ namespace Vostok.Singular.Core.Tests
             };
             singsProvider.Get().Returns(settings);
 
-            var cached = cache.Get();
+            var cached = cache.Get().GetAwaiter().GetResult();
             cached[0].PathPattern.IsMatch("/test").Should().Be(false);
             cached[0].PathPattern.IsMatch("test").Should().Be(true);
         }

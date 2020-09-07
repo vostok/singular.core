@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
 {
@@ -14,9 +15,9 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
             this.iclCache = iclCache;
         }
 
-        public bool IsIdempotent(string method, string path)
+        public async Task<bool> IsIdempotent(string method, string path)
         {
-            var rules = iclCache.Get();
+            var rules = await iclCache.Get();
             //We are assume here that last rule is always {* * Idempotent}. See IclCache.
             if (rules.Count > 1 && path.StartsWith("/"))
                 path = path.TrimStart('/');

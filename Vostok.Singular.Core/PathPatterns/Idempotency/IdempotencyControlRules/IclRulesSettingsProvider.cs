@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Settings;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
@@ -20,9 +21,9 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
             this.settingsProvider = settingsProvider;
         }
 
-        public IdempotencySettings Get()
+        public Task<IdempotencySettings> Get()
         {
-            return settingsProvider.Get(EmptyRules).IdempotencySettings;
+            return Task.FromResult(settingsProvider.Get(EmptyRules).IdempotencySettings);
         }
     }
 }

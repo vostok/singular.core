@@ -17,6 +17,7 @@ src:
     - vostok.devtools
     - vostok.logging.abstractions
     - vostok.metrics
+    - vostok.commons.threading/src
     
 notests *default:
   build:
@@ -42,6 +43,7 @@ notests *default:
     - vostok.logging.abstractions
     - vostok.metrics
     - vostok.devtools
+    - vostok.commons.threading/src
 
 full-build > notests:
   build:

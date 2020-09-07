@@ -1,0 +1,86 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Vostok.Commons.Collections;
+using Vostok.Commons.Threading;
+
+namespace Vostok.Singular.Core
+{
+    internal class CachingTransformAsync<TRaw, TProcessed>
+    {
+        private readonly Func<Task<TRaw>> provider;
+        private readonly Func<TRaw, TProcessed> processor;
+        private readonly IEqualityComparer<TRaw> comparer;
+        private readonly AsyncLock syncObject;
+
+        private volatile Tuple<TRaw, TProcessed> cache;
+
+        public CachingTransformAsync(
+            Func<TRaw, TProcessed> processor,
+            Func<Task<TRaw>> provider = null,
+            IEqualityComparer<TRaw> comparer = null,
+            bool preventParallelProcessing = true)
+        {
+            this.processor = processor ?? throw new ArgumentNullException(nameof(processor));
+            this.provider = provider;
+            this.comparer = comparer ?? SelectDefaultComparer();
+
+            syncObject = preventParallelProcessing ? new AsyncLock() : null;
+        }
+
+        public async Task<TProcessed> Get()
+        {
+            if (provider == null)
+                throw new InvalidOperationException("Raw value provider delegate is not defined.");
+
+            return await Get(await provider());
+        }
+
+        private async Task<TProcessed> Get(TRaw raw)
+        {
+            var currentCache = cache;
+
+            if (IsValidCache(currentCache, raw))
+                return currentCache.Item2;
+
+            // (iloktionov): Null syncObject means that we can execute processor delegate from multiple threads without locks:
+            if (syncObject == null)
+            {
+                var processed = processor(raw);
+
+                Interlocked.CompareExchange(ref cache, Tuple.Create(raw, processed), currentCache);
+
+                return processed;
+            }
+
+            // (iloktionov): Otherwise we fall back to double-checked locking:
+            using (await syncObject.LockAsync())
+            {
+                if (IsValidCache(cache, raw))
+                    return cache.Item2;
+
+                var processed = processor(raw);
+
+                Interlocked.Exchange(ref cache, Tuple.Create(raw, processed));
+
+                return processed;
+            }
+        }
+
+        private static IEqualityComparer<TRaw> SelectDefaultComparer()
+        {
+            if (typeof(TRaw).IsValueType)
+                return EqualityComparer<TRaw>.Default;
+
+            return ByReferenceEqualityComparer<TRaw>.Instance;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private bool IsValidCache(Tuple<TRaw, TProcessed> currentCache, TRaw actualRaw)
+        {
+            return currentCache != null && comparer.Equals(currentCache.Item1, actualRaw);
+        }
+    }
+}

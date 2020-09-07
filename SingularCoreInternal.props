@@ -8,6 +8,7 @@
   
     <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.collections\Vostok.Commons.Collections\CachingTransform.cs" Link="Commons\CachingTransform.cs"  />  
     <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.collections\Vostok.Commons.Collections\ByReferenceEqualityComparer.cs" Link="Commons\ByReferenceEqualityComparer.cs"  />
+    <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.threading\Vostok.Commons.Threading\AsyncLock.cs" Link="Commons\AsyncLock.cs"  />
   
   </ItemGroup>
 
@@ -20,6 +21,7 @@
 	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\QualityMetrics\MetricsProvider.cs" Link="QualityMetrics\Commons\MetricsProvider.cs" />
 	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\QualityMetrics\MetricsProviderCache.cs" Link="QualityMetrics\Commons\MetricsProviderCache.cs" />
 	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\QualityMetrics\ResultReason.cs" Link="QualityMetrics\Commons\ResultReason.cs" />
+	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\CachingTransformAsync.cs" Link="SingularCommons\CachingTransformAsync.cs" />
   </ItemGroup>
 
 </Project>

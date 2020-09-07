@@ -1,24 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Vostok.Commons.Collections;
+using System.Threading.Tasks;
 using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
 
 namespace Vostok.Singular.Core.PathPatterns.BlackList
 {
     internal class NonIdempotencySignsCache : ISettingsCache<NonIdempotencySign>
     {
-        private readonly CachingTransform<NonIdempotencySignsSettings, List<NonIdempotencySign>> cache;
+        private readonly CachingTransformAsync<NonIdempotencySignsSettings, List<NonIdempotencySign>> cache;
 
         public NonIdempotencySignsCache(INonIdempotencySignsSettingsProvider nonIdempotencySignsSettingsProvider)
         {
-            cache = new CachingTransform<NonIdempotencySignsSettings, List<NonIdempotencySign>>(
+            cache = new CachingTransformAsync<NonIdempotencySignsSettings, List<NonIdempotencySign>>(
                 PreprocessSigns,
                 nonIdempotencySignsSettingsProvider.Get);
         }
 
-        public List<NonIdempotencySign> Get()
+        public async Task<List<NonIdempotencySign>> Get()
         {
-            return cache.Get();
+            return await cache.Get();
         }
 
         private static List<NonIdempotencySign> PreprocessSigns(NonIdempotencySignsSettings nonIdempotencySignsSettings)

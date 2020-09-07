@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Vostok.Singular.Core.PathPatterns.BlackList
 {
@@ -11,9 +12,9 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
             this.nonIdempotencySignsCache = nonIdempotencySignsCache;
         }
 
-        public bool IsIdempotent(string method, string path)
+        public async Task<bool> IsIdempotent(string method, string path)
         {
-            var signs = nonIdempotencySignsCache.Get();
+            var signs = await nonIdempotencySignsCache.Get();
             if (signs.Count > 0 && path.StartsWith("/"))
                 path = path.TrimStart('/');
 

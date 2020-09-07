@@ -33,7 +33,7 @@ namespace Vostok.Singular.Core.Tests
 
             var iclResolver = new IclResolver(iclCache);
 
-            iclResolver.IsIdempotent(POST, fooPath).Should().BeTrue();
+            iclResolver.IsIdempotent(POST, fooPath).GetAwaiter().GetResult().Should().BeTrue();
         }
 
         [TestCase("*", "*")]
@@ -53,7 +53,7 @@ namespace Vostok.Singular.Core.Tests
                             }
                         }));
 
-            iclResolver.IsIdempotent(POST, fooPath).Should().BeFalse();
+            iclResolver.IsIdempotent(POST, fooPath).GetAwaiter().GetResult().Should().BeFalse();
         }
 
         [TestCase("*", "*")]
@@ -79,7 +79,7 @@ namespace Vostok.Singular.Core.Tests
                         },
                     }));
 
-            iclResolver.IsIdempotent(POST, fooPath).Should().BeTrue();
+            iclResolver.IsIdempotent(POST, fooPath).GetAwaiter().GetResult().Should().BeTrue();
         }
     }
 }

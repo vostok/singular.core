@@ -36,7 +36,7 @@ namespace Vostok.Singular.Core.Tests
             };
             singsProvider.Get().Returns(settings);
 
-            var cached = cache.Get();
+            var cached = cache.Get().GetAwaiter().GetResult();
             cached.Count.Should().Be(1);
 
             cached[0].PathPattern.IsMatch("/test").Should().Be(false);
