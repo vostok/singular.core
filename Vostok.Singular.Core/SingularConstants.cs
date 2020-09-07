@@ -12,5 +12,10 @@
         public const string CloudEnvironment = "Cloud";
         public const string ProdEnvironment = "Production";
         public const string SingularSettingsFileName = "singular.config.json";
+
+        public class DistributedProperties
+        {
+            public const string ForcedEnvironment = "forced.sd.environment";
+        }
     }
 }
