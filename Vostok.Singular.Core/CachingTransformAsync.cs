@@ -35,7 +35,7 @@ namespace Vostok.Singular.Core
             if (provider == null)
                 throw new InvalidOperationException("Raw value provider delegate is not defined.");
 
-            return await Get(await provider());
+            return await Get(await provider().ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         private async Task<TProcessed> Get(TRaw raw)
@@ -56,7 +56,7 @@ namespace Vostok.Singular.Core
             }
 
             // (iloktionov): Otherwise we fall back to double-checked locking:
-            using (await syncObject.LockAsync())
+            using (await syncObject.LockAsync().ConfigureAwait(false))
             {
                 if (IsValidCache(cache, raw))
                     return cache.Item2;

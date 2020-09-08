@@ -23,7 +23,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
 
         public async Task<List<IdempotencyControlRule>> Get()
         {
-            return await cache.Get();
+            return await cache.Get().ConfigureAwait(false);
         }
 
         private static List<IdempotencyControlRule> PreprocessSettings(IdempotencySettings idempotencySettings)

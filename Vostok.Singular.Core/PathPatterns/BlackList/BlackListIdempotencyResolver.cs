@@ -14,7 +14,7 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
 
         public async Task<bool> IsIdempotent(string method, string path)
         {
-            var signs = await nonIdempotencySignsCache.Get();
+            var signs = await nonIdempotencySignsCache.Get().ConfigureAwait(false);
             if (signs.Count > 0 && path.StartsWith("/"))
                 path = path.TrimStart('/');
 

@@ -17,7 +17,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
 
         public async Task<bool> IsIdempotent(string method, string path)
         {
-            var rules = await iclCache.Get();
+            var rules = await iclCache.Get().ConfigureAwait(false);
             //We are assume here that last rule is always {* * Idempotent}. See IclCache.
             if (rules.Count > 1 && path.StartsWith("/"))
                 path = path.TrimStart('/');
