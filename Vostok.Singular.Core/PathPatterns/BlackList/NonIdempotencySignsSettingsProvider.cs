@@ -21,9 +21,9 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
             this.settingsProvider = settingsProvider;
         }
 
-        public Task<NonIdempotencySignsSettings> Get()
+        public async Task<NonIdempotencySignsSettings> Get()
         {
-            return Task.FromResult(settingsProvider.Get(EmptySigns).NonIdempotencySigns);
+            return (await settingsProvider.GetAsync(EmptySigns)).NonIdempotencySigns;
         }
     }
 }

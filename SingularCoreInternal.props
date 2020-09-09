@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.collections\Vostok.Commons.Collections\ByReferenceEqualityComparer.cs" Link="Commons\ByReferenceEqualityComparer.cs"  />
     <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.threading\Vostok.Commons.Threading\AsyncLock.cs" Link="Commons\AsyncLock.cs"  />
+	<Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.threading\Vostok.Commons.Threading\AtomicBoolean.cs" Link="Commons\AtomicBoolean.cs" />
   
   </ItemGroup>
 

@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using Vostok.ClusterConfig.Client;
+using Vostok.Commons.Threading;
 using Vostok.Configuration;
 using Vostok.Configuration.Abstractions;
 using Vostok.Configuration.Sources;
@@ -14,6 +16,8 @@ namespace Vostok.Singular.Core.PathPatterns
         private readonly IConfigurationSource combinedSource;
         private readonly string servicePath;
         private readonly string environmentPath;
+
+        private readonly Sync sync = new Sync();
 
         public SettingsProvider(
             string environment,
@@ -37,7 +41,25 @@ namespace Vostok.Singular.Core.PathPatterns
             combinedSource = environmentSource.CombineWith(serviceSource);
         }
 
-        public T Get<T>(T defaultValue)
+        public async Task<T> GetAsync<T>(T defaultValue)
+        {
+            if (sync.CreateStarted.TrySetTrue())
+            {
+                try
+                {
+                    return Get(defaultValue);
+                }
+                finally
+                {
+                    sync.WaitTask.SetResult(true);
+                }
+            }
+
+            await sync.WaitTask.Task;
+            return Get(defaultValue);
+        }
+
+        private T Get<T>(T defaultValue)
         {
             var environmentSettingsExists = ClusterConfigClient.Default.Get(environmentPath) != null;
             var serviceSettingsExists = ClusterConfigClient.Default.Get(servicePath) != null;
@@ -55,6 +77,13 @@ namespace Vostok.Singular.Core.PathPatterns
                 resultSource = serviceSource;
 
             return ConfigurationProvider.Default.Get<T>(resultSource);
+        }
+
+        private class Sync
+        {
+            public readonly TaskCompletionSource<bool> WaitTask = new TaskCompletionSource<bool>();
+
+            public readonly AtomicBoolean CreateStarted = new AtomicBoolean(false);
         }
     }
 }
