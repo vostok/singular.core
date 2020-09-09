@@ -15,6 +15,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
             this.iclCache = iclCache;
         }
 
+        //CR: (deniaa) В C# принято называть методы, возвращающие Task, с суффиксом Async!
         public async Task<bool> IsIdempotent(string method, string path)
         {
             var rules = await iclCache.Get().ConfigureAwait(false);

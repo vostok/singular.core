@@ -29,6 +29,7 @@ namespace Vostok.Singular.Core
             syncObject = new AsyncLock();
         }
 
+        //CR: (deniaa) В C# принято называть методы, возвращающие Task, с суффиксом Async!
         public async Task<TProcessed> Get()
         {
             if (provider == null)
