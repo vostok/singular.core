@@ -81,7 +81,7 @@ namespace Vostok.Singular.Core.PathPatterns
 
         private class Sync
         {
-            public readonly TaskCompletionSource<bool> WaitTask = new TaskCompletionSource<bool>();
+            public readonly TaskCompletionSource<bool> WaitTask = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             public readonly AtomicBoolean CreateStarted = new AtomicBoolean(false);
         }

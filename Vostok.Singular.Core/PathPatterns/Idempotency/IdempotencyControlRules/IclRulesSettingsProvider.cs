@@ -23,7 +23,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
 
         public async Task<IdempotencySettings> Get()
         {
-            return (await settingsProvider.GetAsync(EmptyRules)).IdempotencySettings;
+            return (await settingsProvider.GetAsync(EmptyRules).ConfigureAwait(false)).IdempotencySettings;
         }
     }
 }
