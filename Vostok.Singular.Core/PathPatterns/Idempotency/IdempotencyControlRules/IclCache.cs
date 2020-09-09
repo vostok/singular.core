@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Vostok.Commons.Collections;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Settings;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules

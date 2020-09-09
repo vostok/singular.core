@@ -5,8 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-  
-    <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.collections\Vostok.Commons.Collections\CachingTransform.cs" Link="Commons\CachingTransform.cs"  />  
     <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.collections\Vostok.Commons.Collections\ByReferenceEqualityComparer.cs" Link="Commons\ByReferenceEqualityComparer.cs"  />
     <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.threading\Vostok.Commons.Threading\AsyncLock.cs" Link="Commons\AsyncLock.cs"  />
   

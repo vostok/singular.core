@@ -20,14 +20,13 @@ namespace Vostok.Singular.Core
         public CachingTransformAsync(
             Func<TRaw, TProcessed> processor,
             Func<Task<TRaw>> provider = null,
-            IEqualityComparer<TRaw> comparer = null,
-            bool preventParallelProcessing = true)
+            IEqualityComparer<TRaw> comparer = null)
         {
             this.processor = processor ?? throw new ArgumentNullException(nameof(processor));
             this.provider = provider;
             this.comparer = comparer ?? SelectDefaultComparer();
 
-            syncObject = preventParallelProcessing ? new AsyncLock() : null;
+            syncObject = new AsyncLock();
         }
 
         public async Task<TProcessed> Get()
@@ -45,17 +44,6 @@ namespace Vostok.Singular.Core
             if (IsValidCache(currentCache, raw))
                 return currentCache.Item2;
 
-            // (iloktionov): Null syncObject means that we can execute processor delegate from multiple threads without locks:
-            if (syncObject == null)
-            {
-                var processed = processor(raw);
-
-                Interlocked.CompareExchange(ref cache, Tuple.Create(raw, processed), currentCache);
-
-                return processed;
-            }
-
-            // (iloktionov): Otherwise we fall back to double-checked locking:
             using (await syncObject.LockAsync().ConfigureAwait(false))
             {
                 if (IsValidCache(cache, raw))
