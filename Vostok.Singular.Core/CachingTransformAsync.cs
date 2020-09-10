@@ -29,16 +29,15 @@ namespace Vostok.Singular.Core
             syncObject = new AsyncLock();
         }
 
-        //CR: (deniaa) В C# принято называть методы, возвращающие Task, с суффиксом Async!
-        public async Task<TProcessed> Get()
+        public async Task<TProcessed> GetAsync()
         {
             if (provider == null)
                 throw new InvalidOperationException("Raw value provider delegate is not defined.");
 
-            return await Get(await provider().ConfigureAwait(false)).ConfigureAwait(false);
+            return await GetAsync(await provider().ConfigureAwait(false)).ConfigureAwait(false);
         }
 
-        private async Task<TProcessed> Get(TRaw raw)
+        private async Task<TProcessed> GetAsync(TRaw raw)
         {
             var currentCache = cache;
 

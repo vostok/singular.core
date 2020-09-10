@@ -13,12 +13,12 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
         {
             cache = new CachingTransformAsync<NonIdempotencySignsSettings, List<NonIdempotencySign>>(
                 PreprocessSigns,
-                nonIdempotencySignsSettingsProvider.Get);
+                nonIdempotencySignsSettingsProvider.GetAsync);
         }
 
-        public async Task<List<NonIdempotencySign>> Get()
+        public async Task<List<NonIdempotencySign>> GetAsync()
         {
-            return await cache.Get().ConfigureAwait(false);
+            return await cache.GetAsync().ConfigureAwait(false);
         }
 
         private static List<NonIdempotencySign> PreprocessSigns(NonIdempotencySignsSettings nonIdempotencySignsSettings)

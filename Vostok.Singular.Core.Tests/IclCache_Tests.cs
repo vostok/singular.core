@@ -10,7 +10,6 @@ namespace Vostok.Singular.Core.Tests
 {
     public class IclCache_Tests
     {
-
         private IIclRulesSettingsProvider singsProvider;
         private IclCache cache;
 
@@ -37,15 +36,14 @@ namespace Vostok.Singular.Core.Tests
                 }
             };
 
-            singsProvider.Get().Returns(settings);
+            singsProvider.GetAsync().Returns(settings);
 
-            var cached = cache.Get().GetAwaiter().GetResult();
+            var cached = cache.GetAsync().GetAwaiter().GetResult();
             cached.Count.Should().Be(2);
 
             cached.Last().Method.Should().Be("*");
             cached.Last().IsIdempotent.Should().Be(true);
         }
-
 
         [Test]
         public void Should_trim_start_slash()
@@ -62,9 +60,9 @@ namespace Vostok.Singular.Core.Tests
                     }
                 }
             };
-            singsProvider.Get().Returns(settings);
+            singsProvider.GetAsync().Returns(settings);
 
-            var cached = cache.Get().GetAwaiter().GetResult();
+            var cached = cache.GetAsync().GetAwaiter().GetResult();
             cached[0].PathPattern.IsMatch("/test").Should().Be(false);
             cached[0].PathPattern.IsMatch("test").Should().Be(true);
         }

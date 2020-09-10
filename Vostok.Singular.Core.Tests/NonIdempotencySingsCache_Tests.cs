@@ -34,15 +34,14 @@ namespace Vostok.Singular.Core.Tests
                     }
                 }
             };
-            singsProvider.Get().Returns(settings);
+            singsProvider.GetAsync().Returns(settings);
 
-            var cached = cache.Get().GetAwaiter().GetResult();
+            var cached = cache.GetAsync().GetAwaiter().GetResult();
             cached.Count.Should().Be(1);
 
             cached[0].PathPattern.IsMatch("/test").Should().Be(false);
 
             cached[0].PathPattern.IsMatch("test").Should().Be(true);
         }
-
     }
 }

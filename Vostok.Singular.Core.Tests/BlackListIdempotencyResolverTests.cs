@@ -131,7 +131,7 @@ namespace Vostok.Singular.Core.Tests
 
         private void MockCache(params NonIdempotencySign[] signs)
         {
-            cache.Get().Returns(signs.ToList());
+            cache.GetAsync().Returns(signs.ToList());
         }
     }
 }

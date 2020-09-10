@@ -43,8 +43,9 @@ namespace Vostok.Singular.Core.PathPatterns
 
         public async Task<T> GetAsync<T>(T defaultValue)
         {
-            //CR: (deniaa) Мы на каждый запрос сначала пытаемся выполнить CompareExchange, а затем await.
-            //CR: (deniaa) А можем на каждый запрос выполнять всего лишь sync.WaitTask.IsCompleted, что как минимум не хуже одного только await, а CompareExchange и выполнять не придется никогда после прогрева.
+            if (sync.WaitTask.Task.IsCompleted)
+                return Get(defaultValue);
+
             if (sync.CreateStarted.TrySetTrue())
             {
                 try

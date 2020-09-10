@@ -28,19 +28,19 @@ namespace Vostok.Singular.Core.Tests
         public void Should_Be_Idempotent_When_NoRules()
         {
             var iclRulesProvider = Substitute.For<IIclRulesSettingsProvider>();
-            iclRulesProvider.Get().Returns(new IdempotencySettings());
+            iclRulesProvider.GetAsync().Returns(new IdempotencySettings());
             var iclCache = new IclCache(iclRulesProvider);
 
             var iclResolver = new IclResolver(iclCache);
 
-            iclResolver.IsIdempotent(POST, fooPath).GetAwaiter().GetResult().Should().BeTrue();
+            iclResolver.IsIdempotentAsync(POST, fooPath).GetAwaiter().GetResult().Should().BeTrue();
         }
 
         [TestCase("*", "*")]
         [TestCase(POST, fooPath)]
         public void Should_Be_NonIdempotent_When_NonIdempotentRule(string methodPattern, string pathPattern)
         {
-            iclCache.Get()
+            iclCache.GetAsync()
                 .Returns(
                     new List<IdempotencyControlRule>(
                         new[]
@@ -53,33 +53,33 @@ namespace Vostok.Singular.Core.Tests
                             }
                         }));
 
-            iclResolver.IsIdempotent(POST, fooPath).GetAwaiter().GetResult().Should().BeFalse();
+            iclResolver.IsIdempotentAsync(POST, fooPath).GetAwaiter().GetResult().Should().BeFalse();
         }
 
         [TestCase("*", "*")]
         [TestCase(POST, "foo")]
         public void Should_Be_Idempotent_When_IdempotentRule_Is_First(string methodPattern, string pathPattern)
         {
-            iclCache.Get()
+            iclCache.GetAsync()
                 .Returns(
                     new List<IdempotencyControlRule>(
-                    new[]
-                    {
-                        new IdempotencyControlRule
+                        new[]
                         {
-                            Method = methodPattern,
-                            IsIdempotent = true,
-                            PathPattern = new Wildcard(pathPattern)
-                        },
-                        new IdempotencyControlRule
-                        {
-                            Method = methodPattern,
-                            IsIdempotent = false,
-                            PathPattern = new Wildcard(pathPattern)
-                        },
-                    }));
+                            new IdempotencyControlRule
+                            {
+                                Method = methodPattern,
+                                IsIdempotent = true,
+                                PathPattern = new Wildcard(pathPattern)
+                            },
+                            new IdempotencyControlRule
+                            {
+                                Method = methodPattern,
+                                IsIdempotent = false,
+                                PathPattern = new Wildcard(pathPattern)
+                            },
+                        }));
 
-            iclResolver.IsIdempotent(POST, fooPath).GetAwaiter().GetResult().Should().BeTrue();
+            iclResolver.IsIdempotentAsync(POST, fooPath).GetAwaiter().GetResult().Should().BeTrue();
         }
     }
 }

@@ -17,9 +17,9 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             this.iclResolver = iclResolver;
         }
 
-        public async Task<bool> IsIdempotent(string method, string path)
+        public async Task<bool> IsIdempotentAsync(string method, string path)
         {
-            return await blackListIdempotencyResolver.IsIdempotent(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotent(method, path).ConfigureAwait(false);
+            return await blackListIdempotencyResolver.IsIdempotent(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotentAsync(method, path).ConfigureAwait(false);
         }
     }
 }

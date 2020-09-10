@@ -17,12 +17,12 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
 
         public IclCache(IIclRulesSettingsProvider iclRulesSettingsProvider)
         {
-            cache = new CachingTransformAsync<IdempotencySettings, List<IdempotencyControlRule>>(PreprocessSettings, iclRulesSettingsProvider.Get);
+            cache = new CachingTransformAsync<IdempotencySettings, List<IdempotencyControlRule>>(PreprocessSettings, iclRulesSettingsProvider.GetAsync);
         }
 
-        public async Task<List<IdempotencyControlRule>> Get()
+        public async Task<List<IdempotencyControlRule>> GetAsync()
         {
-            return await cache.Get().ConfigureAwait(false);
+            return await cache.GetAsync().ConfigureAwait(false);
         }
 
         private static List<IdempotencyControlRule> PreprocessSettings(IdempotencySettings idempotencySettings)

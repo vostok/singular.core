@@ -5,7 +5,6 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
 {
     internal interface IIclRulesSettingsProvider
     {
-        //CR: (deniaa) В C# принято называть методы, возвращающие Task, с суффиксом Async!
-        Task<IdempotencySettings> Get();
+        Task<IdempotencySettings> GetAsync();
     }
 }
