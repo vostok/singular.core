@@ -58,7 +58,7 @@ namespace Vostok.Singular.Core.PathPatterns
                 }
             }
 
-            await sync.WaitTask.Task;
+            await sync.WaitTask.Task.ConfigureAwait(false);
             return Get(defaultValue);
         }
 
