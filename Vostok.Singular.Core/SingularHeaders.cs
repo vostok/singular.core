@@ -9,6 +9,7 @@
         public const string Replica = "X-Singular-Replica";
         public const string NginxMarker = "X-Singular-Nginx-Marker";
         public const string SingularThrottlingTrigger = "X-Singular-Throttling-Trigger";
+        public const string ReplicaTagsFilter = "X-Singular-Replica-Tags-Filter";
         public const string XRealIP = "X-Real-IP";
         public const string XAccelBuffering = "X-Accel-Buffering";
         public const string XNginxDistributedContext = "X-Nginx-Distributed-Context";
