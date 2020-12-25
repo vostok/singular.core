@@ -1,5 +1,7 @@
 using System;
 
+#pragma warning disable 649
+
 namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Settings
 {
     [Serializable]
