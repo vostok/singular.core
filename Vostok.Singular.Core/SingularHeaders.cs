@@ -1,5 +1,6 @@
 ﻿namespace Vostok.Singular.Core
 {
+    // todo (andrew, 28.12.2020): add response header indicating that response came from target service replica
     internal class SingularHeaders
     {
         public const string Environment = "X-Singular-Zone";
