@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vostok.Clusterclient.Core.Model;
 
@@ -6,7 +7,7 @@ namespace Vostok.Singular.Core.QualityMetrics
 {
     internal static class ClusterResultsAnalyzer
     {
-        private static readonly Dictionary<ResponseCode, ResultReason> ReplicaExhaustedReasons = new Dictionary<ResponseCode, ResultReason>
+        private static readonly Dictionary<ResponseCode, ResultReason> replicaExhaustedReasons = new Dictionary<ResponseCode, ResultReason>
         {
             {ResponseCode.Unknown, ResultReason.Unknown},
             {ResponseCode.RequestTimeout, ResultReason.RequestTimeout},
@@ -44,29 +45,36 @@ namespace Vostok.Singular.Core.QualityMetrics
             {
                 if (replicaResult == ResultReason.Backend)
                     return ResultReason.Backend;
+
                 if (lastReason == null || lastReason == replicaResult)
                     lastReason = replicaResult;
                 else
                     return ResultReason.Complex;
             }
-            
+
             return lastReason ?? ResultReason.Backend;
         }
 
         private static ResultReason FindResultReason(ReplicaResult replicaResult)
         {
-            var response = replicaResult.Response;
-            var isBackendResponse = response.Headers[SingularHeaders.Backend] != null;
-            var isSingularInternalQuotasThrottled = response.Headers[SingularHeaders.IsSingularInternalQuotasThrottling] != null;
-            
-            if (response.Code == ResponseCode.BadGateway)
+            if (replicaResult.Response.Code == ResponseCode.BadGateway)
                 return ResultReason.Backend;
-            if (ReplicaExhaustedReasons.TryGetValue(response.Code, out var resultReason))
+
+            if (replicaExhaustedReasons.TryGetValue(replicaResult.Response.Code, out var resultReason))
                 return resultReason;
-            if (response.Code == ResponseCode.TooManyRequests && isSingularInternalQuotasThrottled)
+
+            if (IsThrottledBySingularItSelf(replicaResult.Response))
                 return ResultReason.SingularThrottling;
 
             return ResultReason.Backend;
+        }
+
+        private static bool IsThrottledBySingularItSelf(Response response)
+        {
+            return string.Equals(
+                response.Headers[SingularHeaders.SingularThrottlingTrigger],
+                SingularHeaders.ThrottlingTriggerReason.ServerThrottlingQueueOverflow,
+                StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }
