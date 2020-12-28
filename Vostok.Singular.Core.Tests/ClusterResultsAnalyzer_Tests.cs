@@ -21,7 +21,7 @@ namespace Vostok.Singular.Core.Tests
             anyUri = new Uri("http://tmp.com");
             request = new Request("GET", anyUri);
             cleanHeaders = new Headers(2).Set("test", "true");
-            xSingularThrottlingTriggerHeaders = cleanHeaders.Set(SingularHeaders.IsSingularInternalQuotasThrottling, "true");
+            xSingularThrottlingTriggerHeaders = cleanHeaders.Set(SingularHeaders.SingularThrottlingTrigger, SingularHeaders.ThrottlingTriggerReason.ServerThrottlingQueueOverflow);
         }
 
         [TestCase(ClusterResultStatus.Success, ResultReason.Backend)]
