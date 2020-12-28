@@ -1,26 +1,15 @@
 <Project>
 
-  <PropertyGroup>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.collections\Vostok.Commons.Collections\ByReferenceEqualityComparer.cs" Link="Commons\ByReferenceEqualityComparer.cs"  />
-    <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.threading\Vostok.Commons.Threading\AsyncLock.cs" Link="Commons\AsyncLock.cs"  />
-	<Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.threading\Vostok.Commons.Threading\AtomicBoolean.cs" Link="Commons\AtomicBoolean.cs" />
-  
+    <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.collections\Vostok.Commons.Collections\ByReferenceEqualityComparer.cs" Link="Commons\ByReferenceEqualityComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.threading\Vostok.Commons.Threading\AsyncLock.cs" Link="Commons\AsyncLock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)\..\vostok.commons.threading\Vostok.Commons.Threading\AtomicBoolean.cs" Link="Commons\AtomicBoolean.cs" />
   </ItemGroup>
 
   <ItemGroup>
-  
-    <Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularHeaders.cs" Link="SingularCommons\SingularHeaders.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularConstants.cs" Link="SingularCommons\SingularConstants.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\SingularClientConstants.cs" Link="SingularCommons\SingularClientConstants.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\PathPatterns\**\*.cs" Link="SingularCommons\" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\QualityMetrics\MetricsProvider.cs" Link="QualityMetrics\Commons\MetricsProvider.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\QualityMetrics\MetricsProviderCache.cs" Link="QualityMetrics\Commons\MetricsProviderCache.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\QualityMetrics\ResultReason.cs" Link="QualityMetrics\Commons\ResultReason.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\CachingTransformAsync.cs" Link="SingularCommons\CachingTransformAsync.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\**\*.cs"
+             Exclude="$(MSBuildThisFileDirectory)\Vostok.Singular.Core\Properties\*.cs;$(MSBuildThisFileDirectory)\Vostok.Singular.Core\obj\**\*.cs"
+             Link="Vostok.Singular.Core\%(RecursiveDir)%(FileName)%(Extension)" />
   </ItemGroup>
 
 </Project>
