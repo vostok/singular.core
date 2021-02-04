@@ -11,7 +11,7 @@ namespace Vostok.Singular.Core.Tests
     public class IclResolverTests
     {
         private const string POST = "POST";
-        private const string fooPath = "foo";
+        private const string FooPath = "foo";
 
         private ISettingsCache<IdempotencyControlRule> iclCache;
         private IclResolver iclResolver;
@@ -33,11 +33,11 @@ namespace Vostok.Singular.Core.Tests
 
             var iclResolver = new IclResolver(iclCache);
 
-            iclResolver.IsIdempotentAsync(POST, fooPath).GetAwaiter().GetResult().Should().BeTrue();
+            iclResolver.IsIdempotentAsync(POST, FooPath).GetAwaiter().GetResult().Should().BeTrue();
         }
 
         [TestCase("*", "*")]
-        [TestCase(POST, fooPath)]
+        [TestCase(POST, FooPath)]
         public void Should_Be_NonIdempotent_When_NonIdempotentRule(string methodPattern, string pathPattern)
         {
             iclCache.GetAsync()
@@ -53,7 +53,7 @@ namespace Vostok.Singular.Core.Tests
                             }
                         }));
 
-            iclResolver.IsIdempotentAsync(POST, fooPath).GetAwaiter().GetResult().Should().BeFalse();
+            iclResolver.IsIdempotentAsync(POST, FooPath).GetAwaiter().GetResult().Should().BeFalse();
         }
 
         [TestCase("*", "*")]
@@ -79,7 +79,7 @@ namespace Vostok.Singular.Core.Tests
                             },
                         }));
 
-            iclResolver.IsIdempotentAsync(POST, fooPath).GetAwaiter().GetResult().Should().BeTrue();
+            iclResolver.IsIdempotentAsync(POST, FooPath).GetAwaiter().GetResult().Should().BeTrue();
         }
     }
 }

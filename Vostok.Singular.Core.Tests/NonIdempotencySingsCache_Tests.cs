@@ -23,11 +23,11 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_trim_start_slash()
         {
-            var settings = new NonIdempotencySignsSettings()
+            var settings = new NonIdempotencySignsSettings
             {
                 Signs = new List<NonIdempotencySignSettings>
                 {
-                    new NonIdempotencySignSettings()
+                    new NonIdempotencySignSettings
                     {
                         Method = "Post",
                         PathPattern = "/test"

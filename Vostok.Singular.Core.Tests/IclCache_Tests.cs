@@ -48,11 +48,11 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_trim_start_slash()
         {
-            var settings = new IdempotencySettings()
+            var settings = new IdempotencySettings
             {
                 Rules = new List<IdempotencyRuleSetting>
                 {
-                    new IdempotencyRuleSetting()
+                    new IdempotencyRuleSetting
                     {
                         Method = "Post",
                         PathPattern = "/test",

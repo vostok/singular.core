@@ -6,8 +6,6 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
 {
     internal class NonIdempotencySignsSettingsProvider : INonIdempotencySignsSettingsProvider
     {
-        private readonly SettingsProvider settingsProvider;
-
         private static readonly NonIdempotencyServiceSettings EmptySigns = new NonIdempotencyServiceSettings
         {
             NonIdempotencySigns = new NonIdempotencySignsSettings
@@ -15,6 +13,8 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
                 Signs = new List<NonIdempotencySignSettings>(0)
             }
         };
+
+        private readonly SettingsProvider settingsProvider;
 
         public NonIdempotencySignsSettingsProvider(SettingsProvider settingsProvider)
         {

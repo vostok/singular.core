@@ -7,7 +7,7 @@ namespace Vostok.Singular.Core.QualityMetrics
 {
     internal static class ClusterResultsAnalyzer
     {
-        private static readonly Dictionary<ResponseCode, ResultReason> replicaExhaustedReasons = new Dictionary<ResponseCode, ResultReason>
+        private static readonly Dictionary<ResponseCode, ResultReason> ReplicaExhaustedReasons = new Dictionary<ResponseCode, ResultReason>
         {
             {ResponseCode.Unknown, ResultReason.Unknown},
             {ResponseCode.RequestTimeout, ResultReason.RequestTimeout},
@@ -60,7 +60,7 @@ namespace Vostok.Singular.Core.QualityMetrics
             if (replicaResult.Response.Code == ResponseCode.BadGateway)
                 return ResultReason.Backend;
 
-            if (replicaExhaustedReasons.TryGetValue(replicaResult.Response.Code, out var resultReason))
+            if (ReplicaExhaustedReasons.TryGetValue(replicaResult.Response.Code, out var resultReason))
                 return resultReason;
 
             if (IsThrottledBySingularItSelf(replicaResult.Response))

@@ -11,7 +11,7 @@ namespace Vostok.Singular.Core.Tests
     public class PathPatternRuleMatcher_Tests
     {
         private List<PathPatternRule> rules;
-        
+
         [OneTimeSetUp]
         public void Setup()
         {
@@ -24,7 +24,7 @@ namespace Vostok.Singular.Core.Tests
                 }
             };
         }
-        
+
         [TestCase(RequestMethods.Get, "test/\nasd")]
         [TestCase(RequestMethods.Get, "test/\n\n\r\n")]
         [TestCase("SomethingMethod", "\r\nabracadabra")]

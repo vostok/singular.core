@@ -6,8 +6,6 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
 {
     internal class IclRulesSettingsProvider : IIclRulesSettingsProvider
     {
-        private readonly SettingsProvider settingsProvider;
-
         private static readonly IclRulesServiceSettings EmptyRules = new IclRulesServiceSettings
         {
             IdempotencySettings = new IdempotencySettings
@@ -15,6 +13,8 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
                 Rules = new List<IdempotencyRuleSetting>(0)
             }
         };
+
+        private readonly SettingsProvider settingsProvider;
 
         public IclRulesSettingsProvider(SettingsProvider settingsProvider)
         {

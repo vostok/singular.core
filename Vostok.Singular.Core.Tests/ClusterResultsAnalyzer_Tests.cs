@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
-using Vostok.Singular.Core.QualityMetrics;
 using Vostok.Clusterclient.Core.Model;
+using Vostok.Singular.Core.QualityMetrics;
 
 namespace Vostok.Singular.Core.Tests
 {
