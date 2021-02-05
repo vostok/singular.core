@@ -16,7 +16,8 @@
         public static class ThrottlingTriggerReason
         {
             public const string ServerThrottlingQueueOverflow = "ServerThrottlingQueueOverflow";
-            public const string ServiceQuotaExhaustion = "ServiceQuotaExhaustion";
+            public const string ServerQuotaExhaustion = "ServerQuotaExhaustion";
+            public const string UserQuotaExhaustion = "UserQuotaExhaustion";
             public const string AdaptiveClientThrottling = "AdaptiveClientThrottling";
         }
     }

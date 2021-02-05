@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Vostok.Clusterclient.Core.Model;
 
@@ -63,18 +62,10 @@ namespace Vostok.Singular.Core.QualityMetrics
             if (ReplicaExhaustedReasons.TryGetValue(replicaResult.Response.Code, out var resultReason))
                 return resultReason;
 
-            if (IsThrottledBySingularItSelf(replicaResult.Response))
+            if (replicaResult.Response.Headers.IsThrottledBySingularItSelf())
                 return ResultReason.SingularThrottling;
 
             return ResultReason.Backend;
-        }
-
-        private static bool IsThrottledBySingularItSelf(Response response)
-        {
-            return string.Equals(
-                response.Headers[SingularHeaders.SingularThrottlingTrigger],
-                SingularHeaders.ThrottlingTriggerReason.ServerThrottlingQueueOverflow,
-                StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }
