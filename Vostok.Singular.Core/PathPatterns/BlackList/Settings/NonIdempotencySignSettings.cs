@@ -5,7 +5,7 @@
 namespace Vostok.Singular.Core.PathPatterns.BlackList.Settings
 {
     [Serializable]
-    internal class NonIdempotencySignSettings
+    public class NonIdempotencySignSettings
     {
         public string Method;
 
