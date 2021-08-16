@@ -1,6 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Vostok.Singular.Core
 {
@@ -11,7 +9,6 @@ namespace Vostok.Singular.Core
 
         public string Replacement = string.Empty;
 
-        [JsonConverter(typeof(StringEnumConverter))]
         public RewriteMode Mode = RewriteMode.ByPrefix;
     }
 }

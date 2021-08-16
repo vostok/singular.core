@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Commons.Time;
 using Vostok.Configuration.Primitives;
-using Vostok.Singular.Core.PathPatterns;
 using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Settings;
 
@@ -353,7 +350,6 @@ namespace Vostok.Singular.Core
         [Serializable]
         public class StickinessModelSettings
         {
-            [JsonConverter(typeof(StringEnumConverter))]
             public StickinessMode Mode = StickinessMode.Disabled;
 
             public bool SetupCookie = false;
