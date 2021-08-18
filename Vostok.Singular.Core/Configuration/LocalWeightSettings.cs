@@ -7,6 +7,7 @@ namespace Vostok.Singular.Core
     [Serializable]
     public class LocalWeightSettings
     {
+        public bool WeightsOnlyByStatuses;
         public double InitialWeight = 1.0d;
         public double MinWeight = 0.001d;
         public int PenaltyMultiplier = 100;
@@ -20,6 +21,8 @@ namespace Vostok.Singular.Core
         public TimeSpan WeightsDownSmoothingConstant = 1.Seconds();
         public TimeSpan WeightsRaiseSmoothingConstant = 1.Minutes();
         public TimeSpan WeightsTTL = 5.Minutes();
+        public double SignificantWeightChangeToLog = 0.1;
+        public double DegradedWeightBorderToLog = 0.7;
 
         public RelativeWeightSettings ToRelativeWeightSettings()
         {
@@ -37,7 +40,10 @@ namespace Vostok.Singular.Core
                 Sensitivity = Sensitivity,
                 StatisticTTL = StatisticTTL,
                 WeightsRaiseSmoothingConstant = WeightsRaiseSmoothingConstant,
-                WeightsTTL = WeightsTTL
+                WeightsTTL = WeightsTTL,
+                WeightsOnlyByStatuses = WeightsOnlyByStatuses,
+                DegradedWeightBorderToLog = DegradedWeightBorderToLog,
+                SignificantWeightChangeToLog = SignificantWeightChangeToLog
             };
         }
     }
