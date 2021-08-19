@@ -3,7 +3,7 @@
 namespace Vostok.Singular.Core
 {
     [Serializable]
-    public class PathSettingsRule
+    internal class PathSettingsRule
     {
         public string Method;
 

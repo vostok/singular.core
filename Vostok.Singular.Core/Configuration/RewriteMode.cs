@@ -1,6 +1,6 @@
 ﻿namespace Vostok.Singular.Core
 {
-    public enum RewriteMode
+    internal enum RewriteMode
     {
         ByPrefix = 0
     }

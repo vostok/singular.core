@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Vostok.Clusterclient.Core.Model;
-using Vostok.Commons.Time;
 using Vostok.Configuration.Primitives;
 using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Settings;
@@ -9,7 +8,7 @@ using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Sett
 namespace Vostok.Singular.Core
 {
     [Serializable]
-    public class SingularSettings
+    internal class SingularSettings
     {
         public WsDefaultsSettings WsDefaults = new WsDefaultsSettings();
 

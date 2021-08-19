@@ -1,11 +1,10 @@
 ﻿using System;
 using Vostok.Clusterclient.Core.Ordering.Weighed.Relative;
-using Vostok.Commons.Time;
 
 namespace Vostok.Singular.Core
 {
     [Serializable]
-    public class LocalWeightSettings
+    internal class LocalWeightSettings
     {
         public bool WeightsOnlyByStatuses;
         public double InitialWeight = 1.0d;

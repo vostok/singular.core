@@ -3,7 +3,7 @@
 namespace Vostok.Singular.Core
 {
     [Serializable]
-    public class RewriteSettings
+    internal class RewriteSettings
     {
         public string Pattern = string.Empty;
 

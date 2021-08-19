@@ -3,7 +3,7 @@
 namespace Vostok.Singular.Core
 {
     [Serializable]
-    public class RedirectSettings
+    internal class RedirectSettings
     {
         public string DestinationZone;
         public string DestinationService;

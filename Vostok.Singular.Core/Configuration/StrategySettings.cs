@@ -3,7 +3,7 @@
 namespace Vostok.Singular.Core
 {
     [Serializable]
-    public class StrategySettings
+    internal class StrategySettings
     {
         public string RequestStrategy;
 
