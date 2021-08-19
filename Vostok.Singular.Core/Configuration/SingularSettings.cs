@@ -199,7 +199,7 @@ namespace Vostok.Singular.Core
                 RegenerationLag = TimeSpan.FromMinutes(1),
                 StatisticSmoothingConstant = TimeSpan.FromSeconds(1),
                 StatisticTTL = TimeSpan.FromMinutes(10),
-                WeightUpdatePeriod = TimeSpan.FromMinutes(10),
+                WeightUpdatePeriod = TimeSpan.FromSeconds(10),
                 WeightsDownSmoothingConstant = TimeSpan.FromSeconds(1),
                 WeightsRaiseSmoothingConstant = TimeSpan.FromMinutes(1),
                 WeightsTTL = TimeSpan.FromMinutes(5),
