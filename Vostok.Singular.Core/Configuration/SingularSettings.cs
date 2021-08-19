@@ -51,13 +51,13 @@ namespace Vostok.Singular.Core
         [Serializable]
         public class WsDefaultsSettings
         {
-            public TimeSpan ConnectionTimeBudget = 30.Seconds();
+            public TimeSpan ConnectionTimeBudget = TimeSpan.FromSeconds(30);
         }
 
         [Serializable]
         public class WsClientSettings
         {
-            public TimeSpan KeepAliveInterval = 2.Minutes();
+            public TimeSpan KeepAliveInterval = TimeSpan.FromMinutes(2);
 
             public int MaxReplicasPerRequest = 3;
 
@@ -67,7 +67,7 @@ namespace Vostok.Singular.Core
 
             public double LocalDatacenterBoostMinWeight = 0.75d;
 
-            public TimeSpan LocalHealthRegenerationDuration = 2.Minutes();
+            public TimeSpan LocalHealthRegenerationDuration = TimeSpan.FromMinutes(2);
 
             public double LocalHealthUpMultiplier = 1.5d;
 
@@ -75,7 +75,7 @@ namespace Vostok.Singular.Core
 
             public double LocalHealthMinimumValue = 0.05d;
 
-            public TimeSpan MinTimeoutForHealthTuning = 1.Seconds();
+            public TimeSpan MinTimeoutForHealthTuning = TimeSpan.FromSeconds(1);
 
             public bool UseLocalReplicaHealth = true;
 
@@ -83,7 +83,7 @@ namespace Vostok.Singular.Core
 
             public int RetryAttemptsCount = 3;
 
-            public TimeSpan RetryDelay = 100.Milliseconds();
+            public TimeSpan RetryDelay = TimeSpan.FromMilliseconds(100);
 
             public bool DeduplicateRequestUrl = true;
 
@@ -103,7 +103,7 @@ namespace Vostok.Singular.Core
         [Serializable]
         public class WsServerSettings
         {
-            public TimeSpan KeepAliveInterval = 2.Minutes();
+            public TimeSpan KeepAliveInterval = TimeSpan.FromMinutes(2);
         }
 
         #endregion
@@ -129,7 +129,7 @@ namespace Vostok.Singular.Core
         {
             public string Zone = "default";
 
-            public TimeSpan TimeBudget = 30.Seconds();
+            public TimeSpan TimeBudget = TimeSpan.FromSeconds(30);
 
             public RequestPriority Priority = RequestPriority.Ordinary;
         }
@@ -187,7 +187,7 @@ namespace Vostok.Singular.Core
 
             public bool ConnectionTimeoutEnabled = true;
 
-            public TimeSpan ConnectionTimeout = 750.Milliseconds();
+            public TimeSpan ConnectionTimeout = TimeSpan.FromMilliseconds(750);
 
             public LocalWeightSettings LocalWeightSettings = new LocalWeightSettings()
             {
@@ -196,13 +196,13 @@ namespace Vostok.Singular.Core
                 PenaltyMultiplier = 100,
                 Sensitivity = 4,
                 RegenerationRatePerMinute = 0.05,
-                RegenerationLag = 1.Minutes(),
-                StatisticSmoothingConstant = 1.Seconds(),
-                StatisticTTL = 10.Minutes(),
-                WeightUpdatePeriod = 10.Seconds(),
-                WeightsDownSmoothingConstant = 1.Seconds(),
-                WeightsRaiseSmoothingConstant = 1.Minutes(),
-                WeightsTTL = 5.Minutes()
+                RegenerationLag = TimeSpan.FromMinutes(1),
+                StatisticSmoothingConstant = TimeSpan.FromSeconds(1),
+                StatisticTTL = TimeSpan.FromMinutes(10),
+                WeightUpdatePeriod = TimeSpan.FromMinutes(10),
+                WeightsDownSmoothingConstant = TimeSpan.FromSeconds(1),
+                WeightsRaiseSmoothingConstant = TimeSpan.FromMinutes(1),
+                WeightsTTL = TimeSpan.FromMinutes(5),
             };
 
             public StrategySettings StrategySettings = new StrategySettings
@@ -210,7 +210,7 @@ namespace Vostok.Singular.Core
                 RequestStrategy = "Forking",
                 MaxForkingParallelism = 3,
                 MaxParallelParallelism = 3,
-                MinForkingDelay = 2.Seconds(),
+                MinForkingDelay = TimeSpan.FromSeconds(2),
                 SequentialDivisionFactor = 3
             };
 
@@ -246,9 +246,9 @@ namespace Vostok.Singular.Core
 
             public int RetryAttemptsCount = 3;
 
-            public TimeSpan RetryDelayMinimumValue = 1.Seconds();
+            public TimeSpan RetryDelayMinimumValue = TimeSpan.FromSeconds(1);
 
-            public TimeSpan RetryDelayMaximumValue = 5.Seconds();
+            public TimeSpan RetryDelayMaximumValue = TimeSpan.FromSeconds(5);
 
             public bool ValidateHttpMethod = true;
 
@@ -272,8 +272,8 @@ namespace Vostok.Singular.Core
             public bool EncodeNonAsciiHeaders = false;
             public bool ArpCacheWarmupEnabled = true;
             public bool TcpKeepAliveEnabled = true;
-            public TimeSpan TcpKeepAliveTime = 3.Seconds();
-            public TimeSpan TcpKeepAliveInterval = 1.Seconds();
+            public TimeSpan TcpKeepAliveTime = TimeSpan.FromSeconds(3);
+            public TimeSpan TcpKeepAliveInterval = TimeSpan.FromSeconds(1);
 
             public List<int> RetryCodesForNotIdempotentRequests = new List<int>();
         }
@@ -319,7 +319,7 @@ namespace Vostok.Singular.Core
 
             public DataSize MinResponseSizeForUseBigGracePeriod = 1.Megabytes();
 
-            public TimeSpan BigGracePeriod = 1.Minutes();
+            public TimeSpan BigGracePeriod = TimeSpan.FromMinutes(1);
 
             public DataRate SmallResponseSendRate = 1.KilobytesPerSecond();
         }

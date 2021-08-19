@@ -14,13 +14,13 @@ namespace Vostok.Singular.Core
         public int WeightByStatusesRpsThreshold = 10;
         public double Sensitivity = 4;
         public double RegenerationRatePerMinute = 0.05;
-        public TimeSpan RegenerationLag = 1.Minutes();
-        public TimeSpan StatisticSmoothingConstant = 1.Seconds();
-        public TimeSpan StatisticTTL = 10.Minutes();
-        public TimeSpan WeightUpdatePeriod = 10.Seconds();
-        public TimeSpan WeightsDownSmoothingConstant = 1.Seconds();
-        public TimeSpan WeightsRaiseSmoothingConstant = 1.Minutes();
-        public TimeSpan WeightsTTL = 5.Minutes();
+        public TimeSpan RegenerationLag = TimeSpan.FromMinutes(1);
+        public TimeSpan StatisticSmoothingConstant = TimeSpan.FromSeconds(1);
+        public TimeSpan StatisticTTL = TimeSpan.FromMinutes(10);
+        public TimeSpan WeightUpdatePeriod = TimeSpan.FromSeconds(10);
+        public TimeSpan WeightsDownSmoothingConstant = TimeSpan.FromSeconds(1);
+        public TimeSpan WeightsRaiseSmoothingConstant = TimeSpan.FromMinutes(1);
+        public TimeSpan WeightsTTL = TimeSpan.FromMinutes(5);
         public double SignificantWeightChangeToLog = 0.1;
         public double DegradedWeightBorderToLog = 0.7;
 
