@@ -5,7 +5,7 @@ using Vostok.Configuration.Primitives;
 using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Settings;
 
-namespace Vostok.Singular.Core
+namespace Vostok.Singular.Core.Configuration
 {
     [Serializable]
     internal class SingularSettings
