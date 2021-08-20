@@ -1,4 +1,4 @@
-﻿namespace Vostok.Singular.Core
+﻿namespace Vostok.Singular.Core.Configuration
 {
     internal enum RewriteMode
     {

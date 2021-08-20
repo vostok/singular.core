@@ -1,7 +1,7 @@
 ﻿using System;
 using Vostok.Clusterclient.Core.Ordering.Weighed.Relative;
 
-namespace Vostok.Singular.Core
+namespace Vostok.Singular.Core.Configuration
 {
     [Serializable]
     internal class LocalWeightSettings

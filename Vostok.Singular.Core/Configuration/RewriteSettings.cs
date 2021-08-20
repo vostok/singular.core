@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vostok.Singular.Core
+namespace Vostok.Singular.Core.Configuration
 {
     [Serializable]
     internal class RewriteSettings
