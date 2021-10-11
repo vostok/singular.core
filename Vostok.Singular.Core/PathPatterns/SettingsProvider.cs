@@ -1,47 +1,74 @@
+using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
-using Vostok.ClusterConfig.Client.Abstractions;
+using Vostok.Clusterclient.Core;
 using Vostok.Commons.Threading;
+using Vostok.Commons.Time;
 using Vostok.Configuration;
-using Vostok.Configuration.Abstractions;
-using Vostok.Configuration.Sources;
-using Vostok.Configuration.Sources.ClusterConfig;
-using Vostok.Configuration.Sources.Json;
+using Vostok.Configuration.Sources.Object;
+using Vostok.Logging.Abstractions;
+using Vostok.Singular.Core.Configuration;
 
 namespace Vostok.Singular.Core.PathPatterns
 {
     internal class SettingsProvider
     {
-        private readonly IClusterConfigClient clusterConfigClient;
-        private readonly IConfigurationSource serviceSource;
-        private readonly IConfigurationSource environmentSource;
-        private readonly IConfigurationSource combinedSource;
-        private readonly string servicePath;
-        private readonly string environmentPath;
+        private readonly TimeSpan updatePeriod = TimeSpan.FromSeconds(10);
+        private readonly string environment;
+        private readonly string service;
 
+        private readonly SettingsUpdater settingsUpdater;
+        private readonly ObjectSource settingsSource = new ObjectSource((SingularSettings)null);
         private readonly Sync sync = new Sync();
+        private readonly ILog log;
+
+        private long? currentSettingsVersion;
 
         public SettingsProvider(
-            IClusterConfigClient clusterConfigClient,
+            IClusterClient singularClient,
             string environment,
-            string application,
-            string environmentsConfigurationPathPrefix = SingularClientConstants.EnvironmentsConfigurationNamePrefix,
-            string configurationPathPrefix = SingularClientConstants.ServicesConfigurationNamePrefix)
+            string service)
         {
-            this.clusterConfigClient = clusterConfigClient;
-            servicePath = $"{configurationPathPrefix}{application}.json";
-            environmentPath = $"{environmentsConfigurationPathPrefix}{environment}/{SingularConstants.SingularSettingsFileName}";
-            environmentSource = new ClusterConfigSource(
-                new ClusterConfigSourceSettings(clusterConfigClient, environmentPath)
-                {
-                    ValuesParser = (value, path) => JsonConfigurationParser.Parse(value)
-                });
+            this.environment = environment;
+            this.service = service;
 
-            serviceSource = new ClusterConfigSource(
-                new ClusterConfigSourceSettings(clusterConfigClient, servicePath)
+            log = LogProvider.Get().ForContext("IdempotencySettingsProvider");
+            settingsUpdater = new SettingsUpdater(singularClient);
+
+            using (ExecutionContext.SuppressFlow())
+                Task.Run(InitiatePeriodicUpdates);
+        }
+
+        private async Task InitiatePeriodicUpdates()
+        {
+            while (true)
+            {
+                var timeBudget = Stopwatch.StartNew();
+                try
                 {
-                    ValuesParser = (value, path) => JsonConfigurationParser.Parse(value)
-                });
-            combinedSource = environmentSource.CombineWith(serviceSource);
+                    var (settings, newVersion) = await settingsUpdater
+                        .UpdateAsync(environment, service, currentSettingsVersion)
+                        .ConfigureAwait(false);
+
+                    if (!currentSettingsVersion.HasValue || newVersion > currentSettingsVersion)
+                    {
+                        settingsSource.Push(settings);
+
+                        currentSettingsVersion = newVersion;
+                    }
+                }
+                catch (Exception error)
+                {
+                    // TODO: падаем или нет?
+                    if (!currentSettingsVersion.HasValue)
+                        log.Error(error, "Failure in initial singular settings update.");
+                    else
+                        log.Warn("Periodical settings update routine has failed");
+                }
+
+                await Task.Delay(updatePeriod - timeBudget.Elapsed).ConfigureAwait(false);
+            }
         }
 
         public async Task<T> GetAsync<T>(T defaultValue)
@@ -67,22 +94,8 @@ namespace Vostok.Singular.Core.PathPatterns
 
         private T Get<T>(T defaultValue)
         {
-            var environmentSettingsExists = clusterConfigClient.Get(environmentPath) != null;
-            var serviceSettingsExists = clusterConfigClient.Get(servicePath) != null;
-
-            if (!environmentSettingsExists && !serviceSettingsExists)
-                return defaultValue;
-
-            IConfigurationSource resultSource;
-
-            if (environmentSettingsExists && serviceSettingsExists)
-                resultSource = combinedSource;
-            else if (environmentSettingsExists)
-                resultSource = environmentSource;
-            else
-                resultSource = serviceSource;
-
-            return ConfigurationProvider.Default.Get<T>(resultSource);
+            var value = ConfigurationProvider.Default.Get<T>(settingsSource);
+            return value == null ? defaultValue : value;
         }
 
         private class Sync
