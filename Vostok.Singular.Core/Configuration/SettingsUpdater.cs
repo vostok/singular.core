@@ -19,31 +19,29 @@ namespace Vostok.Singular.Core.PathPatterns
             this.singularClient = singularClient;
         }
 
-        public async Task<(SingularSettings settings, long version)> UpdateAsync(string environment, string service, long? currentVersion)
+        public async Task<SettingsUpdaterResult> UpdateAsync(string environment, string service, SettingsUpdaterResult previousResult = null)
         {
             var request = Request.Get("_settings/versioned")
-                .WithHeader(SingularHeaders.XSingularInternalRequest, string.Empty)
                 .WithAdditionalQueryParameter("service", service)
                 .WithAdditionalQueryParameter("environment", environment)
-                .WithAdditionalQueryParameter("currentVersion", currentVersion);
+                .WithAdditionalQueryParameter("currentVersion", previousResult?.Version)
+                .WithAdditionalQueryParameter("isApiVersion", previousResult?.IsApiVersion);
 
             var clusterResult = await singularClient.SendAsync(request).ConfigureAwait(false);
             var response = clusterResult.Response;
             var content = await ReadContentAsync(response).ConfigureAwait(false);
-
             if (response.Code == ResponseCode.NotModified)
             {
-                if (!currentVersion.HasValue)
+                if (previousResult == null)
                     throw new Exception("Received unexpected 'NotModified' response from server although no current version was sent in request.");
-                return (null, currentVersion.Value);
+                return new SettingsUpdaterResult(false, previousResult.Version, previousResult.IsApiVersion, null);
             }
             if (response.Code == ResponseCode.Ok)
             {
                 var versionedRawSettings = settingsBinder.Bind<VersionedSettings>(JsonConfigurationParser.Parse(content));
-
-                var singularSettings = settingsBinder.Bind<SingularSettings>(JsonConfigurationParser.Parse(versionedRawSettings.Settings));
-
-                return (singularSettings, versionedRawSettings.Version);
+                if (versionedRawSettings == null)
+                    throw new Exception($"Received content was bind to `Null`. Content: {content}");
+                return new SettingsUpdaterResult(true, versionedRawSettings.Version, versionedRawSettings.IsApiVersion, versionedRawSettings.Settings);
             }
 
             var errorMessage = $"Failed to update idempotency settings from singular for '{service}' service in '{environment}' environment. Response code = {response.Code}.";
