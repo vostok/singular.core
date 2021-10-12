@@ -1,4 +1,5 @@
 ﻿using Vostok.Configuration.Abstractions.SettingsTree;
+using Vostok.Singular.Core.Configuration;
 
 namespace Vostok.Singular.Core.PathPatterns
 {
@@ -7,15 +8,15 @@ namespace Vostok.Singular.Core.PathPatterns
         public bool Changed { get; }
         public long Version { get; }
 
-        public bool IsApiVersion { get; }
+        public SettingsVersionType VersionType { get; }
 
         public ISettingsNode Settings { get; }
 
-        public SettingsUpdaterResult(bool changed, long version, bool isApiVersion, ISettingsNode settings)
+        public SettingsUpdaterResult(bool changed, long version, SettingsVersionType versionType, ISettingsNode settings)
         {
             Changed = changed;
             Version = version;
-            IsApiVersion = isApiVersion;
+            VersionType = versionType;
             Settings = settings;
         }
     }

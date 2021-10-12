@@ -98,7 +98,7 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public async Task Updater_should_return_non_changed_result_if_version_not_modified()
         {
-            var previousUpdateResult = new SettingsUpdaterResult(false, 1, true, null);
+            var previousUpdateResult = new SettingsUpdaterResult(false, 1, SettingsVersionType.ClusterConfig, null);
             singularClient.SendAsync(Arg.Any<Request>())
                 .Returns(info => Task.FromResult(NotModifiedResult()));
 
@@ -107,20 +107,15 @@ namespace Vostok.Singular.Core.Tests
             actualResult.Should().NotBeNull();
             actualResult.Changed.Should().BeFalse();
             actualResult.Version.Should().Be(previousUpdateResult.Version);
-            actualResult.IsApiVersion.Should().Be(previousUpdateResult.IsApiVersion);
+            actualResult.VersionType.Should().Be(previousUpdateResult.VersionType);
             actualResult.Settings.Should().BeNull();
         }
 
         [Test]
         public async Task Updater_should_return_changed_result_if_version_modified()
         {
-            var previousUpdateResult = new SettingsUpdaterResult(false, 1, true, null);
-            var settings = new VersionedSettings()
-            {
-                Version = 2,
-                IsApiVersion = true,
-                Settings = new ObjectNode("")
-            };
+            var previousUpdateResult = new SettingsUpdaterResult(false, 1, SettingsVersionType.ClusterConfig, null);
+            var settings = new VersionedSettings(SettingsVersionType.PublicationApi, 2 , new ObjectNode(""));
             singularClient.SendAsync(Arg.Any<Request>())
                 .Returns(info => Task.FromResult(OkResult(ConfigurationPrinter.Print(settings, new PrintSettings(){Format = PrintFormat.JSON}))));
 
@@ -129,7 +124,7 @@ namespace Vostok.Singular.Core.Tests
             actualResult.Should().NotBeNull();
             actualResult.Changed.Should().BeTrue();
             actualResult.Version.Should().Be(settings.Version);
-            actualResult.IsApiVersion.Should().Be(settings.IsApiVersion);
+            actualResult.VersionType.Should().Be(settings.VersionType);
             actualResult.Settings.Should().NotBeNull();
         }
 
@@ -137,7 +132,6 @@ namespace Vostok.Singular.Core.Tests
             new ClusterResult(ClusterResultStatus.ReplicasExhausted, new List<ReplicaResult>(), new Response(ResponseCode.InternalServerError), Request.Get(""));
         private static ClusterResult OkResult(string content) =>
             new ClusterResult(ClusterResultStatus.Success, new List<ReplicaResult>(), new Response(ResponseCode.Ok, new Content(Encoding.UTF8.GetBytes(content))), Request.Get(""));
-
         private static ClusterResult NotModifiedResult() =>
             new ClusterResult(ClusterResultStatus.Success, new List<ReplicaResult>(), new Response(ResponseCode.NotModified), Request.Get(""));
     }

@@ -25,23 +25,23 @@ namespace Vostok.Singular.Core.PathPatterns
                 .WithAdditionalQueryParameter("service", service)
                 .WithAdditionalQueryParameter("environment", environment)
                 .WithAdditionalQueryParameter("currentVersion", previousResult?.Version)
-                .WithAdditionalQueryParameter("isApiVersion", previousResult?.IsApiVersion);
+                .WithAdditionalQueryParameter("versionType", previousResult?.VersionType);
 
             var clusterResult = await singularClient.SendAsync(request).ConfigureAwait(false);
             var response = clusterResult.Response;
-            var content = await ReadContentAsync(response).ConfigureAwait(false);
+            var content = await TryReadContentAsync(response).ConfigureAwait(false);
             if (response.Code == ResponseCode.NotModified)
             {
                 if (previousResult == null)
                     throw new Exception("Received unexpected 'NotModified' response from server although no current version was sent in request.");
-                return new SettingsUpdaterResult(false, previousResult.Version, previousResult.IsApiVersion, null);
+                return new SettingsUpdaterResult(false, previousResult.Version, previousResult.VersionType, null);
             }
             if (response.Code == ResponseCode.Ok)
             {
                 var versionedRawSettings = settingsBinder.Bind<VersionedSettings>(JsonConfigurationParser.Parse(content));
                 if (versionedRawSettings?.Settings == null)
                     throw new Exception($"Received unexpected empty settings. Content: {content}");
-                return new SettingsUpdaterResult(true, versionedRawSettings.Version, versionedRawSettings.IsApiVersion, versionedRawSettings.Settings);
+                return new SettingsUpdaterResult(true, versionedRawSettings.Version, versionedRawSettings.VersionType, versionedRawSettings.Settings);
             }
 
             var errorMessage = $"Failed to update idempotency settings from singular. Response code = {response.Code}.";
@@ -50,7 +50,7 @@ namespace Vostok.Singular.Core.PathPatterns
             throw new Exception(errorMessage);
         }
 
-        private static async Task<string> ReadContentAsync(Response response)
+        private static async Task<string> TryReadContentAsync(Response response)
         {
             if (!response.HasContent)
                 return response.Code == ResponseCode.Ok
