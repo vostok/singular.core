@@ -17,8 +17,7 @@ namespace Vostok.Singular.Core.PathPatterns
             string environment,
             string service)
         {
-            var log = LogProvider.Get().ForContext("IdempotencySettingsProvider");
-            settingsSource = new SingularConfigurationSource(environment, service, singularClient, log);
+            settingsSource = new SingularConfigurationSource(environment, service, singularClient, LogProvider.Get());
         }
         
         public async Task<T> GetAsync<T>(T defaultValue)

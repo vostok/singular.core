@@ -27,7 +27,7 @@ namespace Vostok.Singular.Core.Configuration
             this.environment = environment;
             this.service = service;
             settingsUpdater = new SettingsUpdater(singularClient);
-            this.log = log ?? LogProvider.Get();
+            this.log = (log ?? LogProvider.Get()).ForContext($"SingularConfigurationSource({service} in {environment})");
 
             using (ExecutionContext.SuppressFlow())
                 Task.Run(InitiatePeriodicUpdates);
@@ -58,7 +58,7 @@ namespace Vostok.Singular.Core.Configuration
                         Push(null, error);
                     }
                     else
-                        log.Warn("Periodical settings update routine has failed.");
+                        log.Warn(error, "Periodical settings update routine has failed.");
                 }
 
                 await Task.Delay(updatePeriod - timeBudget.Elapsed).ConfigureAwait(false);

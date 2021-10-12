@@ -39,12 +39,12 @@ namespace Vostok.Singular.Core.PathPatterns
             if (response.Code == ResponseCode.Ok)
             {
                 var versionedRawSettings = settingsBinder.Bind<VersionedSettings>(JsonConfigurationParser.Parse(content));
-                if (versionedRawSettings == null)
-                    throw new Exception($"Received content was bind to `Null`. Content: {content}");
+                if (versionedRawSettings?.Settings == null)
+                    throw new Exception($"Received unexpected empty settings. Content: {content}");
                 return new SettingsUpdaterResult(true, versionedRawSettings.Version, versionedRawSettings.IsApiVersion, versionedRawSettings.Settings);
             }
 
-            var errorMessage = $"Failed to update idempotency settings from singular for '{service}' service in '{environment}' environment. Response code = {response.Code}.";
+            var errorMessage = $"Failed to update idempotency settings from singular. Response code = {response.Code}.";
             if (!string.IsNullOrEmpty(content))
                 errorMessage += $" Error = {content}";
             throw new Exception(errorMessage);
