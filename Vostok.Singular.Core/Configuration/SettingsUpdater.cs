@@ -38,10 +38,11 @@ namespace Vostok.Singular.Core.PathPatterns
             }
             if (response.Code == ResponseCode.Ok)
             {
-                var versionedRawSettings = settingsBinder.Bind<VersionedSettings>(JsonConfigurationParser.Parse(content));
+                var settingsNodes = JsonConfigurationParser.Parse(content);
+                var versionedRawSettings = settingsBinder.Bind<VersionedSettings<SingularSettings>>(JsonConfigurationParser.Parse(content));
                 if (versionedRawSettings?.Settings == null)
                     throw new Exception($"Received unexpected empty settings. Content: {content}");
-                return new SettingsUpdaterResult(true, versionedRawSettings.Version, versionedRawSettings.VersionType, versionedRawSettings.Settings);
+                return new SettingsUpdaterResult(true, versionedRawSettings.Version, versionedRawSettings.VersionType, settingsNodes[nameof(VersionedSettings<SingularSettings>.Settings)]);
             }
 
             var errorMessage = $"Failed to update idempotency settings from singular. Response code = {response.Code}.";

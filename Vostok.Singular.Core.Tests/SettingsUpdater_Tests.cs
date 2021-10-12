@@ -8,7 +8,6 @@ using NUnit.Framework;
 using Vostok.Clusterclient.Core;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Configuration;
-using Vostok.Configuration.Abstractions.SettingsTree;
 using Vostok.Configuration.Printing;
 using Vostok.Singular.Core.Configuration;
 using Vostok.Singular.Core.PathPatterns;
@@ -115,9 +114,10 @@ namespace Vostok.Singular.Core.Tests
         public async Task Updater_should_return_changed_result_if_version_modified()
         {
             var previousUpdateResult = new SettingsUpdaterResult(false, 1, SettingsVersionType.ClusterConfig, null);
-            var settings = new VersionedSettings(SettingsVersionType.PublicationApi, 2 , new ObjectNode(""));
+            var settings = new VersionedSettings<SingularSettings>(SettingsVersionType.PublicationApi, 2 , new SingularSettings());
+            var content = ConfigurationPrinter.Print(settings, new PrintSettings() { Format = PrintFormat.JSON });
             singularClient.SendAsync(Arg.Any<Request>())
-                .Returns(info => Task.FromResult(OkResult(ConfigurationPrinter.Print(settings, new PrintSettings(){Format = PrintFormat.JSON}))));
+                .Returns(info => Task.FromResult(OkResult(content)));
 
             var actualResult = await settingsUpdater.UpdateAsync(Environment, Service, previousUpdateResult);
 

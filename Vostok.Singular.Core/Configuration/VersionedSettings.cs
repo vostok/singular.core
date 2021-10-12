@@ -1,14 +1,12 @@
-﻿using Vostok.Configuration.Abstractions.SettingsTree;
-
-namespace Vostok.Singular.Core.Configuration
+﻿namespace Vostok.Singular.Core.Configuration
 {
-    internal class VersionedSettings
+    internal class VersionedSettings<TSettings>
     {
         public SettingsVersionType VersionType { get; set; }
         public long Version { get; set; }
-        public ISettingsNode Settings { get; set; }
+        public TSettings Settings { get; set; }
 
-        public VersionedSettings(SettingsVersionType versionType, long version, ISettingsNode settings)
+        public VersionedSettings(SettingsVersionType versionType, long version, TSettings settings)
         {
             VersionType = versionType;
             Version = version;
