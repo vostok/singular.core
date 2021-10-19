@@ -13,7 +13,7 @@
             Settings = settings;
         }
 
-        public VersionedSettings() 
+        public VersionedSettings()
         {
             // For deserialization
         }
