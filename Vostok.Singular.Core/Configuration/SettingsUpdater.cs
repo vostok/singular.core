@@ -5,9 +5,8 @@ using Vostok.Clusterclient.Core;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Configuration.Binders;
 using Vostok.Configuration.Sources.Json;
-using Vostok.Singular.Core.Configuration;
 
-namespace Vostok.Singular.Core.PathPatterns
+namespace Vostok.Singular.Core.Configuration
 {
     internal class SettingsUpdater
     {

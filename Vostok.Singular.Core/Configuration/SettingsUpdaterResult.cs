@@ -1,7 +1,6 @@
 ﻿using Vostok.Configuration.Abstractions.SettingsTree;
-using Vostok.Singular.Core.Configuration;
 
-namespace Vostok.Singular.Core.PathPatterns
+namespace Vostok.Singular.Core.Configuration
 {
     internal class SettingsUpdaterResult
     {

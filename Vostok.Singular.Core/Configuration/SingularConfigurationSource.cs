@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Vostok.Clusterclient.Core;
 using Vostok.Configuration.Sources.Manual;
 using Vostok.Logging.Abstractions;
-using Vostok.Singular.Core.PathPatterns;
 
 namespace Vostok.Singular.Core.Configuration
 {
