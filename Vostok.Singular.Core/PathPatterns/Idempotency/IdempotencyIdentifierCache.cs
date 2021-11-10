@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Concurrent;
-using Vostok.ClusterConfig.Client.Abstractions;
+using Vostok.Clusterclient.Core;
 using Vostok.Configuration;
 using Vostok.Configuration.Logging;
 using Vostok.Logging.Abstractions;
@@ -25,14 +25,14 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
                 provider.Dispose();
         }
 
-        public static IIdempotencyIdentifier Get(IClusterConfigClient clusterConfigClient, string environment, string serviceName)
+        public static IIdempotencyIdentifier Get(IClusterClient singularClient, string environment, string serviceName)
         {
-            return Cache.GetOrAdd((environment, serviceName), s => new Lazy<IIdempotencyIdentifier>(() => Create(clusterConfigClient, s.Item1, s.Item2))).Value;
+            return Cache.GetOrAdd((environment, serviceName), s => new Lazy<IIdempotencyIdentifier>(() => Create(singularClient, s.Item1, s.Item2))).Value;
         }
 
-        private static IIdempotencyIdentifier Create(IClusterConfigClient clusterConfigClient, string environment, string serviceName)
+        private static IIdempotencyIdentifier Create(IClusterClient singularClient, string environment, string serviceName)
         {
-            var settingsProvider = new SettingsProvider(clusterConfigClient, environment, serviceName);
+            var settingsProvider = new SettingsProvider(singularClient, environment, serviceName);
             var idempotencySignsCache = new NonIdempotencySignsCache(new NonIdempotencySignsSettingsProvider(settingsProvider));
             var iclCache = new IclCache(new IclRulesSettingsProvider(settingsProvider));
             return new IdempotencyIdentifier(
