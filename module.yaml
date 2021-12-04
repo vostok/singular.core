@@ -44,6 +44,10 @@ notests *default:
     - vostok.metrics
 
 full-build > notests:
+  deps:
+    - -vostok.devtools
+    - vostok.devtools@with-net6.0
+
   build:
     target: Vostok.Singular.Core.sln
     configuration: Release
