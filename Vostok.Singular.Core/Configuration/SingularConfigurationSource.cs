@@ -60,9 +60,9 @@ namespace Vostok.Singular.Core.Configuration
                         log.Warn(error, "Periodical settings update routine has failed.");
                 }
 
-                var waitTime = updatePeriod - timeBudget.Elapsed;
+                var remaining = updatePeriod - timeBudget.Elapsed;
                 
-                await Task.Delay(waitTime.TotalMilliseconds > 0 ? waitTime : TimeSpan.FromMilliseconds(1)).ConfigureAwait(false);
+                await Task.Delay(remaining >= TimeSpan.Zero ? remaining : TimeSpan.Zero).ConfigureAwait(false);
             }
         }
     }
