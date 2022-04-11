@@ -275,6 +275,8 @@ namespace Vostok.Singular.Core.Configuration
             public TimeSpan TcpKeepAliveInterval = TimeSpan.FromSeconds(1);
 
             public List<int> RetryCodesForNotIdempotentRequests = new List<int>();
+
+            public LoggingOptions Logging = new LoggingOptions();
         }
 
         #endregion
@@ -371,5 +373,18 @@ namespace Vostok.Singular.Core.Configuration
         }
 
         #endregion
+
+        [Serializable]
+
+        public class LoggingOptions
+        {
+            public bool LogRequestDetails { get; set; } = false;
+
+            public bool LogResultDetails { get; set; } = false;
+
+            public bool LogReplicaRequests { get; set; } = true;
+            
+            public bool LogReplicaResults { get; set; } = true;
+        }
     }
 }
