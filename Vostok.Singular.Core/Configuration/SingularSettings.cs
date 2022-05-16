@@ -16,6 +16,8 @@ namespace Vostok.Singular.Core.Configuration
 
         public WsServerSettings WsServer = new WsServerSettings();
 
+        public TcpEndPointSettings TcpEndPoint = new TcpEndPointSettings();
+
         public DefaultsSettings Defaults = new DefaultsSettings();
 
         public RequestTransformationSettings RequestTransformation = new RequestTransformationSettings();
@@ -44,8 +46,33 @@ namespace Vostok.Singular.Core.Configuration
 
         public KestrelSettings Kestrel = new KestrelSettings();
 
-        #region WebsocketSettings
+        #region TcpSettings
 
+        [Serializable]
+        public class TcpEndPointSettings
+        {
+            public int Port;
+
+            public TcpClientSettings TcpClient = new TcpClientSettings();
+        }
+
+        [Serializable]
+        public class TcpClientSettings
+        {
+            public DataSize BufferSize = 8.Kilobytes();
+
+            public TimeSpan KeepAliveInterval = TimeSpan.FromSeconds(300);
+            
+            public int MaxReplicasUsedPerConnection = 3;
+            
+            public int RetryAttemptsCount = 3;
+            
+            public TimeSpan RetryDelay = TimeSpan.FromMilliseconds(100);
+        }
+
+        #endregion
+
+        #region WebsocketSettings
 
         [Serializable]
         public class WsDefaultsSettings
