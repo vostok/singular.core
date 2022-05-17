@@ -46,7 +46,6 @@ namespace Vostok.Singular.Core.Configuration
 
         #region WebsocketSettings
 
-
         [Serializable]
         public class WsDefaultsSettings
         {
@@ -60,7 +59,11 @@ namespace Vostok.Singular.Core.Configuration
 
             public int MaxReplicasPerRequest = 3;
 
+            public bool TryReadFullMessage = false;
+
             public DataSize BufferSize = 16.Kilobytes();
+
+            public DataSize MaxBufferSize = 16.Kilobytes();
 
             public double LocalDatacenterBoostModifier = 3.0d;
 
