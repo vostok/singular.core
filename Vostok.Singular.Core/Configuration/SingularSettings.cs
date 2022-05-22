@@ -18,6 +18,8 @@ namespace Vostok.Singular.Core.Configuration
 
         public TcpEndPointSettings TcpEndPoint = new TcpEndPointSettings();
 
+        public TcpClientSettings TcpClient = new TcpClientSettings();
+
         public DefaultsSettings Defaults = new DefaultsSettings();
 
         public RequestTransformationSettings RequestTransformation = new RequestTransformationSettings();
@@ -52,24 +54,24 @@ namespace Vostok.Singular.Core.Configuration
         public class TcpEndPointSettings
         {
             public int Port;
-
-            public TcpClientSettings TcpClient = new TcpClientSettings();
         }
 
         [Serializable]
         public class TcpClientSettings
         {
             public DataSize BufferSize = 8.Kilobytes();
-            
+
             public TimeSpan TcpKeepAliveTime = TimeSpan.FromHours(2);
-            
+
             public TimeSpan TcpKeepAliveInterval = TimeSpan.FromSeconds(1);
-            
+
             public int MaxReplicasUsedPerConnection = 3;
-            
+
             public int RetryAttemptsCount = 3;
-            
+
             public TimeSpan RetryDelay = TimeSpan.FromMilliseconds(100);
+
+            public TimeSpan ConnectionTimeBudget = TimeSpan.FromSeconds(30);
         }
 
         #endregion
@@ -404,7 +406,6 @@ namespace Vostok.Singular.Core.Configuration
         #endregion
 
         [Serializable]
-
         public class LoggingOptions
         {
             public bool LogRequestDetails { get; set; } = false;
@@ -412,7 +413,7 @@ namespace Vostok.Singular.Core.Configuration
             public bool LogResultDetails { get; set; } = false;
 
             public bool LogReplicaRequests { get; set; } = true;
-            
+
             public bool LogReplicaResults { get; set; } = true;
         }
     }
