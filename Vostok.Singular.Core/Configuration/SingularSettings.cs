@@ -16,7 +16,7 @@ namespace Vostok.Singular.Core.Configuration
 
         public WsServerSettings WsServer = new WsServerSettings();
 
-        public TcpEndPointSettings TcpEndPoint = new TcpEndPointSettings();
+        public EndPointsSettings EndPoints = new EndPointsSettings();
 
         public TcpClientSettings TcpClient = new TcpClientSettings();
 
@@ -51,9 +51,9 @@ namespace Vostok.Singular.Core.Configuration
         #region TcpSettings
 
         [Serializable]
-        public class TcpEndPointSettings
+        public class EndPointsSettings
         {
-            public int Port;
+            public int TcpPort;
         }
 
         [Serializable]
