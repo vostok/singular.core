@@ -79,7 +79,9 @@ namespace Vostok.Singular.Core.Configuration
 
             public TimeSpan RetryDelay = TimeSpan.FromMilliseconds(100);
 
-            public TimeSpan ConnectionTimeBudget = TimeSpan.FromSeconds(30);
+            public TimeSpan ConnectionTimeBudget =  TimeSpan.FromMilliseconds(100);
+            
+            public TimeSpan RequestTimeBudget =  TimeSpan.FromSeconds(30);
         }
 
         #endregion
