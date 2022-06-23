@@ -59,11 +59,19 @@ namespace Vostok.Singular.Core.Configuration
         [Serializable]
         public class TcpClientSettings
         {
-            public DataSize BufferSize = 8.Kilobytes();
+            public DataSize? SendBufferSize;
 
-            public TimeSpan TcpKeepAliveTime = TimeSpan.FromHours(2);
+            public DataSize? ReceiveBufferSize;
 
-            public TimeSpan TcpKeepAliveInterval = TimeSpan.FromSeconds(1);
+            public bool? ReuseAddress;
+
+            public TimeSpan? ReceiveTimeout;
+
+            public TimeSpan? SendTimeout;
+
+            public TimeSpan? TcpKeepAliveTime;
+
+            public TimeSpan? TcpKeepAliveInterval;
 
             public int MaxReplicasUsedPerConnection = 3;
 
