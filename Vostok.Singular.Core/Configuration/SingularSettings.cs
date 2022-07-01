@@ -72,6 +72,24 @@ namespace Vostok.Singular.Core.Configuration
             public TimeSpan? TcpKeepAliveTime;
 
             public TimeSpan? TcpKeepAliveInterval;
+            
+            public double LocalDatacenterBoostModifier = 3.0d;
+
+            public double LocalDatacenterBoostMinWeight = 0.75d;
+
+            public TimeSpan LocalHealthRegenerationDuration = TimeSpan.FromMinutes(2);
+
+            public double LocalHealthUpMultiplier = 1.5d;
+
+            public double LocalHealthDownMultiplier = 0.6d;
+
+            public double LocalHealthMinimumValue = 0.05d;
+
+            public TimeSpan MinTimeoutForHealthTuning = TimeSpan.FromSeconds(1);
+
+            public bool UseLocalReplicaHealth = true;
+
+            public bool UseDatacenterWeightModifiers = true;
 
             public int MaxReplicasUsedPerConnection = 3;
 
