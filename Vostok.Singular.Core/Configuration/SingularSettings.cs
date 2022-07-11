@@ -77,8 +77,6 @@ namespace Vostok.Singular.Core.Configuration
 
             public double LocalDatacenterBoostMinWeight = 0.75d;
 
-            public TimeSpan LocalHealthRegenerationDuration = TimeSpan.FromMinutes(2);
-
             public double LocalHealthUpMultiplier = 1.5d;
 
             public double LocalHealthDownMultiplier = 0.6d;
