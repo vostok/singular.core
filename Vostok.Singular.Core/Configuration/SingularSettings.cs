@@ -59,9 +59,9 @@ namespace Vostok.Singular.Core.Configuration
         [Serializable]
         public class TcpClientSettings
         {
-            public DataSize? SendBufferSize;
+            public DataSize? RequestProxyBufferSize;
 
-            public DataSize? ReceiveBufferSize;
+            public DataSize? ResponseProxyBufferSize;
 
             public bool? ReuseAddress;
 
