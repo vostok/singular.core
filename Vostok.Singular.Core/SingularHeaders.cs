@@ -13,6 +13,7 @@
         public const string XRealIP = "X-Real-IP";
         public const string XAccelBuffering = "X-Accel-Buffering";
         public const string XNginxDistributedContext = "X-Nginx-Distributed-Context";
+        public const string Traceparent = "traceparent";
 
         public static class ThrottlingTriggerReason
         {

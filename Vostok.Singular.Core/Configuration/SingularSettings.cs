@@ -117,7 +117,13 @@ namespace Vostok.Singular.Core.Configuration
 
             public int MaxReplicasPerRequest = 3;
 
+            public bool TryReadFullMessage = false;
+
             public DataSize BufferSize = 16.Kilobytes();
+
+            public double BufferSizeIncreaseMultiplier = 2d;
+
+            public DataSize MaxBufferSize = 16.Kilobytes();
 
             public double LocalDatacenterBoostModifier = 3.0d;
 
