@@ -1,6 +1,6 @@
 using System;
 
-namespace Vostok.Singular.Core.PathPatterns.Idempotency
+namespace Vostok.Singular.Core.PathPatterns.Extensions
 {
     internal static class UriExtensions
     {
