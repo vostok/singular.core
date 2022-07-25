@@ -16,8 +16,6 @@ namespace Vostok.Singular.Core.Configuration
 
         public WsServerSettings WsServer = new WsServerSettings();
 
-        public EndPointsSettings EndPoints = new EndPointsSettings();
-
         public TcpClientSettings TcpClient = new TcpClientSettings();
 
         public DefaultsSettings Defaults = new DefaultsSettings();
@@ -48,13 +46,9 @@ namespace Vostok.Singular.Core.Configuration
 
         public KestrelSettings Kestrel = new KestrelSettings();
 
-        #region TcpSettings
+        public int TcpPort;
 
-        [Serializable]
-        public class EndPointsSettings
-        {
-            public int TcpPort;
-        }
+        #region TcpSettings
 
         [Serializable]
         public class TcpClientSettings
@@ -65,14 +59,10 @@ namespace Vostok.Singular.Core.Configuration
 
             public bool? ReuseAddress;
 
-            public TimeSpan? ReceiveTimeout;
-
-            public TimeSpan? SendTimeout;
-
             public TimeSpan? TcpKeepAliveTime;
 
             public TimeSpan? TcpKeepAliveInterval;
-            
+
             public double LocalDatacenterBoostModifier = 3.0d;
 
             public double LocalDatacenterBoostMinWeight = 0.75d;
@@ -95,9 +85,9 @@ namespace Vostok.Singular.Core.Configuration
 
             public TimeSpan RetryDelay = TimeSpan.FromMilliseconds(100);
 
-            public TimeSpan ConnectionTimeBudget =  TimeSpan.FromMilliseconds(100);
-            
-            public TimeSpan RequestTimeBudget =  TimeSpan.FromSeconds(30);
+            public TimeSpan ConnectionTimeBudget = TimeSpan.FromMilliseconds(100);
+
+            public TimeSpan RequestTimeBudget = TimeSpan.FromSeconds(30);
         }
 
         #endregion
