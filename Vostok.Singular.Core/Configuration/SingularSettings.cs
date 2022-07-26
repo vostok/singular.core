@@ -16,6 +16,8 @@ namespace Vostok.Singular.Core.Configuration
 
         public WsServerSettings WsServer = new WsServerSettings();
 
+        public TcpClientSettings TcpClient = new TcpClientSettings();
+
         public DefaultsSettings Defaults = new DefaultsSettings();
 
         public RequestTransformationSettings RequestTransformation = new RequestTransformationSettings();
@@ -43,6 +45,52 @@ namespace Vostok.Singular.Core.Configuration
         public StickinessModelSettings StickinessModel = new StickinessModelSettings();
 
         public KestrelSettings Kestrel = new KestrelSettings();
+
+        public int TcpPort;
+
+        #region TcpSettings
+
+        [Serializable]
+        public class TcpClientSettings
+        {
+            public DataSize? RequestProxyBufferSize;
+
+            public DataSize? ResponseProxyBufferSize;
+
+            public bool? ReuseAddress;
+
+            public TimeSpan? TcpKeepAliveTime;
+
+            public TimeSpan? TcpKeepAliveInterval;
+
+            public double LocalDatacenterBoostModifier = 3.0d;
+
+            public double LocalDatacenterBoostMinWeight = 0.75d;
+
+            public double LocalHealthUpMultiplier = 1.5d;
+
+            public double LocalHealthDownMultiplier = 0.6d;
+
+            public double LocalHealthMinimumValue = 0.05d;
+
+            public TimeSpan MinTimeoutForHealthTuning = TimeSpan.FromSeconds(1);
+
+            public bool UseLocalReplicaHealth = true;
+
+            public bool UseDatacenterWeightModifiers = true;
+
+            public int MaxReplicasUsedPerConnection = 3;
+
+            public int RetryAttemptsCount = 3;
+
+            public TimeSpan RetryDelay = TimeSpan.FromMilliseconds(100);
+
+            public TimeSpan ConnectionTimeBudget = TimeSpan.FromMilliseconds(100);
+
+            public TimeSpan RequestTimeBudget = TimeSpan.FromSeconds(30);
+        }
+
+        #endregion
 
         #region WebsocketSettings
 
@@ -380,7 +428,6 @@ namespace Vostok.Singular.Core.Configuration
         #endregion
 
         [Serializable]
-
         public class LoggingOptions
         {
             public bool LogRequestDetails { get; set; } = false;
@@ -388,7 +435,7 @@ namespace Vostok.Singular.Core.Configuration
             public bool LogResultDetails { get; set; } = false;
 
             public bool LogReplicaRequests { get; set; } = true;
-            
+
             public bool LogReplicaResults { get; set; } = true;
         }
     }
