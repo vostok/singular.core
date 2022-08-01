@@ -27,7 +27,7 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public void Should_Be_Idempotent_When_NoRules()
         {
-            var iclRulesProvider = Substitute.For<IIclRulesSettingsProvider>();
+            var iclRulesProvider = Substitute.For<IIdempotencySettingsProvider<IdempotencySettings>>();
             iclRulesProvider.GetAsync().Returns(new IdempotencySettings());
             var iclCache = new IclCache(iclRulesProvider);
 

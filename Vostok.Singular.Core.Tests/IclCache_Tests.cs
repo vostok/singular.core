@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
+using Vostok.Singular.Core.PathPatterns;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Settings;
 
@@ -10,13 +11,13 @@ namespace Vostok.Singular.Core.Tests
 {
     public class IclCache_Tests
     {
-        private IIclRulesSettingsProvider singsProvider;
+        private IIdempotencySettingsProvider<IdempotencySettings> singsProvider;
         private IclCache cache;
 
         [SetUp]
         public void SetUp()
         {
-            singsProvider = Substitute.For<IIclRulesSettingsProvider>();
+            singsProvider = Substitute.For<IIdempotencySettingsProvider<IdempotencySettings>>();
             cache = new IclCache(singsProvider);
         }
 

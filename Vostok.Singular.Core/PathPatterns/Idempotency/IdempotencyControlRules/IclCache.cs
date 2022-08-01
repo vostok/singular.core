@@ -15,7 +15,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
         };
         private readonly CachingTransformAsync<IdempotencySettings, List<IdempotencyControlRule>> cache;
 
-        public IclCache(IIclRulesSettingsProvider iclRulesSettingsProvider)
+        public IclCache(IIdempotencySettingsProvider<IdempotencySettings> iclRulesSettingsProvider)
         {
             cache = new CachingTransformAsync<IdempotencySettings, List<IdempotencyControlRule>>(PreprocessSettings, iclRulesSettingsProvider.GetAsync);
         }

@@ -9,7 +9,7 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
     {
         private readonly CachingTransformAsync<NonIdempotencySignsSettings, List<NonIdempotencySign>> cache;
 
-        public NonIdempotencySignsCache(INonIdempotencySignsSettingsProvider nonIdempotencySignsSettingsProvider)
+        public NonIdempotencySignsCache(IIdempotencySettingsProvider<NonIdempotencySignsSettings> nonIdempotencySignsSettingsProvider)
         {
             cache = new CachingTransformAsync<NonIdempotencySignsSettings, List<NonIdempotencySign>>(
                 PreprocessSigns,
