@@ -6,12 +6,12 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
 {
     internal class IdempotencyIdentifier : IIdempotencyIdentifier
     {
-        private readonly BlackListIdempotencyResolver blackListIdempotencyResolver;
-        private readonly IclResolver iclResolver;
+        private readonly IBlackListIdempotencyResolver blackListIdempotencyResolver;
+        private readonly IIclResolver iclResolver;
 
         public IdempotencyIdentifier(
-            BlackListIdempotencyResolver blackListIdempotencyResolver,
-            IclResolver iclResolver)
+            IBlackListIdempotencyResolver blackListIdempotencyResolver,
+            IIclResolver iclResolver)
         {
             this.blackListIdempotencyResolver = blackListIdempotencyResolver;
             this.iclResolver = iclResolver;
@@ -22,7 +22,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             var idempotentByHeader = HeaderIdempotencyResolver.IsIdempotentByHeader(headerValue);
             if (idempotentByHeader.HasValue)
                 return idempotentByHeader.Value;
-            
+
             return await blackListIdempotencyResolver.IsIdempotent(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotentAsync(method, path).ConfigureAwait(false);
         }
     }
