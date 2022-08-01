@@ -9,12 +9,12 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
     {
         private readonly IBlackListIdempotencyResolver blackListIdempotencyResolver;
         private readonly IIclResolver iclResolver;
-        private readonly IHeaderIdempotencyResolver2 headerIdempotencyResolver;
+        private readonly IHeaderIdempotencyResolver headerIdempotencyResolver;
 
         public IdempotencyIdentifier(
             IBlackListIdempotencyResolver blackListIdempotencyResolver,
             IIclResolver iclResolver,
-            IHeaderIdempotencyResolver2 headerIdempotencyResolver)
+            IHeaderIdempotencyResolver headerIdempotencyResolver)
         {
             this.blackListIdempotencyResolver = blackListIdempotencyResolver;
             this.iclResolver = iclResolver;

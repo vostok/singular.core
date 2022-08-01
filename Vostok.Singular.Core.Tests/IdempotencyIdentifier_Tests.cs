@@ -17,14 +17,14 @@ namespace Vostok.Singular.Core.Tests
         private IIclResolver iclResolver;
         private IdempotencyIdentifier idempotencyIdentifier;
         private Request request;
-        private IHeaderIdempotencyResolver2 headerResolver;
+        private IHeaderIdempotencyResolver headerResolver;
 
         [SetUp]
         public void Setup()
         {
             blackListResolver = Substitute.For<IBlackListIdempotencyResolver>();
             iclResolver = Substitute.For<IIclResolver>();
-            headerResolver = Substitute.For<IHeaderIdempotencyResolver2>();
+            headerResolver = Substitute.For<IHeaderIdempotencyResolver>();
             headerResolver.IsIdempotentAsync("").ReturnsForAnyArgs((bool?)null);
             idempotencyIdentifier = new IdempotencyIdentifier(blackListResolver, iclResolver, headerResolver);
             request = Request.Get("test");
@@ -36,12 +36,24 @@ namespace Vostok.Singular.Core.Tests
             iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
             blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
             headerResolver.IsIdempotentAsync("").ReturnsForAnyArgs(false);
-            
             request = request.WithHeader(SingularHeaders.Idempotent, false);
 
             var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
 
             result.Should().BeFalse();
+        }
+        
+        [Test]
+        public async Task IsIdempotentAsync_should_take_value_from_other_resolvers_if_setting_off()
+        {
+            iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
+            blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
+            headerResolver.IsIdempotentAsync("").ReturnsForAnyArgs((bool?)null);
+            request = request.WithHeader(SingularHeaders.Idempotent, false);
+
+            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
+
+            result.Should().BeTrue();
         }
 
         [Test]

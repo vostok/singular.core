@@ -40,7 +40,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             return new IdempotencyIdentifier(
                 new BlackListIdempotencyResolver(idempotencySignsCache),
                 new IclResolver(iclCache),
-                new HeaderIdempotencyResolver2(headerIdempotencySettingsProvider)
+                new HeaderIdempotencyResolver(headerIdempotencySettingsProvider)
             );
         }
     }

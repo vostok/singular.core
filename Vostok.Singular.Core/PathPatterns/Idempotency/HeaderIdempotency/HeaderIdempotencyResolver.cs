@@ -2,11 +2,11 @@ using System.Threading.Tasks;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency
 {
-    internal class HeaderIdempotencyResolver2 : IHeaderIdempotencyResolver2
+    internal class HeaderIdempotencyResolver : IHeaderIdempotencyResolver
     {
         private readonly CachingTransformAsync<IdempotencyHeaderSettings, bool> cache;
 
-        public HeaderIdempotencyResolver2(IIdempotencySettingsProvider<IdempotencyHeaderSettings> settingsProvider)
+        public HeaderIdempotencyResolver(IIdempotencySettingsProvider<IdempotencyHeaderSettings> settingsProvider)
         {
             cache = new CachingTransformAsync<IdempotencyHeaderSettings, bool>
                 (PreprocessSettings, settingsProvider.GetAsync);
