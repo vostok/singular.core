@@ -2,7 +2,6 @@
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
-using Vostok.Singular.Core.PathPatterns;
 using Vostok.Singular.Core.PathPatterns.BlackList;
 using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
 
@@ -11,13 +10,13 @@ namespace Vostok.Singular.Core.Tests
     [TestFixture]
     public class NonIdempotencySingsCache_Tests
     {
-        private IIdempotencySettingsProvider<NonIdempotencySignsSettings> singsProvider;
+        private INonIdempotencySignsSettingsProvider singsProvider;
         private NonIdempotencySignsCache cache;
 
         [SetUp]
         public void SetUp()
         {
-            singsProvider = Substitute.For<IIdempotencySettingsProvider<NonIdempotencySignsSettings>>();
+            singsProvider = Substitute.For<INonIdempotencySignsSettingsProvider>();
             cache = new NonIdempotencySignsCache(singsProvider);
         }
 

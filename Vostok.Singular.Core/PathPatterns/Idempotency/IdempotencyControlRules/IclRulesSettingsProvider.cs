@@ -4,7 +4,7 @@ using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Sett
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
 {
-    internal class IclRulesSettingsProvider : IIdempotencySettingsProvider<IdempotencySettings>
+    internal class IclRulesSettingsProvider : IIclRulesSettingsProvider
     {
         private static readonly IclRulesServiceSettings EmptyRules = new IclRulesServiceSettings
         {

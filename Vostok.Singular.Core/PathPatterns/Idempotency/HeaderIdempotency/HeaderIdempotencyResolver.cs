@@ -6,7 +6,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency
     {
         private readonly CachingTransformAsync<IdempotencyHeaderSettings, bool> cache;
 
-        public HeaderIdempotencyResolver(IIdempotencySettingsProvider<IdempotencyHeaderSettings> settingsProvider)
+        public HeaderIdempotencyResolver(IHeaderIdempotencySettingsProvider settingsProvider)
         {
             cache = new CachingTransformAsync<IdempotencyHeaderSettings, bool>
                 (PreprocessSettings, settingsProvider.GetAsync);

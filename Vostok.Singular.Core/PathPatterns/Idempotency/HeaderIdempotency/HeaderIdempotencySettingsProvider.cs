@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency
 {
-    internal class HeaderIdempotencySettingsProvider : IIdempotencySettingsProvider<IdempotencyHeaderSettings>
+    internal class HeaderIdempotencySettingsProvider : IHeaderIdempotencySettingsProvider
     {
         private static readonly IdempotencyHeaderSettings Default = new IdempotencyHeaderSettings
         {

@@ -4,7 +4,7 @@ using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
 
 namespace Vostok.Singular.Core.PathPatterns.BlackList
 {
-    internal class NonIdempotencySignsSettingsProvider : IIdempotencySettingsProvider<NonIdempotencySignsSettings>
+    internal class NonIdempotencySignsSettingsProvider : INonIdempotencySignsSettingsProvider
     {
         private static readonly NonIdempotencyServiceSettings EmptySigns = new NonIdempotencyServiceSettings
         {

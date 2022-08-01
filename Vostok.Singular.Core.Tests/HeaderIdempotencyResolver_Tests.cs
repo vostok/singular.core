@@ -3,7 +3,6 @@ using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 using Vostok.Clusterclient.Core.Model;
-using Vostok.Singular.Core.PathPatterns;
 using Vostok.Singular.Core.PathPatterns.Extensions;
 using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency;
 
@@ -11,7 +10,7 @@ namespace Vostok.Singular.Core.Tests
 {
     public class HeaderIdempotencyResolver_Tests
     {
-        private IIdempotencySettingsProvider<IdempotencyHeaderSettings> settingsProvider;
+        private IHeaderIdempotencySettingsProvider settingsProvider;
         private HeaderIdempotencyResolver headerIdempotencyResolver;
         private Request request;
 
@@ -20,7 +19,7 @@ namespace Vostok.Singular.Core.Tests
         {
             request = Request.Get("test");
             
-            settingsProvider = Substitute.For<IIdempotencySettingsProvider<IdempotencyHeaderSettings>>();
+            settingsProvider = Substitute.For<IHeaderIdempotencySettingsProvider>();
             headerIdempotencyResolver = new HeaderIdempotencyResolver(settingsProvider);
         }
 
@@ -34,6 +33,7 @@ namespace Vostok.Singular.Core.Tests
             result.Should().BeNull();
         }
 
+        [Test]
         public async Task IsIdempotentAsync_should_return_null_if_settings_off_and_request_has_header()
         {
             SetupSettings();
