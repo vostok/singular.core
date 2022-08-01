@@ -5,6 +5,7 @@ using Vostok.Configuration;
 using Vostok.Configuration.Logging;
 using Vostok.Logging.Abstractions;
 using Vostok.Singular.Core.PathPatterns.BlackList;
+using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency
@@ -35,9 +36,11 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             var settingsProvider = new SettingsProvider(singularClient, environment, serviceName);
             var idempotencySignsCache = new NonIdempotencySignsCache(new NonIdempotencySignsSettingsProvider(settingsProvider));
             var iclCache = new IclCache(new IclRulesSettingsProvider(settingsProvider));
+            var headerIdempotencySettingsProvider = new HeaderIdempotencySettingsProvider(settingsProvider);
             return new IdempotencyIdentifier(
                 new BlackListIdempotencyResolver(idempotencySignsCache),
-                new IclResolver(iclCache)
+                new IclResolver(iclCache),
+                new HeaderIdempotencyResolver2(headerIdempotencySettingsProvider)
             );
         }
     }

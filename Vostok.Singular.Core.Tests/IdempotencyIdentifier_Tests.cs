@@ -6,6 +6,7 @@ using Vostok.Clusterclient.Core.Model;
 using Vostok.Singular.Core.PathPatterns.BlackList;
 using Vostok.Singular.Core.PathPatterns.Extensions;
 using Vostok.Singular.Core.PathPatterns.Idempotency;
+using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
 
 namespace Vostok.Singular.Core.Tests
@@ -16,13 +17,16 @@ namespace Vostok.Singular.Core.Tests
         private IIclResolver iclResolver;
         private IdempotencyIdentifier idempotencyIdentifier;
         private Request request;
+        private IHeaderIdempotencyResolver2 headerResolver;
 
         [SetUp]
         public void Setup()
         {
             blackListResolver = Substitute.For<IBlackListIdempotencyResolver>();
             iclResolver = Substitute.For<IIclResolver>();
-            idempotencyIdentifier = new IdempotencyIdentifier(blackListResolver, iclResolver);
+            headerResolver = Substitute.For<IHeaderIdempotencyResolver2>();
+            headerResolver.IsIdempotentAsync("").ReturnsForAnyArgs((bool?)null);
+            idempotencyIdentifier = new IdempotencyIdentifier(blackListResolver, iclResolver, headerResolver);
             request = Request.Get("test");
         }
 
@@ -31,6 +35,8 @@ namespace Vostok.Singular.Core.Tests
         {
             iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
             blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
+            headerResolver.IsIdempotentAsync("").ReturnsForAnyArgs(false);
+            
             request = request.WithHeader(SingularHeaders.Idempotent, false);
 
             var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());

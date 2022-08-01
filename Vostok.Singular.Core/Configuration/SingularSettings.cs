@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Configuration.Primitives;
 using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
+using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Settings;
 
 namespace Vostok.Singular.Core.Configuration
@@ -33,6 +34,8 @@ namespace Vostok.Singular.Core.Configuration
         public NonIdempotencySignsSettings NonIdempotencySigns = new NonIdempotencySignsSettings();
 
         public IdempotencySettings IdempotencySettings = new IdempotencySettings();
+
+        public IdempotencyHeaderSettings IdempotencyHeaderSettings = new IdempotencyHeaderSettings();
 
         public PathPatternSettings PathPatternSigns = new PathPatternSettings();
 
