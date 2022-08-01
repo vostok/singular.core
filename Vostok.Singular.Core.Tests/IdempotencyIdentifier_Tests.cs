@@ -30,7 +30,7 @@ namespace Vostok.Singular.Core.Tests
         public async Task IsIdempotentAsync_should_take_value_from_header_if_exists()
         {
             iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
-            blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(true);
+            blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
             request = request.WithHeader(SingularHeaders.Idempotent, false);
 
             var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
@@ -42,7 +42,7 @@ namespace Vostok.Singular.Core.Tests
         public async Task IsIdempotentAsync_should_return_false_if_notIdempotent_only_in_BlackListResolver()
         {
             iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
-            blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(false);
+            blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(false);
 
             var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
 
@@ -53,7 +53,7 @@ namespace Vostok.Singular.Core.Tests
         public async Task IsIdempotentAsync_should_return_false_if_notIdempotent_only_in_IclResolver()
         {
             iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(false);
-            blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(true);
+            blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
 
             var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
 
@@ -64,7 +64,7 @@ namespace Vostok.Singular.Core.Tests
         public async Task IsIdempotentAsync_should_return_false_if_notIdempotent_in_both_resolvers()
         {
             iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(false);
-            blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(false);
+            blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(false);
 
             var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
 
@@ -75,7 +75,7 @@ namespace Vostok.Singular.Core.Tests
         public async Task IsIdempotentAsync_should_return_true_if_idempotent_by_both_resolvers()
         {
             iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
-            blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(true);
+            blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
 
             var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
 

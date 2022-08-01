@@ -33,13 +33,13 @@ namespace Vostok.Singular.Core.Tests
         {
             MockCache(POST, "*");
 
-            blackListIdempotencyResolver.IsIdempotent(GET, empty).GetAwaiter().GetResult().Should().BeTrue();
-            blackListIdempotencyResolver.IsIdempotent(GET, foo).GetAwaiter().GetResult().Should().BeTrue();
-            blackListIdempotencyResolver.IsIdempotent(GET, foobar).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(GET, empty).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(GET, foo).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(GET, foobar).GetAwaiter().GetResult().Should().BeTrue();
 
-            blackListIdempotencyResolver.IsIdempotent(POST, empty).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, empty).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
         }
 
         [Test]
@@ -47,10 +47,10 @@ namespace Vostok.Singular.Core.Tests
         {
             MockCache(POST, "foo");
 
-            blackListIdempotencyResolver.IsIdempotent(POST, empty).GetAwaiter().GetResult().Should().BeTrue();
-            blackListIdempotencyResolver.IsIdempotent(POST, foobar).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, empty).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foobar).GetAwaiter().GetResult().Should().BeTrue();
 
-            blackListIdempotencyResolver.IsIdempotent(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
         }
 
         [Test]
@@ -58,11 +58,11 @@ namespace Vostok.Singular.Core.Tests
         {
             MockCache(POST, "foo*");
 
-            blackListIdempotencyResolver.IsIdempotent(POST, empty).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, empty).GetAwaiter().GetResult().Should().BeTrue();
 
-            blackListIdempotencyResolver.IsIdempotent(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(POST, "/foo1").GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, "/foo1").GetAwaiter().GetResult().Should().BeFalse();
         }
 
         [Test]
@@ -70,11 +70,11 @@ namespace Vostok.Singular.Core.Tests
         {
             MockCache(POST, "foo/*");
 
-            blackListIdempotencyResolver.IsIdempotent(POST, empty).GetAwaiter().GetResult().Should().BeTrue();
-            blackListIdempotencyResolver.IsIdempotent(POST, "/foo1").GetAwaiter().GetResult().Should().BeTrue();
-            blackListIdempotencyResolver.IsIdempotent(POST, foo).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, empty).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, "/foo1").GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foo).GetAwaiter().GetResult().Should().BeTrue();
 
-            blackListIdempotencyResolver.IsIdempotent(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
         }
 
         [Test]
@@ -82,11 +82,11 @@ namespace Vostok.Singular.Core.Tests
         {
             MockCache(new NonIdempotencySign(POST, "foo/*"), new NonIdempotencySign(POST, "foo"));
 
-            blackListIdempotencyResolver.IsIdempotent(POST, empty).GetAwaiter().GetResult().Should().BeTrue();
-            blackListIdempotencyResolver.IsIdempotent(POST, "/foo1").GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, empty).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, "/foo1").GetAwaiter().GetResult().Should().BeTrue();
 
-            blackListIdempotencyResolver.IsIdempotent(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
         }
 
         [Test]
@@ -94,10 +94,10 @@ namespace Vostok.Singular.Core.Tests
         {
             MockCache();
 
-            blackListIdempotencyResolver.IsIdempotent(GET, empty).GetAwaiter().GetResult().Should().BeTrue();
-            blackListIdempotencyResolver.IsIdempotent(POST, foo).GetAwaiter().GetResult().Should().BeTrue();
-            blackListIdempotencyResolver.IsIdempotent(POST, foobar).GetAwaiter().GetResult().Should().BeTrue();
-            blackListIdempotencyResolver.IsIdempotent(PATCH, "/foo1").GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(GET, empty).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foo).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foobar).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotentAsync(PATCH, "/foo1").GetAwaiter().GetResult().Should().BeTrue();
         }
 
         [Test]
@@ -108,20 +108,20 @@ namespace Vostok.Singular.Core.Tests
                 new NonIdempotencySign(GET, "*"),
                 new NonIdempotencySign(PATCH, "*"));
 
-            blackListIdempotencyResolver.IsIdempotent(POST, empty).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(POST, "/foo1").GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, empty).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, "/foo1").GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
 
-            blackListIdempotencyResolver.IsIdempotent(GET, empty).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(GET, "/foo1").GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(GET, foo).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(GET, foobar).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(GET, empty).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(GET, "/foo1").GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(GET, foo).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(GET, foobar).GetAwaiter().GetResult().Should().BeFalse();
 
-            blackListIdempotencyResolver.IsIdempotent(PATCH, empty).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(PATCH, "/foo1").GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(PATCH, foo).GetAwaiter().GetResult().Should().BeFalse();
-            blackListIdempotencyResolver.IsIdempotent(PATCH, foobar).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(PATCH, empty).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(PATCH, "/foo1").GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(PATCH, foo).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotentAsync(PATCH, foobar).GetAwaiter().GetResult().Should().BeFalse();
         }
 
         private void MockCache(string method, string pathPattern)

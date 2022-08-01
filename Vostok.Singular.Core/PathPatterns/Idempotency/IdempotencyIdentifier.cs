@@ -23,7 +23,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             if (idempotentByHeader.HasValue)
                 return idempotentByHeader.Value;
 
-            return await blackListIdempotencyResolver.IsIdempotent(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotentAsync(method, path).ConfigureAwait(false);
+            return await blackListIdempotencyResolver.IsIdempotentAsync(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotentAsync(method, path).ConfigureAwait(false);
         }
     }
 }
