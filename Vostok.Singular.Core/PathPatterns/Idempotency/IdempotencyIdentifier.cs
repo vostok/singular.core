@@ -23,9 +23,12 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
 
         public async Task<bool> IsIdempotentAsync(string method, string path, string headerValue)
         {
-            var idempotentByHeader = await headerIdempotencyResolver?.IsIdempotentAsync(headerValue);
-            if (idempotentByHeader.HasValue)
-                return idempotentByHeader.Value;
+            if (headerIdempotencyResolver != null)
+            {
+                var idempotentByHeader = await headerIdempotencyResolver?.IsIdempotentAsync(headerValue);
+                if (idempotentByHeader.HasValue)
+                    return idempotentByHeader.Value;
+            }
 
             return await blackListIdempotencyResolver.IsIdempotentAsync(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotentAsync(method, path).ConfigureAwait(false);
         }
