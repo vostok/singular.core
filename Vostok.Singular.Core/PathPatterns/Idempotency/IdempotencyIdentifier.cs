@@ -18,17 +18,14 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
         {
             this.blackListIdempotencyResolver = blackListIdempotencyResolver;
             this.iclResolver = iclResolver;
-            this.headerIdempotencyResolver = headerIdempotencyResolver;
+            this.headerIdempotencyResolver = headerIdempotencyResolver ?? new EmptyHeaderIdempotencyResolver();
         }
 
         public async Task<bool> IsIdempotentAsync(string method, string path, string headerValue)
         {
-            if (headerIdempotencyResolver != null)
-            {
-                var idempotentByHeader = await headerIdempotencyResolver?.IsIdempotentAsync(headerValue);
-                if (idempotentByHeader.HasValue)
-                    return idempotentByHeader.Value;
-            }
+            var idempotentByHeader = await headerIdempotencyResolver.IsIdempotentAsync(headerValue);
+            if (idempotentByHeader.HasValue)
+                return idempotentByHeader.Value;
 
             return await blackListIdempotencyResolver.IsIdempotentAsync(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotentAsync(method, path).ConfigureAwait(false);
         }
