@@ -434,8 +434,8 @@ namespace Vostok.Singular.Core.Configuration
         [Serializable]
         public class TlsClientSettings
         {
-            public List<string> CertificateThumbprintsWhitelist = new();
-            public List<string> CertificateThumbprintsBlacklist = new();
+            public List<string> CertificateThumbprintsWhitelist = new List<string>();
+            public List<string> CertificateThumbprintsBlacklist = new List<string>();
             // handshake timeout?
         }
 
