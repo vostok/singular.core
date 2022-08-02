@@ -48,6 +48,8 @@ namespace Vostok.Singular.Core.Configuration
 
         public int TcpPort;
 
+        public TlsClientSettings TlsClient = new TlsClientSettings();
+
         #region TcpSettings
 
         [Serializable]
@@ -423,6 +425,18 @@ namespace Vostok.Singular.Core.Configuration
             public double MinAllowableWeight = 0.05;
 
             public double MinPercentageOfHealthyReplicas = 0.3;
+        }
+
+        #endregion
+
+        #region TlsSettings
+
+        [Serializable]
+        public class TlsClientSettings
+        {
+            public List<string> CertificateThumbprintsWhitelist = new();
+            public List<string> CertificateThumbprintsBlacklist = new();
+            // handshake timeout?
         }
 
         #endregion
