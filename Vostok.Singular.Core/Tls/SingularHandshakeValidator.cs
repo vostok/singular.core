@@ -1,18 +1,22 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using Vostok.Logging.Abstractions;
+using Vostok.Singular.Core.Configuration;
 
 namespace Vostok.Singular.Core.Tls
 {
     internal class SingularHandshakeValidator : ITlsHandshakeValidator
     {
         private readonly ITrustedCertificateVerifier certificateVerifier;
+        private readonly SingularSettings singularSettings;
         private readonly ILog log;
 
-        public SingularHandshakeValidator(ITrustedCertificateVerifier certificateVerifier, ILog log)
+        public SingularHandshakeValidator(ITrustedCertificateVerifier certificateVerifier, SingularSettings singularSettings, ILog log)
         {
             this.certificateVerifier = certificateVerifier;
+            this.singularSettings = singularSettings;
             this.log = log;
         }
 
@@ -84,8 +88,14 @@ namespace Vostok.Singular.Core.Tls
         private bool VerifyChain(X509Chain chain)
         {
             return
-                chain.ChainElements.Cast<X509Certificate2>().Any(certificateVerifier.IsInWhitelist) &&
-                !chain.ChainElements.Cast<X509Certificate2>().Any(certificateVerifier.IsInBlacklist);
+                (singularSettings.TlsClient.AllowAnyThumbprintExceptBlacklisted || GetCertificates(chain.ChainElements).Any(certificateVerifier.IsInWhitelist)) &&
+                !GetCertificates(chain.ChainElements).Any(certificateVerifier.IsInBlacklist);
+        }
+
+        private static IEnumerable<X509Certificate2> GetCertificates(X509ChainElementCollection chainElements)
+        {
+            foreach (var chainElement in chainElements)
+                yield return chainElement.Certificate;
         }
     }
 }
