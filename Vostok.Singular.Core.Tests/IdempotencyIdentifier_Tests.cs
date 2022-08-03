@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 using Vostok.Clusterclient.Core.Model;
+using Vostok.Singular.Core.PathPatterns;
 using Vostok.Singular.Core.PathPatterns.BlackList;
 using Vostok.Singular.Core.PathPatterns.Extensions;
 using Vostok.Singular.Core.PathPatterns.Idempotency;
-using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
 
 namespace Vostok.Singular.Core.Tests
@@ -17,43 +18,38 @@ namespace Vostok.Singular.Core.Tests
         private IIclResolver iclResolver;
         private IdempotencyIdentifier idempotencyIdentifier;
         private Request request;
-        private IHeaderIdempotencyResolver headerResolver;
+        private ISettingsCache<IdempotencyControlRule> iclCache;
 
         [SetUp]
         public void Setup()
         {
             blackListResolver = Substitute.For<IBlackListIdempotencyResolver>();
             iclResolver = Substitute.For<IIclResolver>();
-            headerResolver = Substitute.For<IHeaderIdempotencyResolver>();
-            headerResolver.IsIdempotentAsync("", "", "").ReturnsForAnyArgs((bool?)null);
-            idempotencyIdentifier = new IdempotencyIdentifier(blackListResolver, iclResolver, headerResolver);
+            iclCache = Substitute.For<ISettingsCache<IdempotencyControlRule>>();
+            idempotencyIdentifier = new IdempotencyIdentifier(blackListResolver, iclResolver, iclCache);
             request = Request.Get("test");
         }
 
         [Test]
-        public async Task IsIdempotentAsync_should_take_value_from_header_if_exists()
+        public async Task IsIdempotentAsync_should_take_value_from_header_if_settings_on()
         {
             iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
             blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
-            headerResolver.IsIdempotentAsync("", "", " ").ReturnsForAnyArgs(false);
+            iclCache.GetAsync().ReturnsForAnyArgs(new List<IdempotencyControlRule>()
+            {
+                new IdempotencyControlRule
+                {
+                    Method = "*",
+                    PathPattern = new Wildcard("*"),
+                    IsIdempotent = true,
+                    OverrideHeader = true,
+                }
+            });
             request = request.WithHeader(SingularHeaders.Idempotent, false);
 
             var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
 
             result.Should().BeFalse();
-        }
-        
-        [Test]
-        public async Task IsIdempotentAsync_should_take_value_from_other_resolvers_if_setting_off()
-        {
-            iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
-            blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
-            headerResolver.IsIdempotentAsync("", "", " ").ReturnsForAnyArgs((bool?)null);
-            request = request.WithHeader(SingularHeaders.Idempotent, false);
-
-            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
-
-            result.Should().BeTrue();
         }
 
         [Test]

@@ -1,6 +1,6 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Vostok.Singular.Core.PathPatterns.BlackList;
-using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency
@@ -9,24 +9,30 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
     {
         private readonly IBlackListIdempotencyResolver blackListIdempotencyResolver;
         private readonly IIclResolver iclResolver;
-        private readonly IHeaderIdempotencyResolver headerIdempotencyResolver;
+        private readonly ISettingsCache<IdempotencyControlRule> idempotencySettingsCache;
 
         public IdempotencyIdentifier(
             IBlackListIdempotencyResolver blackListIdempotencyResolver,
             IIclResolver iclResolver,
-            IHeaderIdempotencyResolver headerIdempotencyResolver = null)
+            ISettingsCache<IdempotencyControlRule> idempotencySettingsCache)
         {
             this.blackListIdempotencyResolver = blackListIdempotencyResolver;
             this.iclResolver = iclResolver;
-            this.headerIdempotencyResolver = headerIdempotencyResolver ?? new EmptyHeaderIdempotencyResolver();
+            this.idempotencySettingsCache = idempotencySettingsCache;
         }
 
         public async Task<bool> IsIdempotentAsync(string method, string path, string headerValue)
         {
-            var idempotentByHeader = await headerIdempotencyResolver.IsIdempotentAsync(method, path, headerValue);
-            if (idempotentByHeader.HasValue)
-                return idempotentByHeader.Value;
+            var rules = await idempotencySettingsCache.GetAsync().ConfigureAwait(false);
 
+            if (rules.Count > 1 && path.StartsWith("/"))
+                path = path.TrimStart('/');
+
+            var matchedRule = rules.First(r => PathPatternRuleMatcher.IsMatch(r, method, path));
+
+            if (matchedRule.OverrideHeader && bool.TryParse(headerValue, out var value))
+                return value;
+            
             return await blackListIdempotencyResolver.IsIdempotentAsync(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotentAsync(method, path).ConfigureAwait(false);
         }
     }
