@@ -436,6 +436,7 @@ namespace Vostok.Singular.Core.Configuration
         {
             public List<string> CertificateThumbprintsWhitelist = new List<string>();
             public List<string> CertificateThumbprintsBlacklist = new List<string>();
+            public bool AllowAnyThumbprintExceptBlacklisted = false;
             // handshake timeout?
         }
 
