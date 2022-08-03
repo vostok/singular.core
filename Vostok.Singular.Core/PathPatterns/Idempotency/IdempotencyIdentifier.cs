@@ -33,7 +33,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             if (matchedRule.OverrideHeader && bool.TryParse(headerValue, out var value))
                 return value;
             
-            return await blackListIdempotencyResolver.IsIdempotentAsync(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotentAsync(method, path).ConfigureAwait(false);
+            return await blackListIdempotencyResolver.IsIdempotent(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotentAsync(method, path).ConfigureAwait(false);
         }
     }
 }
