@@ -38,8 +38,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             
             return new IdempotencyIdentifier(
                 new BlackListIdempotencyResolver(idempotencySignsCache),
-                new IclResolver(iclCache),
-                iclCache
+                new IclResolver(iclCache)
             );
         }
     }
