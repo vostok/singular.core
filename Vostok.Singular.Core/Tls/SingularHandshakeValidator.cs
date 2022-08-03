@@ -1,22 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net.Security;
+﻿using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using Vostok.Logging.Abstractions;
-using Vostok.Singular.Core.Configuration;
 
 namespace Vostok.Singular.Core.Tls
 {
     internal class SingularHandshakeValidator : ITlsHandshakeValidator
     {
-        private readonly ITrustedCertificateVerifier certificateVerifier;
-        private readonly SingularSettings singularSettings;
+        private readonly ICertificateChainVerifier certificateChainVerifier;
         private readonly ILog log;
 
-        public SingularHandshakeValidator(ITrustedCertificateVerifier certificateVerifier, SingularSettings singularSettings, ILog log)
+        public SingularHandshakeValidator(ICertificateChainVerifier certificateChainVerifier, ILog log)
         {
-            this.certificateVerifier = certificateVerifier;
-            this.singularSettings = singularSettings;
+            this.certificateChainVerifier = certificateChainVerifier;
             this.log = log;
         }
 
@@ -40,9 +35,10 @@ namespace Vostok.Singular.Core.Tls
              *      It means that we only have to check their individual validity and that we trust at least one certificate in the chain.
              *          (https://github.com/dotnet/runtime/issues/49615)
              *      That said, we have to check whether we have at least one certificate from whitelist and none of the certificates are from the blacklist.
+             *      (See ThumbprintCertificateChainVerifier for implementation of this mechanic)
              */
 
-            if (!VerifyChain(chain))
+            if (!certificateChainVerifier.VerifyChain(chain))
                 return false;
 
             /*
@@ -83,19 +79,6 @@ namespace Vostok.Singular.Core.Tls
                     RevocationFlag = X509RevocationFlag.ExcludeRoot
                 }
             };
-        }
-
-        private bool VerifyChain(X509Chain chain)
-        {
-            return
-                (singularSettings.TlsClient.AllowAnyThumbprintExceptBlacklisted || GetCertificates(chain.ChainElements).Any(certificateVerifier.IsInWhitelist)) &&
-                !GetCertificates(chain.ChainElements).Any(certificateVerifier.IsInBlacklist);
-        }
-
-        private static IEnumerable<X509Certificate2> GetCertificates(X509ChainElementCollection chainElements)
-        {
-            foreach (var chainElement in chainElements)
-                yield return chainElement.Certificate;
         }
     }
 }
