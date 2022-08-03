@@ -1,33 +1,28 @@
 using System.Threading.Tasks;
+using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotencyUsageProviders;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency
 {
     internal class HeaderIdempotencyResolver : IHeaderIdempotencyResolver
     {
-        private readonly CachingTransformAsync<IdempotencyHeaderSettings, bool> cache;
+        private readonly IIdempotencyHeaderUsageProvider idempotencyHeaderUsageProvider;
 
-        public HeaderIdempotencyResolver(IHeaderIdempotencySettingsProvider settingsProvider)
+        public HeaderIdempotencyResolver(IIdempotencyHeaderUsageProvider idempotencyHeaderUsageProvider)
         {
-            cache = new CachingTransformAsync<IdempotencyHeaderSettings, bool>
-                (PreprocessSettings, settingsProvider.GetAsync);
+            this.idempotencyHeaderUsageProvider = idempotencyHeaderUsageProvider;
         }
 
-        public async Task<bool?> IsIdempotentAsync(string headerValue)
+        public async Task<bool?> IsIdempotentAsync(string method, string path, string headerValue)
         {
-            var idempotenceByHeaderOn = await cache.GetAsync();
-            
-            if (!idempotenceByHeaderOn)
+            var canUseHeader = await idempotencyHeaderUsageProvider.CanUseHeader(method, path);
+
+            if (!canUseHeader)
                 return null;
-            
+
             if (!bool.TryParse(headerValue, out var isIdempotent))
                 return null;
-            
+
             return isIdempotent;
-        }
-        
-        private static bool PreprocessSettings(IdempotencyHeaderSettings settings)
-        {
-            return settings.OverrideHeader;
         }
     }
 }

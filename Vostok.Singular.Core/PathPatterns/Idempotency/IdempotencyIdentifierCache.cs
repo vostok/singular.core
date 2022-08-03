@@ -6,6 +6,7 @@ using Vostok.Configuration.Logging;
 using Vostok.Logging.Abstractions;
 using Vostok.Singular.Core.PathPatterns.BlackList;
 using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency;
+using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotencyUsageProviders;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency
@@ -37,10 +38,22 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             var idempotencySignsCache = new NonIdempotencySignsCache(new NonIdempotencySignsSettingsProvider(settingsProvider));
             var iclCache = new IclCache(new IclRulesSettingsProvider(settingsProvider));
             var headerIdempotencySettingsProvider = new HeaderIdempotencySettingsProvider(settingsProvider);
+
+            var pathPatternSettingsProvider = new PathPatternSettingsProvider(settingsProvider);
+            var pathSettingsCache = new PathSettingsCache(pathPatternSettingsProvider);
+            var aliasRulesSettingsProvider = new AliasRulesSettingsProvider(settingsProvider);
+            var aliasRulesSettingsCache = new AliasRulesSettingsCache(aliasRulesSettingsProvider);
+            var aliasRulesResolver = new AliasRulesResolver(aliasRulesSettingsCache);
+
+            var pathSettingsRulesResolver = new PathSettingsRulesResolver(pathSettingsCache, aliasRulesResolver);
+
+            var idempotencyHeaderSettingsCache = new IdempotencyHeaderSettingsCache(headerIdempotencySettingsProvider);
+            var idempotencyHeaderUsageProvider = new IdempotencyHeaderUsageProvider(pathSettingsRulesResolver, idempotencyHeaderSettingsCache);
+            
             return new IdempotencyIdentifier(
                 new BlackListIdempotencyResolver(idempotencySignsCache),
                 new IclResolver(iclCache),
-                new HeaderIdempotencyResolver(headerIdempotencySettingsProvider)
+                new HeaderIdempotencyResolver(idempotencyHeaderUsageProvider)
             );
         }
     }

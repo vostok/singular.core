@@ -4,13 +4,15 @@ using NSubstitute;
 using NUnit.Framework;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Singular.Core.PathPatterns.Extensions;
+using Vostok.Singular.Core.PathPatterns.Idempotency;
 using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotency;
+using Vostok.Singular.Core.PathPatterns.Idempotency.HeaderIdempotencyUsageProviders;
 
 namespace Vostok.Singular.Core.Tests
 {
     public class HeaderIdempotencyResolver_Tests
     {
-        private IHeaderIdempotencySettingsProvider settingsProvider;
+        private IIdempotencyHeaderUsageProvider settingsProvider;
         private HeaderIdempotencyResolver headerIdempotencyResolver;
         private Request request;
 
@@ -19,7 +21,7 @@ namespace Vostok.Singular.Core.Tests
         {
             request = Request.Get("test");
             
-            settingsProvider = Substitute.For<IHeaderIdempotencySettingsProvider>();
+            settingsProvider = Substitute.For<IIdempotencyHeaderUsageProvider>();
             headerIdempotencyResolver = new HeaderIdempotencyResolver(settingsProvider);
         }
 
@@ -28,7 +30,9 @@ namespace Vostok.Singular.Core.Tests
         {
             SetupSettings();
 
-            var result = await headerIdempotencyResolver.IsIdempotentAsync(request.GetIdempotencyHeader());
+            var result = await headerIdempotencyResolver.IsIdempotentAsync(request.Method, 
+                IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url),
+                request.GetIdempotencyHeader());
 
             result.Should().BeNull();
         }
@@ -38,7 +42,8 @@ namespace Vostok.Singular.Core.Tests
         {
             SetupSettings();
             
-            var result = await headerIdempotencyResolver.IsIdempotentAsync(
+            var result = await headerIdempotencyResolver.IsIdempotentAsync(request.Method, 
+                IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url),
                 request.WithHeader(SingularHeaders.Idempotent, true)
                     .GetIdempotencyHeader());
 
@@ -50,7 +55,8 @@ namespace Vostok.Singular.Core.Tests
         {
             SetupSettings(true);
             
-            var result = await headerIdempotencyResolver.IsIdempotentAsync(
+            var result = await headerIdempotencyResolver.IsIdempotentAsync(request.Method, 
+                IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url),
                 request.WithHeader(SingularHeaders.Idempotent, true)
                     .GetIdempotencyHeader());
 
@@ -62,7 +68,8 @@ namespace Vostok.Singular.Core.Tests
         {
             SetupSettings(true);
             
-            var result = await headerIdempotencyResolver.IsIdempotentAsync(
+            var result = await headerIdempotencyResolver.IsIdempotentAsync(request.Method, 
+                IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url),
                 request.GetIdempotencyHeader());
 
             result.Should().BeNull();
@@ -73,7 +80,8 @@ namespace Vostok.Singular.Core.Tests
         {
             SetupSettings(true);
             
-            var result = await headerIdempotencyResolver.IsIdempotentAsync(
+            var result = await headerIdempotencyResolver.IsIdempotentAsync(request.Method, 
+                IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url),
                 request.WithHeader(SingularHeaders.Idempotent, "IggyPop")
                     .GetIdempotencyHeader());
 
@@ -82,11 +90,7 @@ namespace Vostok.Singular.Core.Tests
 
         private void SetupSettings(bool overrideHeader = false)
         {
-            settingsProvider.GetAsync()
-                .ReturnsForAnyArgs(new IdempotencyHeaderSettings
-                {
-                    OverrideHeader = overrideHeader
-                });
+            settingsProvider.CanUseHeader("", "").ReturnsForAnyArgs(overrideHeader);
         }
     }
 }

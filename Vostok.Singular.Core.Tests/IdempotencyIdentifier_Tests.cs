@@ -25,7 +25,7 @@ namespace Vostok.Singular.Core.Tests
             blackListResolver = Substitute.For<IBlackListIdempotencyResolver>();
             iclResolver = Substitute.For<IIclResolver>();
             headerResolver = Substitute.For<IHeaderIdempotencyResolver>();
-            headerResolver.IsIdempotentAsync("").ReturnsForAnyArgs((bool?)null);
+            headerResolver.IsIdempotentAsync("", "", "").ReturnsForAnyArgs((bool?)null);
             idempotencyIdentifier = new IdempotencyIdentifier(blackListResolver, iclResolver, headerResolver);
             request = Request.Get("test");
         }
@@ -35,7 +35,7 @@ namespace Vostok.Singular.Core.Tests
         {
             iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
             blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
-            headerResolver.IsIdempotentAsync("").ReturnsForAnyArgs(false);
+            headerResolver.IsIdempotentAsync("", "", " ").ReturnsForAnyArgs(false);
             request = request.WithHeader(SingularHeaders.Idempotent, false);
 
             var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
@@ -48,7 +48,7 @@ namespace Vostok.Singular.Core.Tests
         {
             iclResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
             blackListResolver.IsIdempotentAsync("", "").ReturnsForAnyArgs(true);
-            headerResolver.IsIdempotentAsync("").ReturnsForAnyArgs((bool?)null);
+            headerResolver.IsIdempotentAsync("", "", " ").ReturnsForAnyArgs((bool?)null);
             request = request.WithHeader(SingularHeaders.Idempotent, false);
 
             var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
