@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
@@ -32,13 +31,24 @@ namespace Vostok.Singular.Core.Tests
         [Test]
         public async Task IsIdempotentAsync_should_take_value_from_header_if_settings_on()
         {
-            iclResolver.GetRuleAsync("", "").ReturnsForAnyArgs(GetCommonRule(false, true));
+            iclResolver.GetRuleAsync("", "").ReturnsForAnyArgs(GetCommonRule(true, true));
             blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(true);
             request = request.WithHeader(SingularHeaders.Idempotent, false);
 
-            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
+            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestPath(request.Url), request.GetIdempotencyHeader());
 
             result.Should().BeFalse();
+        }
+        
+        [Test]
+        public async Task IsIdempotentAsync_should_not_consider_header_if_settings_on_and_no_header()
+        {
+            iclResolver.GetRuleAsync("", "").ReturnsForAnyArgs(GetCommonRule(true, true));
+            blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(true);
+
+            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestPath(request.Url), request.GetIdempotencyHeader());
+
+            result.Should().BeTrue();
         }
 
         [Test]
@@ -47,7 +57,7 @@ namespace Vostok.Singular.Core.Tests
             iclResolver.GetRuleAsync("", "").ReturnsForAnyArgs(GetCommonRule());
             blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(false);
 
-            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
+            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestPath(request.Url), request.GetIdempotencyHeader());
 
             result.Should().BeFalse();
         }
@@ -58,7 +68,7 @@ namespace Vostok.Singular.Core.Tests
             iclResolver.GetRuleAsync("", "").ReturnsForAnyArgs(GetCommonRule(false));
             blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(true);
 
-            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
+            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestPath(request.Url), request.GetIdempotencyHeader());
 
             result.Should().BeFalse();
         }
@@ -69,7 +79,7 @@ namespace Vostok.Singular.Core.Tests
             iclResolver.GetRuleAsync("", "").ReturnsForAnyArgs(GetCommonRule(false));
             blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(false);
 
-            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
+            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestPath(request.Url), request.GetIdempotencyHeader());
 
             result.Should().BeFalse();
         }
@@ -81,7 +91,7 @@ namespace Vostok.Singular.Core.Tests
 
             blackListResolver.IsIdempotent("", "").ReturnsForAnyArgs(true);
 
-            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestUrl(request.Url), request.GetIdempotencyHeader());
+            var result = await idempotencyIdentifier.IsIdempotentAsync(request.Method, IdempotencySignBasedRequestStrategy.GetRequestPath(request.Url), request.GetIdempotencyHeader());
 
             result.Should().BeTrue();
         }

@@ -32,14 +32,14 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             CancellationToken cancellationToken)
         {
             var requestIsIdempotent = await idempotencyIdentifier
-                .IsIdempotentAsync(request.Method, GetRequestUrl(request.Url), request.GetIdempotencyHeader())
+                .IsIdempotentAsync(request.Method, GetRequestPath(request.Url), request.GetIdempotencyHeader())
                 .ConfigureAwait(false);
             var selectedStrategy = requestIsIdempotent ? forkingStrategy : sequential1Strategy;
 
             await selectedStrategy.SendAsync(request, parameters, sender, budget, replicas, replicasCount, cancellationToken).ConfigureAwait(false);
         }
 
-        public static string GetRequestUrl(Uri url)
+        public static string GetRequestPath(Uri url)
         {
             if (url.IsAbsoluteUri)
                 return url.AbsolutePath;
