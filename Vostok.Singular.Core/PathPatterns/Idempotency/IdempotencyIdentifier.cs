@@ -21,7 +21,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
         {
             var rule = await iclRulesProvider.GetRuleAsync(method, path).ConfigureAwait(false);
 
-            if (rule.OverrideHeader && bool.TryParse(headerValue, out var value))
+            if (!rule.OverrideHeader && bool.TryParse(headerValue, out var value))
                 return value;
             
             return await blackListIdempotencyResolver.IsIdempotent(method, path).ConfigureAwait(false) && rule.IsIdempotent;
