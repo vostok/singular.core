@@ -4,8 +4,7 @@ namespace Vostok.Singular.Core.Tls
 {
     internal interface IThumbprintVerificationSettingsProvider
     {
-        bool AllowAnyThumbprintExceptBlacklisted { get; }
-        IEnumerable<string> GetBlacklist();
-        IEnumerable<string> GetWhitelist();
+        IList<string> GetBlacklist();
+        IList<string> GetWhitelist();
     }
 }
