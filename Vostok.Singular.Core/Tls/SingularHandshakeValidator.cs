@@ -21,11 +21,19 @@ namespace Vostok.Singular.Core.Tls
             if (sslPolicyErrors == SslPolicyErrors.None)
                 return true;
 
-            // There are some inappropriate problems with the chain. We can't safely verify it.
-            if (sslPolicyErrors.HasFlag(SslPolicyErrors.RemoteCertificateNameMismatch) ||
-                sslPolicyErrors.HasFlag(SslPolicyErrors.RemoteCertificateNotAvailable) ||
-                chain == null || chain.ChainElements.Count == 0)
+            // Provided chain is not available. We can't safely verify it.
+            if (chain == null || chain.ChainElements.Count == 0 ||
+                sslPolicyErrors.HasFlag(SslPolicyErrors.RemoteCertificateNotAvailable))
+            {
+                LogUnavailableChain();
                 return false;
+            }
+
+            if (sslPolicyErrors.HasFlag(SslPolicyErrors.RemoteCertificateNameMismatch))
+            {
+                LogCertificateNameMismatch();
+                return false;
+            }
 
             /*
              * At this point in time we know that the chain of certificates has some problems (Might be appropriate or not).
@@ -39,7 +47,10 @@ namespace Vostok.Singular.Core.Tls
              */
 
             if (!certificateChainVerifier.VerifyChain(chain))
+            {
+                LogUntrustedChain();
                 return false;
+            }
 
             /*
              * Now we only have to make sure that there are no problems with the chain apart from 'unknown' source.
@@ -58,12 +69,12 @@ namespace Vostok.Singular.Core.Tls
             var verificationResult = verifier.Build((certificate as X509Certificate2)!);
 
             if (!verificationResult)
-                log.Info($"{verifier.ChainStatus}");
+                LogFailedVerificationResult(verifier.ChainStatus);
 
             return verificationResult;
         }
 
-        private X509Chain CreateVerifier()
+        private static X509Chain CreateVerifier()
         {
             return new X509Chain
             {
@@ -80,5 +91,29 @@ namespace Vostok.Singular.Core.Tls
                 }
             };
         }
+
+        #region Logging
+
+        private void LogUnavailableChain()
+        {
+            log.Warn("Certificate chain is unavailable and can't be verified.");
+        }
+
+        private void LogCertificateNameMismatch()
+        {
+            log.Warn("Certificate name does not match the request name.");
+        }
+
+        private void LogUntrustedChain()
+        {
+            log.Warn($"Certificate chain was rejected by the provided {nameof(ITlsHandshakeValidator)}.");
+        }
+
+        private void LogFailedVerificationResult(X509ChainStatus[] chainStatuses)
+        {
+            log.Warn($"Certificate chain was rejected by the {nameof(X509Chain)} verification. Statuses: {{Statuses}}", chainStatuses);
+        }
+
+        #endregion
     }
 }
