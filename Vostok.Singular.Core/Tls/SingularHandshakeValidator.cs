@@ -38,7 +38,9 @@ namespace Vostok.Singular.Core.Tls
             /*
              * At this point in time we know that the chain of certificates has some problems (Might be appropriate or not).
              * If there is any problem except of 'unknown certificate', we can't trust this chain.
-             * (What if an attacker sends an invalid sequence of certificates, i.e. his self-signed certificate along with certificate of Kontur CA?)
+             *
+             * Security question: What if an attacker sends an invalid sequence of certificates,
+             *      i.e. his self-signed certificate along with a certificate of trusted CA? (In this example there is no link between the certificates.)
              * Answer: this scenario is covered by .NET, we can't see an invalid sequence of certificates here.
              *      It means that we only have to check their individual validity and that we trust at least one certificate in the chain.
              *          (https://github.com/dotnet/runtime/issues/49615)
@@ -53,7 +55,7 @@ namespace Vostok.Singular.Core.Tls
             }
 
             /*
-             * Now we only have to make sure that there are no problems with the chain apart from 'unknown' source.
+             * Now we only have to make sure that there are no problems with the chain apart from 'unknown' source (which we already verified).
              * Custom-made certificates have Unknown Revocation Status (due to absence of CRL)
              * However, we don't want to skip revocation check when CRL is present.
              * Therefore, we set revocation mode to online, BUT we ignore cases when the result is unknown.
