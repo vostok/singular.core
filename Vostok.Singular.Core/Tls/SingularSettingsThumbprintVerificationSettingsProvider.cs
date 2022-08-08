@@ -12,8 +12,7 @@ namespace Vostok.Singular.Core.Tls
             this.settings = settings;
         }
 
-        public bool AllowAnyThumbprintExceptBlacklisted => settings.TlsClient.AllowAnyThumbprintExceptBlacklisted;
-        public IEnumerable<string> GetBlacklist() => settings.TlsClient.CertificateThumbprintsBlacklist;
-        public IEnumerable<string> GetWhitelist() => settings.TlsClient.CertificateThumbprintsWhitelist;
+        public IList<string> GetBlacklist() => settings.TlsClient.CertificateThumbprintsBlacklist;
+        public IList<string> GetWhitelist() => settings.TlsClient.CertificateThumbprintsWhitelist;
     }
 }
