@@ -12,5 +12,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.
         public string PathPattern;
 
         public bool IsIdempotent;
+
+        public bool OverrideHeader;
     }
 }

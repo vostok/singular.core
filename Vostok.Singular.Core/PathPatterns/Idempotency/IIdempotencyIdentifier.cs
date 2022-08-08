@@ -4,6 +4,6 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
 {
     internal interface IIdempotencyIdentifier
     {
-        Task<bool> IsIdempotentAsync(string method, string path);
+        Task<bool> IsIdempotentAsync(string method, string path, string headerValue = null);
     }
 }

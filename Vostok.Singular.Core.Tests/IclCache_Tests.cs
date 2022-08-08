@@ -31,7 +31,8 @@ namespace Vostok.Singular.Core.Tests
                     {
                         Method = "Post",
                         PathPattern = "/test",
-                        IsIdempotent = false
+                        IsIdempotent = false,
+                        OverrideHeader = false
                     }
                 }
             };
@@ -56,7 +57,8 @@ namespace Vostok.Singular.Core.Tests
                     {
                         Method = "Post",
                         PathPattern = "/test",
-                        IsIdempotent = false
+                        IsIdempotent = false,
+                        OverrideHeader = false
                     }
                 }
             };

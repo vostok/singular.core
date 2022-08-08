@@ -6,20 +6,25 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
 {
     internal class IdempotencyIdentifier : IIdempotencyIdentifier
     {
-        private readonly BlackListIdempotencyResolver blackListIdempotencyResolver;
-        private readonly IclResolver iclResolver;
+        private readonly IBlackListIdempotencyResolver blackListIdempotencyResolver;
+        private readonly IIclResolver iclRulesProvider;
 
         public IdempotencyIdentifier(
-            BlackListIdempotencyResolver blackListIdempotencyResolver,
-            IclResolver iclResolver)
+            IBlackListIdempotencyResolver blackListIdempotencyResolver,
+            IIclResolver iclRulesProvider)
         {
             this.blackListIdempotencyResolver = blackListIdempotencyResolver;
-            this.iclResolver = iclResolver;
+            this.iclRulesProvider = iclRulesProvider;
         }
 
-        public async Task<bool> IsIdempotentAsync(string method, string path)
+        public async Task<bool> IsIdempotentAsync(string method, string path, string headerValue)
         {
-            return await blackListIdempotencyResolver.IsIdempotent(method, path).ConfigureAwait(false) && await iclResolver.IsIdempotentAsync(method, path).ConfigureAwait(false);
+            var rule = await iclRulesProvider.GetRuleAsync(method, path).ConfigureAwait(false);
+
+            if (!rule.OverrideHeader && bool.TryParse(headerValue, out var value))
+                return value;
+            
+            return await blackListIdempotencyResolver.IsIdempotent(method, path).ConfigureAwait(false) && rule.IsIdempotent;
         }
     }
 }
