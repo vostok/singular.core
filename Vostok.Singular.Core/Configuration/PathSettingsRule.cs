@@ -16,5 +16,7 @@ namespace Vostok.Singular.Core.Configuration
         public StrategySettings StrategySettings;
 
         public RedirectSettings RedirectSettings;
+
+        public bool OverrideHeader = false;
     }
 }
