@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Vostok.Singular.Core.PathPatterns.BlackList
 {
-    internal class BlackListIdempotencyResolver
+    internal class BlackListIdempotencyResolver : IBlackListIdempotencyResolver
     {
         private readonly ISettingsCache<NonIdempotencySign> nonIdempotencySignsCache;
 

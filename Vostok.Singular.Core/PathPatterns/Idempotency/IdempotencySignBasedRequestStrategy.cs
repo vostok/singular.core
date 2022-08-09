@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Clusterclient.Core.Sending;
 using Vostok.Clusterclient.Core.Strategies;
+using Vostok.Singular.Core.PathPatterns.Extensions;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency
 {
@@ -30,8 +31,9 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             int replicasCount,
             CancellationToken cancellationToken)
         {
-            var requestPath = GetRequestPath(request.Url);
-            var requestIsIdempotent = await idempotencyIdentifier.IsIdempotentAsync(request.Method, requestPath).ConfigureAwait(false);
+            var requestIsIdempotent = await idempotencyIdentifier
+                .IsIdempotentAsync(request.Method, GetRequestPath(request.Url), request.GetIdempotencyHeader())
+                .ConfigureAwait(false);
             var selectedStrategy = requestIsIdempotent ? forkingStrategy : sequential1Strategy;
 
             await selectedStrategy.SendAsync(request, parameters, sender, budget, replicas, replicasCount, cancellationToken).ConfigureAwait(false);

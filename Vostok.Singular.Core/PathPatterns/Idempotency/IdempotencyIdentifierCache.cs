@@ -35,6 +35,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             var settingsProvider = new SettingsProvider(singularClient, environment, serviceName);
             var idempotencySignsCache = new NonIdempotencySignsCache(new NonIdempotencySignsSettingsProvider(settingsProvider));
             var iclCache = new IclCache(new IclRulesSettingsProvider(settingsProvider));
+            
             return new IdempotencyIdentifier(
                 new BlackListIdempotencyResolver(idempotencySignsCache),
                 new IclResolver(iclCache)

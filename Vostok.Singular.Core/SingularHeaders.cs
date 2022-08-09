@@ -14,6 +14,7 @@
         public const string XAccelBuffering = "X-Accel-Buffering";
         public const string XNginxDistributedContext = "X-Nginx-Distributed-Context";
         public const string Traceparent = "traceparent";
+        public const string Idempotent = "X-Singular-Idempotent";
 
         public static class ThrottlingTriggerReason
         {

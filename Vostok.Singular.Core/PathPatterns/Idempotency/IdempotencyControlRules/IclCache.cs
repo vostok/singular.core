@@ -11,7 +11,8 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
         {
             Method = "*",
             PathPattern = new Wildcard("*"),
-            IsIdempotent = true
+            IsIdempotent = true,
+            OverrideHeader = false
         };
         private readonly CachingTransformAsync<IdempotencySettings, List<IdempotencyControlRule>> cache;
 
@@ -34,7 +35,8 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
                     {
                         Method = r.Method,
                         IsIdempotent = r.IsIdempotent,
-                        PathPattern = r.PathPattern == null ? null : new Wildcard(r.PathPattern.TrimStart('/'))
+                        PathPattern = r.PathPattern == null ? null : new Wildcard(r.PathPattern.TrimStart('/')),
+                        OverrideHeader = r.OverrideHeader
                     })
                 .Append(DefaultIdempotencyRule)
                 .ToList();
