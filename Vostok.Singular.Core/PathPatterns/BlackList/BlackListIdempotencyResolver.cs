@@ -33,7 +33,7 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
             return true;
         }
 
-        private static bool IsMethodMatched(string singMethod, string method) =>
-            string.Equals(singMethod, method, StringComparison.OrdinalIgnoreCase) || singMethod == "*";
+        private static bool IsMethodMatched(string signMethod, string method) =>
+            string.Equals(signMethod, method, StringComparison.OrdinalIgnoreCase) || signMethod == "*";
     }
 }
