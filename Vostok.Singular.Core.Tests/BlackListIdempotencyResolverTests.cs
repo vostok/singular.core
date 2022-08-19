@@ -88,6 +88,26 @@ namespace Vostok.Singular.Core.Tests
             blackListIdempotencyResolver.IsIdempotent(POST, foo).GetAwaiter().GetResult().Should().BeFalse();
             blackListIdempotencyResolver.IsIdempotent(POST, foobar).GetAwaiter().GetResult().Should().BeFalse();
         }
+        
+        [Test]
+        public void Should_detect_not_idempotent_methods_with_given_method_pattern()
+        {
+            MockCache("*", "foo*");
+            
+            blackListIdempotencyResolver.IsIdempotent(GET, foo).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotent(PATCH, foobar).GetAwaiter().GetResult().Should().BeFalse();
+            blackListIdempotencyResolver.IsIdempotent("abcd123", "/foo1").GetAwaiter().GetResult().Should().BeFalse();
+        }
+        
+        [Test]
+        public void Should_detect_not_idempotent_methods_with_given_method_pattern_only_if_path_matched()
+        {
+            MockCache("*", "foo*");
+
+            blackListIdempotencyResolver.IsIdempotent(POST, empty).GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotent(GET, "afoo").GetAwaiter().GetResult().Should().BeTrue();
+            blackListIdempotencyResolver.IsIdempotent(PATCH, "barfoo").GetAwaiter().GetResult().Should().BeTrue();
+        }
 
         [Test]
         public void Should_work_with_empty_signs()
