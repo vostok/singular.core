@@ -138,6 +138,8 @@ namespace Vostok.Singular.Core.Configuration
             public TimeSpan RetryDelay = TimeSpan.FromMilliseconds(100);
 
             public bool DeduplicateRequestUrl = true;
+            
+            public bool EnableNonWebSocketRequests = true;
 
             public List<int> AdditionalAcceptedCodes = new List<int>
             {
