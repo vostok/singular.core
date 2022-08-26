@@ -89,7 +89,7 @@ namespace Vostok.Singular.Core.Tls
                                         X509VerificationFlags.IgnoreCertificateAuthorityRevocationUnknown |
                                         X509VerificationFlags.IgnoreCtlSignerRevocationUnknown,
                     RevocationMode = X509RevocationMode.Online,
-                    RevocationFlag = X509RevocationFlag.ExcludeRoot
+                    RevocationFlag = X509RevocationFlag.EntireChain
                 }
             };
         }
@@ -108,7 +108,7 @@ namespace Vostok.Singular.Core.Tls
 
         private void LogUntrustedChain()
         {
-            log.Warn($"Certificate chain was rejected by the provided {nameof(ITlsHandshakeValidator)}.");
+            log.Warn("Certificate chain was rejected by the provided {HandshakeValidatorType}.", typeof(ITlsHandshakeValidator));
         }
 
         private void LogFailedVerificationResult(X509ChainStatus[] chainStatuses)
