@@ -2,6 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using FluentAssertions;
 using NSubstitute;
+using NSubstitute.ReceivedExtensions;
 using NUnit.Framework;
 using Vostok.Logging.Abstractions;
 using Vostok.Singular.Core.Tls;
@@ -30,14 +31,16 @@ namespace Vostok.Singular.Core.Tests.Tls
             handshakeValidator.Verify(null, null, null, SslPolicyErrors.None).Should().BeTrue();
         }
 
+#if NETCOREAPP2_0_OR_GREATER
         [TestCase(SslPolicyErrors.RemoteCertificateNameMismatch, Description = "Certificate name does not match FQDN")]
         [TestCase(SslPolicyErrors.RemoteCertificateNotAvailable, Description = "Certificate is not present or unavailable")]
         public void Should_not_allow_policy_errors_except_chain_errors(SslPolicyErrors error)
         {
-            handshakeValidator.Verify(null, null, null, error).Should().BeFalse();
+            var generated = X509Certificate2Factory.CreateDefault();
+            var chain = X509Certificate2Factory.CreateChainFromCertificates(generated);
+            handshakeValidator.Verify(null, generated, chain, error).Should().BeFalse();
         }
 
-#if NETCOREAPP2_0_OR_GREATER
         [Test]
         public void Should_allow_self_signed_certificates()
         {
@@ -55,6 +58,7 @@ namespace Vostok.Singular.Core.Tests.Tls
             verifier.VerifyChain(null).ReturnsForAnyArgs(false);
             handshakeValidator = new SingularHandshakeValidator(verifier, new SilentLog());
             handshakeValidator.Verify(null, generated, chain, SslPolicyErrors.RemoteCertificateChainErrors).Should().BeFalse();
+            verifier.ReceivedWithAnyArgs(1).VerifyChain(null);
         }
 
         [Test]
