@@ -23,7 +23,7 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
                 if (sign.Method == null || sign.PathPattern == null)
                     continue;
 
-                if (!string.Equals(sign.Method, method, StringComparison.OrdinalIgnoreCase) || path == null)
+                if (!IsMethodMatched(sign.Method, method) || path == null)
                     continue;
 
                 if (sign.PathPattern.IsMatch(path))
@@ -32,5 +32,8 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
 
             return true;
         }
+
+        private static bool IsMethodMatched(string signMethod, string method) =>
+            string.Equals(signMethod, method, StringComparison.OrdinalIgnoreCase) || signMethod == "*";
     }
 }
