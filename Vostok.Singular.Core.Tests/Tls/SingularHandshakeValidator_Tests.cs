@@ -20,9 +20,11 @@ namespace Vostok.Singular.Core.Tests.Tls
         [SetUp]
         public void SetUp()
         {
-            var verifier = Substitute.For<ICertificateChainVerifier>();
-            verifier.VerifyChain(null).ReturnsForAnyArgs(true);
-            handshakeValidator = new SingularHandshakeValidator(verifier, new SilentLog());
+            var authorityVerifier = Substitute.For<ICertificateChainAuthorityVerifier>();
+            authorityVerifier.Verify(null, null).ReturnsForAnyArgs(true);
+            var validityVerifier = Substitute.For<ICertificateChainValidityVerifier>();
+            validityVerifier.Verify(null, null, out _).ReturnsForAnyArgs(true);
+            handshakeValidator = new SingularHandshakeValidator(authorityVerifier, validityVerifier, new SilentLog());
         }
 
         [Test]
@@ -54,11 +56,13 @@ namespace Vostok.Singular.Core.Tests.Tls
         {
             var generated = X509Certificate2Factory.CreateDefault();
             var chain = X509Certificate2Factory.CreateChainFromCertificates(generated);
-            var verifier = Substitute.For<ICertificateChainVerifier>();
-            verifier.VerifyChain(null).ReturnsForAnyArgs(false);
-            handshakeValidator = new SingularHandshakeValidator(verifier, new SilentLog());
+            var verifier = Substitute.For<ICertificateChainAuthorityVerifier>();
+            verifier.Verify(null, null).ReturnsForAnyArgs(false);
+            var validityVerifier = Substitute.For<ICertificateChainValidityVerifier>();
+            validityVerifier.Verify(null, null, out _).ReturnsForAnyArgs(true);
+            handshakeValidator = new SingularHandshakeValidator(verifier, validityVerifier, new SilentLog());
             handshakeValidator.Verify(null, generated, chain, SslPolicyErrors.RemoteCertificateChainErrors).Should().BeFalse();
-            verifier.ReceivedWithAnyArgs(1).VerifyChain(null);
+            verifier.ReceivedWithAnyArgs(1).Verify(null, null);
         }
 
         [Test]

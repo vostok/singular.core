@@ -6,16 +6,16 @@ using System.Security.Cryptography.X509Certificates;
 namespace Vostok.Singular.Core.Tls
 {
     // https://www.openssl.org/docs/man1.1.1/man1/x509.html (fingerprints are unique)
-    internal class ThumbprintCertificateChainVerifier : ICertificateChainVerifier
+    internal class ThumbprintCertificateChainAuthorityVerifier : ICertificateChainAuthorityVerifier
     {
         private readonly IThumbprintVerificationSettingsProvider verificationSettingsProvider;
 
-        public ThumbprintCertificateChainVerifier(IThumbprintVerificationSettingsProvider verificationSettingsProvider)
+        public ThumbprintCertificateChainAuthorityVerifier(IThumbprintVerificationSettingsProvider verificationSettingsProvider)
         {
             this.verificationSettingsProvider = verificationSettingsProvider;
         }
 
-        public bool VerifyChain(X509Chain chain)
+        public bool Verify(X509Certificate certificate, X509Chain chain)
         {
             var whitelist = verificationSettingsProvider.GetWhitelist();
             var blacklist = verificationSettingsProvider.GetBlacklist();

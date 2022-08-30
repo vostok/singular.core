@@ -13,7 +13,7 @@ namespace Vostok.Singular.Core.Tests.Tls
     internal class ThumbprintCertificateChainVerifier_Tests
     {
         private IThumbprintVerificationSettingsProvider settingsProvider;
-        private ThumbprintCertificateChainVerifier certificateChainVerifier;
+        private ThumbprintCertificateChainAuthorityVerifier certificateChainAuthorityVerifier;
 
         [SetUp]
         public void SetUp()
@@ -21,7 +21,7 @@ namespace Vostok.Singular.Core.Tests.Tls
             settingsProvider = Substitute.For<IThumbprintVerificationSettingsProvider>();
             settingsProvider.GetBlacklist().ReturnsForAnyArgs(new List<string>());
             settingsProvider.GetWhitelist().ReturnsForAnyArgs(new List<string>());
-            certificateChainVerifier = new ThumbprintCertificateChainVerifier(settingsProvider);
+            certificateChainAuthorityVerifier = new ThumbprintCertificateChainAuthorityVerifier(settingsProvider);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace Vostok.Singular.Core.Tests.Tls
             var root = X509Certificate2Factory.CreateDefault();
             var leaf = X509Certificate2Factory.CreateSigned("child", root);
             var chain = X509Certificate2Factory.CreateChainFromCertificates(leaf, root);
-            certificateChainVerifier.VerifyChain(chain).Should().BeTrue();
+            certificateChainAuthorityVerifier.Verify(leaf, chain).Should().BeTrue();
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Vostok.Singular.Core.Tests.Tls
             foreach (var element in new[] {root, leaf})
             {
                 settingsProvider.GetBlacklist().ReturnsForAnyArgs(new List<string> {element.Thumbprint});
-                certificateChainVerifier.VerifyChain(chain).Should().BeFalse();
+                certificateChainAuthorityVerifier.Verify(leaf, chain).Should().BeFalse();
             }
         }
 
@@ -55,7 +55,7 @@ namespace Vostok.Singular.Core.Tests.Tls
             var chain = X509Certificate2Factory.CreateChainFromCertificates(leaf, root);
 
             settingsProvider.GetBlacklist().ReturnsForAnyArgs(new List<string> {"BLA"});
-            certificateChainVerifier.VerifyChain(chain).Should().BeTrue();
+            certificateChainAuthorityVerifier.Verify(leaf, chain).Should().BeTrue();
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Vostok.Singular.Core.Tests.Tls
             var chain = X509Certificate2Factory.CreateChainFromCertificates(leaf, root);
 
             settingsProvider.GetWhitelist().ReturnsForAnyArgs(new List<string> {"BLA"});
-            certificateChainVerifier.VerifyChain(chain).Should().BeFalse();
+            certificateChainAuthorityVerifier.Verify(leaf, chain).Should().BeFalse();
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Vostok.Singular.Core.Tests.Tls
             foreach (var element in new[] {root, leaf})
             {
                 settingsProvider.GetWhitelist().ReturnsForAnyArgs(new List<string> {element.Thumbprint});
-                certificateChainVerifier.VerifyChain(chain).Should().BeTrue();
+                certificateChainAuthorityVerifier.Verify(leaf, chain).Should().BeTrue();
             }
         }
 
@@ -96,7 +96,7 @@ namespace Vostok.Singular.Core.Tests.Tls
                 {
                     settingsProvider.GetWhitelist().ReturnsForAnyArgs(new List<string> {first.Thumbprint});
                     settingsProvider.GetBlacklist().ReturnsForAnyArgs(new List<string> {second.Thumbprint});
-                    certificateChainVerifier.VerifyChain(chain).Should().BeFalse();
+                    certificateChainAuthorityVerifier.Verify(leaf, chain).Should().BeFalse();
                 }
             }
         }
@@ -111,7 +111,7 @@ namespace Vostok.Singular.Core.Tests.Tls
             var unlinkedChain = X509Certificate2Factory.CreateChainFromCertificates(actualCertificate, trustedCertificate);
 
             settingsProvider.GetWhitelist().ReturnsForAnyArgs(new List<string> {trustedCertificate.Thumbprint});
-            certificateChainVerifier.VerifyChain(unlinkedChain).Should().BeFalse();
+            certificateChainAuthorityVerifier.Verify(actualCertificate, unlinkedChain).Should().BeFalse();
         }
     }
 }
