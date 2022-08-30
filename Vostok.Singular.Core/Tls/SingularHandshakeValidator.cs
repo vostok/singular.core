@@ -50,7 +50,7 @@ namespace Vostok.Singular.Core.Tls
              *      It means that we only have to check their individual validity and that we trust at least one certificate in the chain.
              *          (https://github.com/dotnet/runtime/issues/49615)
              *      That said, we have to check whether we have at least one certificate from whitelist and none of the certificates are from the blacklist.
-             *      (See ThumbprintCertificateChainVerifier for implementation of this mechanic)
+             *      (See ThumbprintCertificateChainAuthorityVerifier for implementation of this mechanic)
              */
 
             if (!certificateChainAuthorityVerifier.Verify(certificate, chain))
@@ -65,6 +65,7 @@ namespace Vostok.Singular.Core.Tls
              * However, we don't want to skip revocation check when CRL is present.
              * Therefore, we set revocation mode to online, BUT we ignore cases when the result is unknown.
              * (This way we will skip revocation check in case of its absence OR in case of network problems, which is fine in most cases).
+             * (See SimpleChainValidityVerifier for implementation of this mechanic)
              */
 
             if (!certificateChainValidityVerifier.Verify(certificate, chain, out var statuses))
