@@ -6,12 +6,17 @@ namespace Vostok.Singular.Core.Tls
 {
     internal class SingularHandshakeValidator : ITlsHandshakeValidator
     {
-        private readonly ICertificateChainVerifier certificateChainVerifier;
+        private readonly ICertificateChainAuthorityVerifier certificateChainAuthorityVerifier;
+        private readonly ICertificateChainValidityVerifier certificateChainValidityVerifier;
         private readonly ILog log;
 
-        public SingularHandshakeValidator(ICertificateChainVerifier certificateChainVerifier, ILog log)
+        public SingularHandshakeValidator(
+            ICertificateChainAuthorityVerifier certificateChainAuthorityVerifier,
+            ICertificateChainValidityVerifier certificateChainValidityVerifier,
+            ILog log)
         {
-            this.certificateChainVerifier = certificateChainVerifier;
+            this.certificateChainAuthorityVerifier = certificateChainAuthorityVerifier;
+            this.certificateChainValidityVerifier = certificateChainValidityVerifier;
             this.log = log;
         }
 
@@ -48,7 +53,7 @@ namespace Vostok.Singular.Core.Tls
              *      (See ThumbprintCertificateChainVerifier for implementation of this mechanic)
              */
 
-            if (!certificateChainVerifier.VerifyChain(chain))
+            if (!certificateChainAuthorityVerifier.Verify(certificate, chain))
             {
                 LogUntrustedChain();
                 return false;
@@ -62,36 +67,13 @@ namespace Vostok.Singular.Core.Tls
              * (This way we will skip revocation check in case of its absence OR in case of network problems, which is fine in most cases).
              */
 
-            // note (tsup, 14.07.2022): Seemingly, we can't reuse it thread-safely
-            using var verifier = CreateVerifier();
-
-            foreach (var chainElement in chain.ChainElements)
-                verifier.ChainPolicy.ExtraStore.Add(chainElement.Certificate);
-
-            var verificationResult = verifier.Build((certificate as X509Certificate2)!);
-
-            if (!verificationResult)
-                LogFailedVerificationResult(verifier.ChainStatus);
-
-            return verificationResult;
-        }
-
-        private static X509Chain CreateVerifier()
-        {
-            return new X509Chain
+            if (!certificateChainValidityVerifier.Verify(certificate, chain, out var statuses))
             {
-                // todo: we should probably allow to tune some settings there
-                ChainPolicy =
-                {
-                    VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority |
-                                        X509VerificationFlags.IgnoreEndRevocationUnknown |
-                                        X509VerificationFlags.IgnoreRootRevocationUnknown |
-                                        X509VerificationFlags.IgnoreCertificateAuthorityRevocationUnknown |
-                                        X509VerificationFlags.IgnoreCtlSignerRevocationUnknown,
-                    RevocationMode = X509RevocationMode.Online,
-                    RevocationFlag = X509RevocationFlag.EntireChain
-                }
-            };
+                LogFailedVerificationResult(statuses);
+                return false;
+            }
+
+            return true;
         }
 
         #region Logging
