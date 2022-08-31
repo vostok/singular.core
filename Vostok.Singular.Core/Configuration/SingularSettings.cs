@@ -139,7 +139,7 @@ namespace Vostok.Singular.Core.Configuration
 
             public bool DeduplicateRequestUrl = true;
             
-            public bool EnableNonWebSocketRequests = true;
+            public bool AllowNonWebSocketRequests = true;
 
             public List<int> AdditionalAcceptedCodes = new List<int>
             {
