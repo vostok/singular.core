@@ -98,6 +98,8 @@ namespace Vostok.Singular.Core.Configuration
         public class WsDefaultsSettings
         {
             public TimeSpan ConnectionTimeBudget = TimeSpan.FromSeconds(30);
+
+            public bool AllowNonWebSocketRequests = true;
         }
 
         [Serializable]
@@ -139,8 +141,6 @@ namespace Vostok.Singular.Core.Configuration
 
             public bool DeduplicateRequestUrl = true;
             
-            public bool AllowNonWebSocketRequests = true;
-
             public List<int> AdditionalAcceptedCodes = new List<int>
             {
                 10000,
