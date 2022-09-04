@@ -140,7 +140,7 @@ namespace Vostok.Singular.Core.Configuration
             public TimeSpan RetryDelay = TimeSpan.FromMilliseconds(100);
 
             public bool DeduplicateRequestUrl = true;
-            
+
             public List<int> AdditionalAcceptedCodes = new List<int>
             {
                 10000,
