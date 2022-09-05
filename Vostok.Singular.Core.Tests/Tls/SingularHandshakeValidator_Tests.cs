@@ -70,6 +70,9 @@ namespace Vostok.Singular.Core.Tests.Tls
         {
             var generated = X509Certificate2Factory.CreateDefaultExpired();
             var chain = X509Certificate2Factory.CreateChainFromCertificates(generated);
+            var verifier = Substitute.For<ICertificateChainAuthorityVerifier>();
+            verifier.Verify(null, null).ReturnsForAnyArgs(true);
+            handshakeValidator = new SingularHandshakeValidator(verifier, new SimpleChainValidityVerifier(), new SilentLog());
             handshakeValidator.Verify(null, generated, chain, SslPolicyErrors.RemoteCertificateChainErrors).Should().BeFalse();
         }
 
@@ -77,8 +80,11 @@ namespace Vostok.Singular.Core.Tests.Tls
         public void Should_not_allow_expired_certificates_in_chain()
         {
             var root = X509Certificate2Factory.CreateDefaultExpired();
-            var leaf = X509Certificate2Factory.CreateSigned("child", root);
+            var leaf = X509Certificate2Factory.CreateSignedExpired("child", root);
             var chain = X509Certificate2Factory.CreateChainFromCertificates(leaf, root);
+            var verifier = Substitute.For<ICertificateChainAuthorityVerifier>();
+            verifier.Verify(null, null).ReturnsForAnyArgs(true);
+            handshakeValidator = new SingularHandshakeValidator(verifier, new SimpleChainValidityVerifier(), new SilentLog());
             handshakeValidator.Verify(null, leaf, chain, SslPolicyErrors.RemoteCertificateChainErrors).Should().BeFalse();
         }
 #endif
