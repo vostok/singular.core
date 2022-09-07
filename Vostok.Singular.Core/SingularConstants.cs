@@ -13,6 +13,8 @@
         public const string ProdEnvironment = "Production";
         public const string SingularSettingsFileName = "singular.config.json";
 
+        public const string CCTlsSettingsName = "singular/tls.json";
+
         public class DistributedProperties
         {
             public const string ForcedEnvironment = "forced.sd.environment";

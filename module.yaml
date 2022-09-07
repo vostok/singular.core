@@ -6,6 +6,7 @@ src:
   deps:
     - vostok.clusterclient.core
     - vostok.clusterconfig.client.abstractions
+    - vostok.clusterconfig.client
     - vostok.commons.collections/src
     - vostok.commons.threading/src
     - vostok.configuration
@@ -31,6 +32,7 @@ notests *default:
   deps:
     - vostok.clusterclient.core
     - vostok.clusterconfig.client.abstractions
+    - vostok.clusterconfig.client
     - vostok.commons.collections/src
     - vostok.commons.threading/src
     - vostok.configuration
