@@ -1,7 +1,8 @@
-﻿namespace Vostok.Singular.Core.Configuration;
-
-internal enum LogicalOperand
+﻿namespace Vostok.Singular.Core.Configuration
 {
-    And = 0,
-    Or = 1
+    internal enum LogicalOperand
+    {
+        And = 0,
+        Or = 1
+    }
 }
