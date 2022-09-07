@@ -401,27 +401,13 @@ namespace Vostok.Singular.Core.Configuration
         {
             public List<RejectRule> Rules = new List<RejectRule>();
         }
-        
+
         [Serializable]
         public class RejectRule
         {
             public MatchRule RequestMatchRule;
 
             public int RejectCode;
-        }
-
-        [Serializable]
-        public class MatchRule
-        {
-            public RejectTarget Target;
-
-            public string KeyPattern;
-
-            public string ValuePattern;
-
-            public LogicalOperand LogicalOperand;
-
-            public List<MatchRule> NestingRules;
         }
 
         [Flags]
