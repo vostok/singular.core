@@ -38,6 +38,8 @@ namespace Vostok.Singular.Core.Configuration
 
         public PathPatternSettings PathPatternSigns = new PathPatternSettings();
 
+        public RequestRejectSettings RequestReject = new RequestRejectSettings();
+
         public Dictionary<string, SingularSettings> SettingsAliases = new Dictionary<string, SingularSettings>();
 
         public LeadershipModelSettings LeadershipModel = new LeadershipModelSettings();
@@ -386,6 +388,46 @@ namespace Vostok.Singular.Core.Configuration
         public class PathPatternSettings
         {
             public List<PathSettingsRule> Rules = new List<PathSettingsRule>();
+        }
+
+        #endregion
+
+        #region RequestRejectSettings
+
+        [Serializable]
+        public class RequestRejectSettings
+        {
+            public List<RejectRule> Rules = new List<RejectRule>();
+        }
+        
+        [Serializable]
+        public class RejectRule
+        {
+            public MatchRule RequestMatchRule;
+
+            public int RejectCode;
+        }
+
+        [Serializable]
+        public class MatchRule
+        {
+            public RejectTarget Target;
+
+            public string KeyPattern;
+
+            public string ValuePattern;
+
+            public LogicalOperand LogicalOperand;
+
+            public List<MatchRule> NestingRules;
+        }
+
+        [Flags]
+        public enum RejectTarget
+        {
+            Url = 0,
+            Header = 1,
+            Query = 2
         }
 
         #endregion
