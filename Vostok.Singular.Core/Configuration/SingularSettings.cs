@@ -399,13 +399,13 @@ namespace Vostok.Singular.Core.Configuration
         [Serializable]
         public class RequestRejectSettings
         {
-            public List<RejectRule> Rules = new List<RejectRule>();
+            public List<RejectPattern> Rules = new List<RejectPattern>();
         }
 
         [Serializable]
-        public class RejectRule
+        public class RejectPattern
         {
-            public MatchRule RequestMatchRule;
+            public MatchPattern RequestMatchPattern;
 
             public int RejectCode;
         }
