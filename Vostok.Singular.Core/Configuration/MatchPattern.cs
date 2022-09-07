@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Vostok.Singular.Core.Configuration
 {
     [Serializable]
-    internal class MatchRule
+    internal class MatchPattern
     {
         public SingularSettings.RejectTarget Target;
 
@@ -14,6 +14,6 @@ namespace Vostok.Singular.Core.Configuration
 
         public LogicalOperand LogicalOperand;
 
-        public List<MatchRule> NestingRules;
+        public List<MatchPattern> NestingRules;
     }
 }
