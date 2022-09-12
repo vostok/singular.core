@@ -99,7 +99,8 @@ namespace Vostok.Singular.Core.Configuration
         {
             public TimeSpan ConnectionTimeBudget = TimeSpan.FromSeconds(30);
 
-            public bool AllowNonWebSocketRequests = true;
+            public List<SupportedProtocol> SupportedProtocols = new List<SupportedProtocol>
+                {SupportedProtocol.Http, SupportedProtocol.Https, SupportedProtocol.Ws, SupportedProtocol.Wss};
         }
 
         [Serializable]
@@ -439,6 +440,14 @@ namespace Vostok.Singular.Core.Configuration
             public bool LogReplicaRequests { get; set; } = true;
 
             public bool LogReplicaResults { get; set; } = true;
+        }
+
+        public enum SupportedProtocol
+        {
+            Http,
+            Https,
+            Ws,
+            Wss
         }
     }
 }
