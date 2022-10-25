@@ -483,13 +483,5 @@ namespace Vostok.Singular.Core.Configuration
 
             public bool LogReplicaResults { get; set; } = true;
         }
-
-        public enum RequestProtocol
-        {
-            Http,
-            Https,
-            Ws,
-            Wss
-        }
     }
 }
