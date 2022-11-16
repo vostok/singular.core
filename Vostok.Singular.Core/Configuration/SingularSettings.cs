@@ -102,8 +102,6 @@ namespace Vostok.Singular.Core.Configuration
         public class WsDefaultsSettings
         {
             public TimeSpan ConnectionTimeBudget = TimeSpan.FromSeconds(30);
-
-            public List<RequestProtocol> ProtocolsBlackList = new List<RequestProtocol>();
         }
 
         [Serializable]
@@ -190,6 +188,8 @@ namespace Vostok.Singular.Core.Configuration
             public TimeSpan TimeBudget = TimeSpan.FromSeconds(30);
 
             public RequestPriority Priority = RequestPriority.Ordinary;
+            
+            public List<RequestProtocol> ProtocolsBlackList = new List<RequestProtocol>();
         }
 
         #endregion
