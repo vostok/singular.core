@@ -9,6 +9,7 @@ using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
 
 namespace Vostok.Singular.Core.PathPatterns.Idempotency
 {
+    // note (lunev.d, 27.01.2023): needs only for backward compability
     internal static class IdempotencyIdentifierCache
     {
         private static readonly ConcurrentDictionary<(string, string), Lazy<IIdempotencyIdentifier>> Cache = new ConcurrentDictionary<(string, string), Lazy<IIdempotencyIdentifier>>();
