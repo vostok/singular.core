@@ -9,7 +9,7 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
     {
         private readonly SettingsAliasResolver settingsAliasResolver;
         private readonly ISettingsProvider settingsProvider;
-        private static readonly SingularSettings EmptySettings = new();
+        private static readonly SingularSettings EmptySettings = new SingularSettings();
 
         public TimeoutSettingsResolver(SettingsAliasResolver settingsAliasResolver, ISettingsProvider settingsProvider)
         {
@@ -21,8 +21,8 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
         {
             var rules = await settingsAliasResolver.GetPathPatternRuleAsync(method, path);
 
-            if (rules is {TimeBudget: {} budget})
-                return budget;
+            if (rules?.TimeBudget != null)
+                return rules.TimeBudget.Value;
 
             var settings = await settingsProvider.GetAsync(EmptySettings).ConfigureAwait(false);
             return settings.Defaults.TimeBudget;
