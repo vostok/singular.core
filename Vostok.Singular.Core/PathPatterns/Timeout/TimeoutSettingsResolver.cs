@@ -8,10 +8,10 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
     internal class TimeoutSettingsResolver
     {
         private readonly SettingsAliasResolver settingsAliasResolver;
-        private readonly SettingsProvider settingsProvider;
+        private readonly ISettingsProvider settingsProvider;
         private static readonly SingularSettings EmptySettings = new();
 
-        public TimeoutSettingsResolver(SettingsAliasResolver settingsAliasResolver, SettingsProvider settingsProvider)
+        public TimeoutSettingsResolver(SettingsAliasResolver settingsAliasResolver, ISettingsProvider settingsProvider)
         {
             this.settingsAliasResolver = settingsAliasResolver;
             this.settingsProvider = settingsProvider;

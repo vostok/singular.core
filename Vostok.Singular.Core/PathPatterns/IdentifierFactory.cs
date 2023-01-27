@@ -9,6 +9,6 @@ namespace Vostok.Singular.Core.PathPatterns
             return Create(new SettingsProvider(singularClient, zone, service), zone, service);
         }
         
-        protected abstract T Create(SettingsProvider settingsProvider, string zone, string service);
+        protected abstract T Create(ISettingsProvider settingsProvider, string zone, string service);
     }
 }
