@@ -7,7 +7,7 @@ using Vostok.Singular.Core.Configuration;
 
 namespace Vostok.Singular.Core.PathPatterns
 {
-    internal class SettingsProvider
+    internal class SettingsProvider : ISettingsProvider
     {
         private readonly SingularConfigurationSource settingsSource;
         private readonly Sync sync = new Sync();

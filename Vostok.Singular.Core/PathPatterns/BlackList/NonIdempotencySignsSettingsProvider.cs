@@ -14,9 +14,9 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
             }
         };
 
-        private readonly SettingsProvider settingsProvider;
+        private readonly ISettingsProvider settingsProvider;
 
-        public NonIdempotencySignsSettingsProvider(SettingsProvider settingsProvider)
+        public NonIdempotencySignsSettingsProvider(ISettingsProvider settingsProvider)
         {
             this.settingsProvider = settingsProvider;
         }

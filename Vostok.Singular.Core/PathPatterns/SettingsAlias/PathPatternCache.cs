@@ -12,10 +12,10 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
             Rules = new List<PathSettingsRule>()
         };
         
-        private readonly SettingsProvider settingsProvider;
+        private readonly ISettingsProvider settingsProvider;
         private readonly CachingTransformAsync<SingularSettings.PathPatternSettings, List<PathSettings>> cache;
 
-        public PathPatternCache(SettingsProvider settingsProvider)
+        public PathPatternCache(ISettingsProvider settingsProvider)
         {
             this.settingsProvider = settingsProvider;
             cache = new CachingTransformAsync<SingularSettings.PathPatternSettings, List<PathSettings>>(PreprocessSettings, () => GetRawValue());

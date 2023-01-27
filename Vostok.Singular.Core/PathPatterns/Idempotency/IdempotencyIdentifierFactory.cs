@@ -5,7 +5,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
 {
     internal class IdempotencyIdentifierFactory : IdentifierFactory<IIdempotencyIdentifier>
     {
-        protected override IIdempotencyIdentifier Create(SettingsProvider settingsProvider, string zone, string serviceName)
+        protected override IIdempotencyIdentifier Create(ISettingsProvider settingsProvider, string zone, string serviceName)
         {
             var idempotencySignsCache = new NonIdempotencySignsCache(new NonIdempotencySignsSettingsProvider(settingsProvider));
             var iclCache = new IclCache(new IclRulesSettingsProvider(settingsProvider));
