@@ -19,7 +19,7 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
 
         public async Task<TimeSpan?> Get(string method, string path)
         {
-            var pathRule = await settingsAliasResolver.GetPathPatternRuleAsync(method, path);
+            var pathRule = await settingsAliasResolver.GetPathPatternRuleAsync(method, path).ConfigureAwait(false);
 
             if (pathRule?.TimeBudget != null)
                 return pathRule.TimeBudget.Value;

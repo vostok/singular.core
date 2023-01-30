@@ -14,7 +14,7 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 
         public async Task<PathSettings> GetPathPatternRuleAsync(string method, string path)
         {
-            var rules = await cache.GetAsync();
+            var rules = await cache.GetAsync().ConfigureAwait(false);
 
             if (rules?.Count > 0 && path.StartsWith("/"))
                 path = path.TrimStart('/');

@@ -20,7 +20,7 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 
         public async Task<List<PathSettings>> GetAsync()
         {
-            return await cache.GetAsync();
+            return await cache.GetAsync().ConfigureAwait(false);
         }
 
         private static List<PathSettings> PreprocessSettings(SingularSettings.PathPatternSettings settings)
@@ -42,7 +42,7 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 
         private async Task<SingularSettings.PathPatternSettings> GetRawValue()
         {
-            return (await settingsProvider.GetAsync(DefaultSettings)).PathPatternSigns;
+            return (await settingsProvider.GetAsync(DefaultSettings).ConfigureAwait(false)).PathPatternSigns;
         }
     }
 }
