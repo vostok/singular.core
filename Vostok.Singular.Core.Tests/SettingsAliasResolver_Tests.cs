@@ -17,15 +17,18 @@ namespace Vostok.Singular.Core.Tests
         public void SetUp()
         {
             var settingsProvider = Substitute.For<ISettingsProvider>();
-            settingsProvider.GetAsync(Arg.Any<SingularSettings.PathPatternSettings>())
-                .Returns(new SingularSettings.PathPatternSettings
+            settingsProvider.GetAsync(Arg.Any<SingularSettings>())
+                .Returns(new SingularSettings
                 {
-                    Rules = new List<PathSettingsRule>
+                    PathPatternSigns = new SingularSettings.PathPatternSettings
                     {
-                        new() {Method = "*", PathPattern = "*/get-smth*", SettingsAlias = "get-smth-alias"},
-                        new() {Method = "POST", PathPattern = "*", SettingsAlias = "testAlias"},
-                        new() {Method = "GET", PathPattern = "/testWithSlash", SettingsAlias = "testAliasWithSlash"},
-                        new() {Method = "GET", PathPattern = "testWithoutSlash", SettingsAlias = "testAliasWithoutSlash"}
+                        Rules = new List<PathSettingsRule>
+                        {
+                            new() {Method = "*", PathPattern = "*/get-smth*", SettingsAlias = "get-smth-alias"},
+                            new() {Method = "POST", PathPattern = "*", SettingsAlias = "testAlias"},
+                            new() {Method = "GET", PathPattern = "/testWithSlash", SettingsAlias = "testAliasWithSlash"},
+                            new() {Method = "GET", PathPattern = "testWithoutSlash", SettingsAlias = "testAliasWithoutSlash"}
+                        }
                     }
                 });
             settingsAliasIdentifier = new SettingsAliasResolver(new PathPatternCache(settingsProvider));

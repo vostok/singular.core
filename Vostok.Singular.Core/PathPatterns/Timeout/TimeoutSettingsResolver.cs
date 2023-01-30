@@ -17,14 +17,17 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
             this.settingsProvider = settingsProvider;
         }
 
-        public async Task<TimeSpan> Get(string method, string path)
+        public async Task<TimeSpan?> Get(string method, string path)
         {
-            var rules = await settingsAliasResolver.GetPathPatternRuleAsync(method, path);
+            var pathRule = await settingsAliasResolver.GetPathPatternRuleAsync(method, path);
 
-            if (rules?.TimeBudget != null)
-                return rules.TimeBudget.Value;
+            if (pathRule?.TimeBudget != null)
+                return pathRule.TimeBudget.Value;
 
             var settings = await settingsProvider.GetAsync(EmptySettings).ConfigureAwait(false);
+            if (settings.Defaults.TimeBudget == EmptySettings.Defaults.TimeBudget)
+                return null;
+            
             return settings.Defaults.TimeBudget;
         } 
     }

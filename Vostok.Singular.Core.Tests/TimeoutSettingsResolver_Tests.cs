@@ -14,15 +14,17 @@ namespace Vostok.Singular.Core.Tests
 {
     public class TimeoutSettingsResolver_Tests
     {
-        private ISettingsProvider settingsProvider;
+        private ISettingsProvider aliasSettingsProvider;
         private TimeoutSettingsResolver timeoutResolver;
+        private ISettingsProvider commonSettingsProvider;
 
         [SetUp]
         public void SetUp()
         {
-            settingsProvider = Substitute.For<ISettingsProvider>();
-            var aliasResolver = new SettingsAliasResolver(new PathPatternCache(settingsProvider));
-            timeoutResolver = new TimeoutSettingsResolver(aliasResolver, settingsProvider);
+            aliasSettingsProvider = Substitute.For<ISettingsProvider>();
+            commonSettingsProvider = Substitute.For<ISettingsProvider>();
+            var aliasResolver = new SettingsAliasResolver(new PathPatternCache(aliasSettingsProvider));
+            timeoutResolver = new TimeoutSettingsResolver(aliasResolver, commonSettingsProvider);
         }
 
         [Test]
@@ -50,37 +52,45 @@ namespace Vostok.Singular.Core.Tests
         public async Task Should_return_default_timeout_if_path_pattern_rule_not_found()
         {
             SetupDefaultTimeout(20.Seconds());
-            
+
             var result = await timeoutResolver.Get("GET", "test");
 
             result.Should().Be(20.Seconds());
         }
-        
+
         [Test]
         public async Task Should_return_default_timeout_if_path_pattern_timeout_not_set()
         {
-            SetupDefaultTimeout(30.Seconds());
+            SetupDefaultTimeout(20.Seconds());
             SetupPathPatternRule("*", "test");
 
             var result = await timeoutResolver.Get("GET", "not-test");
 
-            result.Should().Be(30.Seconds());
+            result.Should().Be(20.Seconds());
         }
 
         [Test]
         public async Task Should_return_default_timeout_if_path_pattern_rule_doesnt_match()
         {
-            SetupDefaultTimeout(30.Seconds());
+            SetupDefaultTimeout(20.Seconds());
             SetupPathPatternRule("*", "test", 10.Seconds());
 
             var result = await timeoutResolver.Get("GET", "not-test");
 
-            result.Should().Be(30.Seconds());
+            result.Should().Be(20.Seconds());
+        }
+        
+        [Test]
+        public async Task Should_return_null_if_no_overrides()
+        {
+            var result = await timeoutResolver.Get("GET", "test");
+
+            result.Should().BeNull();
         }
 
         private void SetupDefaultTimeout(TimeSpan defaultTimeout)
         {
-            settingsProvider.GetAsync(Arg.Any<SingularSettings>())
+            commonSettingsProvider.GetAsync(Arg.Any<SingularSettings>())
                 .Returns(new SingularSettings
                 {
                     Defaults = new SingularSettings.DefaultsSettings
@@ -92,12 +102,15 @@ namespace Vostok.Singular.Core.Tests
 
         private void SetupPathPatternRule(string method, string path, TimeSpan? timeout = null)
         {
-            settingsProvider.GetAsync(Arg.Any<SingularSettings.PathPatternSettings>())
-                .Returns(new SingularSettings.PathPatternSettings
+            aliasSettingsProvider.GetAsync(Arg.Any<SingularSettings>())
+                .Returns(new SingularSettings
                 {
-                    Rules = new List<PathSettingsRule>
+                    PathPatternSigns = new SingularSettings.PathPatternSettings
                     {
-                        new PathSettingsRule {Method = method, PathPattern = path, TimeBudget = timeout},
+                        Rules = new List<PathSettingsRule>
+                        {
+                            new PathSettingsRule {Method = method, PathPattern = path, TimeBudget = timeout},
+                        }
                     }
                 });
         }
