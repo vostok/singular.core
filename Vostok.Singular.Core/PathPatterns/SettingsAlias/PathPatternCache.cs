@@ -7,18 +7,18 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 {
     internal class PathPatternCache : ISettingsCache<PathSettings>
     {
-        private static readonly SingularSettings.PathPatternSettings EmptySettings = new SingularSettings.PathPatternSettings()
+        private static readonly PathPatternSettings EmptySettings = new PathPatternSettings()
         {
             Rules = new List<PathSettingsRule>()
         };
         
         private readonly ISettingsProvider settingsProvider;
-        private readonly CachingTransformAsync<SingularSettings.PathPatternSettings, List<PathSettings>> cache;
+        private readonly CachingTransformAsync<PathPatternSettings, List<PathSettings>> cache;
 
         public PathPatternCache(ISettingsProvider settingsProvider)
         {
             this.settingsProvider = settingsProvider;
-            cache = new CachingTransformAsync<SingularSettings.PathPatternSettings, List<PathSettings>>(PreprocessSettings, () => GetRawValue());
+            cache = new CachingTransformAsync<PathPatternSettings, List<PathSettings>>(PreprocessSettings, () => GetRawValue());
         }
 
         public async Task<List<PathSettings>> GetAsync()
@@ -26,7 +26,7 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
             return await cache.GetAsync();
         }
 
-        private static List<PathSettings> PreprocessSettings(SingularSettings.PathPatternSettings settings)
+        private static List<PathSettings> PreprocessSettings(PathPatternSettings settings)
         {
             return settings
                 .Rules
@@ -43,7 +43,7 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
                 .ToList();
         }
 
-        private async Task<SingularSettings.PathPatternSettings> GetRawValue()
+        private async Task<PathPatternSettings> GetRawValue()
         {
             return await settingsProvider.GetAsync(EmptySettings);
         }
