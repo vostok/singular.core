@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Vostok.Clusterclient.Core.Model;
+using Vostok.Configuration.Abstractions.Attributes;
 using Vostok.Configuration.Primitives;
 using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Settings;
@@ -36,6 +37,7 @@ namespace Vostok.Singular.Core.Configuration
 
         public IdempotencySettings IdempotencySettings = new IdempotencySettings();
 
+        [Alias(nameof(PathPatternSettings))]
         public PathPatternSettings PathPatternSigns = new PathPatternSettings();
 
         public RequestRejectSettings RequestReject = new RequestRejectSettings();
