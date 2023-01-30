@@ -11,7 +11,7 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
             this.settingsAliasResolver = settingsAliasResolver;
         }
         
-        protected override TimeoutSettingsResolver Create(ISettingsProvider settingsProvider, string zone, string service)
+        protected override TimeoutSettingsResolver Create(ISettingsProvider settingsProvider)
         {
             return new TimeoutSettingsResolver(settingsAliasResolver, settingsProvider);
         }

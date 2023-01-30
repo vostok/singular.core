@@ -6,9 +6,9 @@ namespace Vostok.Singular.Core.PathPatterns
     {
         public T Create(IClusterClient singularClient, string zone, string service)
         {
-            return Create(new SettingsProvider(singularClient, zone, service), zone, service);
+            return Create(new SettingsProvider(singularClient, zone, service));
         }
         
-        protected abstract T Create(ISettingsProvider settingsProvider, string zone, string service);
+        protected abstract T Create(ISettingsProvider settingsProvider);
     }
 }
