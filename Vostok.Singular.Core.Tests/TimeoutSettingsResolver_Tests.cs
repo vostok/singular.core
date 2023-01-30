@@ -92,8 +92,8 @@ namespace Vostok.Singular.Core.Tests
 
         private void SetupPathPatternRule(string method, string path, TimeSpan? timeout = null)
         {
-            settingsProvider.GetAsync(Arg.Any<PathPatternSettings>())
-                .Returns(new PathPatternSettings
+            settingsProvider.GetAsync(Arg.Any<SingularSettings.PathPatternSettings>())
+                .Returns(new SingularSettings.PathPatternSettings
                 {
                     Rules = new List<PathSettingsRule>
                     {
