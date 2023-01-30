@@ -17,8 +17,8 @@ namespace Vostok.Singular.Core.Tests
         public void SetUp()
         {
             var settingsProvider = Substitute.For<ISettingsProvider>();
-            settingsProvider.GetAsync(Arg.Any<SingularSettings.PathPatternSettings>())
-                .Returns(new SingularSettings.PathPatternSettings
+            settingsProvider.GetAsync(Arg.Any<PathPatternSettings>())
+                .Returns(new PathPatternSettings
                 {
                     Rules = new List<PathSettingsRule>
                     {

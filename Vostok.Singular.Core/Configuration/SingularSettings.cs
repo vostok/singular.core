@@ -386,16 +386,6 @@ namespace Vostok.Singular.Core.Configuration
 
         #endregion
 
-        #region PathPatternSettings
-
-        [Serializable]
-        public class PathPatternSettings
-        {
-            public List<PathSettingsRule> Rules = new List<PathSettingsRule>();
-        }
-
-        #endregion
-
         #region RequestRejectSettings
 
         [Serializable]
