@@ -9,9 +9,9 @@ using Vostok.Singular.Core.PathPatterns.SettingsAlias;
 
 namespace Vostok.Singular.Core.Tests
 {
-    public class SettingsAliasResolver_Tests
+    public class SettingsAliasProvider_Tests
     {
-        private SettingsAliasResolver settingsAliasIdentifier;
+        private SettingsAliasProvider settingsAliasProvider;
 
         [SetUp]
         public void SetUp()
@@ -31,13 +31,13 @@ namespace Vostok.Singular.Core.Tests
                         }
                     }
                 });
-            settingsAliasIdentifier = new SettingsAliasResolver(new PathPatternCache(settingsProvider));
+            settingsAliasProvider = new SettingsAliasProvider(new PathPatternCache(settingsProvider));
         }
 
         [Test]
         public async Task Should_return_null_when_no_aliases()
         {
-            var result = await settingsAliasIdentifier.GetPathPatternRuleAsync("*", "*");
+            var result = await settingsAliasProvider.Get("*", "*");
 
             result.Should().BeNull();
         }
@@ -53,7 +53,7 @@ namespace Vostok.Singular.Core.Tests
         [TestCase("GET", "/TeStwiThOuTSLaSh", "testAliasWithoutSlash")]
         public async Task Should_return_alias_when_path_matched(string method, string path, string alias)
         {
-            var result = await settingsAliasIdentifier.GetPathPatternRuleAsync(method, path);
+            var result = await settingsAliasProvider.Get(method, path);
 
             result.SettingsAlias.Should().Be(alias);
         }
@@ -62,7 +62,7 @@ namespace Vostok.Singular.Core.Tests
         [TestCase("PUT", "*")]
         public async Task Should_return_null_when_no_matches(string method, string path)
         {
-            var result = await settingsAliasIdentifier.GetPathPatternRuleAsync(method, path);
+            var result = await settingsAliasProvider.Get(method, path);
 
             result.Should().BeNull();
         }

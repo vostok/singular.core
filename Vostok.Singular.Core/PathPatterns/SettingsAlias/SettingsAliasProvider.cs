@@ -3,16 +3,16 @@ using System.Threading.Tasks;
 
 namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 {
-    internal class SettingsAliasResolver
+    internal class SettingsAliasProvider
     {
         private readonly ISettingsCache<PathSettings> cache;
 
-        public SettingsAliasResolver(ISettingsCache<PathSettings> cache)
+        public SettingsAliasProvider(ISettingsCache<PathSettings> cache)
         {
             this.cache = cache;
         }
 
-        public async Task<PathSettings> GetPathPatternRuleAsync(string method, string path)
+        public async Task<PathSettings> Get(string method, string path)
         {
             var rules = await cache.GetAsync().ConfigureAwait(false);
 

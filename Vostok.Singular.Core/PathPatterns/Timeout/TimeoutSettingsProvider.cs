@@ -5,28 +5,26 @@ using Vostok.Singular.Core.PathPatterns.SettingsAlias;
 
 namespace Vostok.Singular.Core.PathPatterns.Timeout
 {
-    internal class TimeoutSettingsResolver
+    internal class TimeoutSettingsProvider
     {
-        private readonly SettingsAliasResolver settingsAliasResolver;
+        private readonly SettingsAliasProvider settingsAliasProvider;
         private readonly ISettingsProvider settingsProvider;
         private static readonly SingularSettings EmptySettings = new SingularSettings();
 
-        public TimeoutSettingsResolver(SettingsAliasResolver settingsAliasResolver, ISettingsProvider settingsProvider)
+        public TimeoutSettingsProvider(SettingsAliasProvider settingsAliasProvider, ISettingsProvider settingsProvider)
         {
-            this.settingsAliasResolver = settingsAliasResolver;
+            this.settingsAliasProvider = settingsAliasProvider;
             this.settingsProvider = settingsProvider;
         }
 
-        public async Task<TimeSpan?> Get(string method, string path)
+        public async Task<TimeSpan> Get(string method, string path)
         {
-            var pathRule = await settingsAliasResolver.GetPathPatternRuleAsync(method, path).ConfigureAwait(false);
+            var pathRule = await settingsAliasProvider.Get(method, path).ConfigureAwait(false);
 
             if (pathRule?.TimeBudget != null)
                 return pathRule.TimeBudget.Value;
 
             var settings = await settingsProvider.GetAsync(EmptySettings).ConfigureAwait(false);
-            if (settings.Defaults.TimeBudget == EmptySettings.Defaults.TimeBudget)
-                return null;
             
             return settings.Defaults.TimeBudget;
         } 
