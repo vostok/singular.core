@@ -35,5 +35,7 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
 
             await requestStrategy.SendAsync(request, parameters, sender, newBudget, replicas, replicasCount, cancellationToken).ConfigureAwait(false);
         }
+
+        public override string ToString() => "SingularStrategy";
     }
 }
