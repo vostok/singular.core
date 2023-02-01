@@ -15,7 +15,7 @@ namespace Vostok.Singular.Core.Tests
     public class TimeoutSettingsResolver_Tests
     {
         private ISettingsProvider aliasSettingsProvider;
-        private TimeoutSettingsResolver timeoutResolver;
+        private TimeoutSettingsProvider timeoutProvider;
         private ISettingsProvider commonSettingsProvider;
 
         [SetUp]
@@ -23,8 +23,8 @@ namespace Vostok.Singular.Core.Tests
         {
             aliasSettingsProvider = Substitute.For<ISettingsProvider>();
             commonSettingsProvider = Substitute.For<ISettingsProvider>();
-            var aliasResolver = new SettingsAliasResolver(new PathPatternCache(aliasSettingsProvider));
-            timeoutResolver = new TimeoutSettingsResolver(aliasResolver, commonSettingsProvider);
+            var aliasResolver = new SettingsAliasProvider(new PathPatternCache(aliasSettingsProvider));
+            timeoutProvider = new TimeoutSettingsProvider(aliasResolver, commonSettingsProvider);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace Vostok.Singular.Core.Tests
         {
             SetupPathPatternRule("*", "test", 10.Seconds());
 
-            var result = await timeoutResolver.Get("GET", "test");
+            var result = await timeoutProvider.Get("GET", "test");
 
             result.Should().Be(10.Seconds());
         }
@@ -43,7 +43,7 @@ namespace Vostok.Singular.Core.Tests
             SetupDefaultTimeout(30.Seconds());
             SetupPathPatternRule("*", "test", 10.Seconds());
 
-            var result = await timeoutResolver.Get("GET", "test");
+            var result = await timeoutProvider.Get("GET", "test");
 
             result.Should().Be(10.Seconds());
         }
@@ -53,7 +53,7 @@ namespace Vostok.Singular.Core.Tests
         {
             SetupDefaultTimeout(20.Seconds());
 
-            var result = await timeoutResolver.Get("GET", "test");
+            var result = await timeoutProvider.Get("GET", "test");
 
             result.Should().Be(20.Seconds());
         }
@@ -64,7 +64,7 @@ namespace Vostok.Singular.Core.Tests
             SetupDefaultTimeout(20.Seconds());
             SetupPathPatternRule("*", "test");
 
-            var result = await timeoutResolver.Get("GET", "not-test");
+            var result = await timeoutProvider.Get("GET", "not-test");
 
             result.Should().Be(20.Seconds());
         }
@@ -75,17 +75,17 @@ namespace Vostok.Singular.Core.Tests
             SetupDefaultTimeout(20.Seconds());
             SetupPathPatternRule("*", "test", 10.Seconds());
 
-            var result = await timeoutResolver.Get("GET", "not-test");
+            var result = await timeoutProvider.Get("GET", "not-test");
 
             result.Should().Be(20.Seconds());
         }
         
         [Test]
-        public async Task Should_return_null_if_no_overrides()
+        public async Task Should_return_default_timeout_if_no_overrides()
         {
-            var result = await timeoutResolver.Get("GET", "test");
+            var result = await timeoutProvider.Get("GET", "test");
 
-            result.Should().BeNull();
+            result.Should().Be(new SingularSettings().Defaults.TimeBudget);
         }
 
         private void SetupDefaultTimeout(TimeSpan defaultTimeout)

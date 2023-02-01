@@ -38,16 +38,5 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
 
             await selectedStrategy.SendAsync(request, parameters, sender, budget, replicas, replicasCount, cancellationToken).ConfigureAwait(false);
         }
-        
-        //TODO (lunev.d 31.01.2023): Remove after releases of server and client modules 
-        public static string GetRequestPath(Uri url)
-        {
-            if (url.IsAbsoluteUri)
-                return url.AbsolutePath;
-
-            var originalString = url.OriginalString;
-            var queryIndex = originalString.IndexOf('?');
-            return queryIndex > -1 ? originalString.Substring(0, queryIndex) : originalString;
-        }
     }
 }
