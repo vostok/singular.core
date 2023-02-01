@@ -5,7 +5,7 @@ using Vostok.Singular.Core.Configuration;
 
 namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 {
-    internal static class SettingsAliasResolverCache
+    internal static class SettingsAliasProviderCache
     {
         private static readonly ConcurrentDictionary<(string, string), Lazy<SettingsAliasProvider>> Cache = new ConcurrentDictionary<(string, string), Lazy<SettingsAliasProvider>>();
 

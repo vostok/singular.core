@@ -6,7 +6,7 @@ using Vostok.Singular.Core.PathPatterns.SettingsAlias;
 
 namespace Vostok.Singular.Core.PathPatterns.Timeout
 {
-    internal static class TimeoutSettingsResolverCache
+    internal static class TimeoutSettingsProviderCache
     {
         private static readonly ConcurrentDictionary<(string, string), Lazy<TimeoutSettingsProvider>> Cache = new ConcurrentDictionary<(string, string), Lazy<TimeoutSettingsProvider>>();
 
@@ -17,7 +17,7 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
         }
         private static TimeoutSettingsProvider Create(IClusterClient singularClient, string environment, string service)
         {
-            return new TimeoutSettingsProvider(SettingsAliasResolverCache.Get(singularClient, environment, service),
+            return new TimeoutSettingsProvider(SettingsAliasProviderCache.Get(singularClient, environment, service),
                 SettingsProviderCache.Get(singularClient, environment, service));
         }
     }
