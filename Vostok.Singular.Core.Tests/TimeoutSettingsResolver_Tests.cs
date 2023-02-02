@@ -79,13 +79,54 @@ namespace Vostok.Singular.Core.Tests
 
             result.Should().Be(20.Seconds());
         }
-        
+
         [Test]
         public async Task Should_return_default_timeout_if_no_overrides()
         {
             var result = await timeoutProvider.Get("GET", "test");
 
             result.Should().Be(new SingularSettings().Defaults.TimeBudget);
+        }
+
+        [Test]
+        public async Task Should_return_alias_timeout_if_set()
+        {
+            SetupPathPatternRule("GET", "test", alias: "alias");
+            SetUpAliasSettings("alias", 10.Seconds());
+                
+            var result = await timeoutProvider.Get("GET", "test");
+            
+            result.Should().Be(10.Seconds());
+        }
+
+        [Test]
+        public async Task Should_return_alias_timeout_even_if_default_timeout_set()
+        {
+            SetupPathPatternRule("GET", "test", alias: "alias");
+            SetupDefaultTimeout(20.Seconds());
+            SetUpAliasSettings("alias", 10.Seconds());
+                
+            var result = await timeoutProvider.Get("GET", "test");
+            
+            result.Should().Be(10.Seconds());
+        }
+
+        private void SetUpAliasSettings(string alias, TimeSpan seconds)
+        {
+            commonSettingsProvider.GetAsync(Arg.Any<SingularSettings>())
+                .ReturnsForAnyArgs(new SingularSettings
+                {
+                    SettingsAliases = new Dictionary<string, SingularSettings>
+                    {
+                        [alias] = new SingularSettings
+                        {
+                            Defaults = new SingularSettings.DefaultsSettings
+                            {
+                                TimeBudget = seconds
+                            }
+                        }
+                    }
+                });
         }
 
         private void SetupDefaultTimeout(TimeSpan defaultTimeout)
@@ -100,7 +141,7 @@ namespace Vostok.Singular.Core.Tests
                 });
         }
 
-        private void SetupPathPatternRule(string method, string path, TimeSpan? timeout = null)
+        private void SetupPathPatternRule(string method, string path, TimeSpan? timeout = null, string alias = null)
         {
             aliasSettingsProvider.GetAsync(Arg.Any<SingularSettings>())
                 .Returns(new SingularSettings
@@ -109,7 +150,13 @@ namespace Vostok.Singular.Core.Tests
                     {
                         Rules = new List<PathSettingsRule>
                         {
-                            new PathSettingsRule {Method = method, PathPattern = path, TimeBudget = timeout},
+                            new PathSettingsRule
+                            {
+                                Method = method,
+                                PathPattern = path,
+                                TimeBudget = timeout,
+                                SettingsAlias = alias
+                            },
                         }
                     }
                 });

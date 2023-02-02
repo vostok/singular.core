@@ -5,7 +5,7 @@ using Vostok.Singular.Core.Configuration;
 
 namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 {
-    internal class PathPatternCache : ISettingsCache<PathSettings>
+    internal class PathPatternCache
     {
         private static readonly SingularSettings DefaultSettings = new SingularSettings();
         
