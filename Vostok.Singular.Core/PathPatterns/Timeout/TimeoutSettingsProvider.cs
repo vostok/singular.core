@@ -26,7 +26,11 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
 
             var settings = await settingsProvider.GetAsync(EmptySettings).ConfigureAwait(false);
             
-            return settings.Defaults.TimeBudget;
+            if (pathRule?.SettingsAlias == null)
+                return settings.Defaults.TimeBudget;
+            
+            var pathSettings = settings.SettingsAliases[pathRule.SettingsAlias];
+            return pathSettings.Defaults.TimeBudget;
         } 
     }
 }

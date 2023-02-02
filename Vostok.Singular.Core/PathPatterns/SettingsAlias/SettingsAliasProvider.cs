@@ -5,9 +5,9 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 {
     internal class SettingsAliasProvider
     {
-        private readonly ISettingsCache<PathSettings> cache;
+        private readonly PathPatternCache cache;
 
-        public SettingsAliasProvider(ISettingsCache<PathSettings> cache)
+        public SettingsAliasProvider(PathPatternCache cache)
         {
             this.cache = cache;
         }
