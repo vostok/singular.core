@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Concurrent;
 using Vostok.Clusterclient.Core;
+using Vostok.Configuration;
+using Vostok.Configuration.Logging;
+using Vostok.Logging.Abstractions;
 using Vostok.Singular.Core.Configuration;
 using Vostok.Singular.Core.PathPatterns.BlackList;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
@@ -11,6 +14,18 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
     {
         private static readonly ConcurrentDictionary<(string, string), Lazy<IIdempotencyIdentifier>> Cache = new ConcurrentDictionary<(string, string), Lazy<IIdempotencyIdentifier>>();
 
+        static IdempotencyIdentifierCache()
+        {
+            var providerSettings = new ConfigurationProviderSettings()
+                .WithErrorLogging(LogProvider.Get())
+                .WithSettingsLogging(LogProvider.Get());
+
+            var provider = new ConfigurationProvider(providerSettings);
+
+            if (!ConfigurationProvider.TrySetDefault(provider))
+                provider.Dispose();
+        }
+        
         public static IIdempotencyIdentifier Get(IClusterClient singularClient, string environment, string serviceName)
         {
             return Cache.GetOrAdd((environment, serviceName), s => new Lazy<IIdempotencyIdentifier>(() => Create(singularClient, s.Item1, s.Item2))).Value;
