@@ -31,7 +31,7 @@ namespace Vostok.Singular.Core.Tests
                         }
                     }
                 });
-            settingsAliasProvider = new SettingsAliasProvider(new PathPatternCache(settingsProvider));
+            settingsAliasProvider = new SettingsAliasProvider(new PathPatternCache(new SingularServiceSettingsProvider(settingsProvider)));
         }
 
         [Test]

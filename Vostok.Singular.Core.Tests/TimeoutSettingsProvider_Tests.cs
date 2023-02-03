@@ -1,10 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Extensions;
 using NSubstitute;
 using NUnit.Framework;
+using Vostok.Clusterclient.Core;
+using Vostok.Clusterclient.Core.Model;
+using Vostok.Configuration;
+using Vostok.Configuration.Printing;
 using Vostok.Singular.Core.Configuration;
 using Vostok.Singular.Core.PathPatterns;
 using Vostok.Singular.Core.PathPatterns.SettingsAlias;
@@ -12,7 +17,7 @@ using Vostok.Singular.Core.PathPatterns.Timeout;
 
 namespace Vostok.Singular.Core.Tests
 {
-    public class TimeoutSettingsResolver_Tests
+    public class TimeoutSettingsProvider_Tests
     {
         private ISettingsProvider aliasSettingsProvider;
         private TimeoutSettingsProvider timeoutProvider;
@@ -23,7 +28,7 @@ namespace Vostok.Singular.Core.Tests
         {
             aliasSettingsProvider = Substitute.For<ISettingsProvider>();
             commonSettingsProvider = Substitute.For<ISettingsProvider>();
-            var aliasResolver = new SettingsAliasProvider(new PathPatternCache(aliasSettingsProvider));
+            var aliasResolver = new SettingsAliasProvider(new PathPatternCache(new SingularServiceSettingsProvider(aliasSettingsProvider)));
             timeoutProvider = new TimeoutSettingsProvider(aliasResolver, commonSettingsProvider);
         }
 
@@ -93,9 +98,9 @@ namespace Vostok.Singular.Core.Tests
         {
             SetupPathPatternRule("GET", "test", alias: "alias");
             SetUpAliasSettings("alias", 10.Seconds());
-                
+
             var result = await timeoutProvider.Get("GET", "test");
-            
+
             result.Should().Be(10.Seconds());
         }
 
@@ -105,10 +110,54 @@ namespace Vostok.Singular.Core.Tests
             SetupPathPatternRule("GET", "test", alias: "alias");
             SetupDefaultTimeout(20.Seconds());
             SetUpAliasSettings("alias", 10.Seconds());
-                
+
             var result = await timeoutProvider.Get("GET", "test");
-            
+
             result.Should().Be(10.Seconds());
+        }
+
+        [Test]
+        public async Task Should()
+        {
+            var settings = new VersionedSettings<SingularSettings>(SettingsVersionType.ClusterConfig,
+                2,
+                new SingularSettings()
+                {
+                    Defaults = new SingularSettings.DefaultsSettings
+                    {
+                        TimeBudget = 10.Seconds()
+                    }
+                });
+            var client = CreateClient(settings);
+
+            var timeoutProvide = TimeoutSettingsProviderCache.Get(client, "", "fdsfsd");
+            var res = await timeoutProvide.Get("", "");
+            res.Should().Be(new SingularSettings().Defaults.TimeBudget);
+
+            var timeoutProvide2 = TimeoutSettingsProviderCache.Get(client, "", "testService");
+            var res2 = await timeoutProvide2.Get("", "");
+            res2.Should().Be(10.Seconds());
+        }
+
+        private IClusterClient CreateClient(VersionedSettings<SingularSettings> settings)
+        {
+            var content = ConfigurationPrinter.Print(settings, new PrintSettings {Format = PrintFormat.JSON});
+            var client = Substitute.For<IClusterClient>();
+
+            var settings2 = new VersionedSettings<SingularSettings>(SettingsVersionType.ClusterConfig, 1, new SingularSettings());
+
+            client.SendAsync(Arg.Is<Request>(f => f.Url.ToString().Contains("testService")))
+                .Returns(new ClusterResult(ClusterResultStatus.Success,
+                    new List<ReplicaResult>(),
+                    new Response(ResponseCode.Ok, new Content(Encoding.UTF8.GetBytes(content))),
+                    Request.Delete("das")));
+            client.SendAsync(Arg.Is<Request>(f => !f.Url.ToString().Contains("testService")))
+                .Returns(new ClusterResult(ClusterResultStatus.Success,
+                    new List<ReplicaResult>(),
+                    new Response(ResponseCode.Ok, new Content(Encoding.UTF8.GetBytes(ConfigurationPrinter.Print(settings2, new PrintSettings {Format = PrintFormat.JSON})))),
+                    Request.Delete("das")));
+
+            return client;
         }
 
         private void SetUpAliasSettings(string alias, TimeSpan seconds)
