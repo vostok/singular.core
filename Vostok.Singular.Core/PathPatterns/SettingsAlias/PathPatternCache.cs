@@ -7,12 +7,10 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 {
     internal class PathPatternCache : ISettingsCache<PathSettings>
     {
-        private static readonly SingularSettings DefaultSettings = new SingularSettings();
-        
-        private readonly ISettingsProvider settingsProvider;
+        private readonly IServiceSettingsProvider settingsProvider;
         private readonly CachingTransformAsync<SingularSettings.PathPatternSettings, List<PathSettings>> cache;
 
-        public PathPatternCache(ISettingsProvider settingsProvider)
+        public PathPatternCache(IServiceSettingsProvider settingsProvider)
         {
             this.settingsProvider = settingsProvider;
             cache = new CachingTransformAsync<SingularSettings.PathPatternSettings, List<PathSettings>>(PreprocessSettings, () => GetRawValue());
@@ -42,7 +40,7 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 
         private async Task<SingularSettings.PathPatternSettings> GetRawValue()
         {
-            return (await settingsProvider.GetAsync(DefaultSettings).ConfigureAwait(false)).PathPatternSigns;
+            return (await settingsProvider.Get().ConfigureAwait(false)).PathPatternSigns;
         }
     }
 }

@@ -11,12 +11,16 @@ namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
 
         public static SettingsAliasProvider Get(IClusterClient singularClient, string environment, string service)
         {
-            return Cache.GetOrAdd((environment, service), s => new Lazy<SettingsAliasProvider>(
-                () => Create(singularClient, s.Item1, s.Item2))).Value;
+            return Cache.GetOrAdd((environment, service),
+                    s => new Lazy<SettingsAliasProvider>(
+                        () => Create(singularClient, s.Item1, s.Item2)))
+                .Value;
         }
+
         private static SettingsAliasProvider Create(IClusterClient singularClient, string environment, string service)
         {
-            return new SettingsAliasProvider(new PathPatternCache(SettingsProviderCache.Get(singularClient, environment, service)));
-        }    
+            return new SettingsAliasProvider(new PathPatternCache(
+                new SingularServiceSettingsProvider(SettingsProviderCache.Get(singularClient, environment, service))));
+        }
     }
 }

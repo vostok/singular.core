@@ -12,12 +12,12 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
     internal class SingularTimeoutSettingsStrategy : IRequestStrategy
     {
         private readonly IRequestStrategy requestStrategy;
-        private readonly TimeoutSettingsProvider timeoutSettingsResolver;
+        private readonly TimeoutSettingsProvider timeoutSettingsProvider;
 
-        public SingularTimeoutSettingsStrategy(IRequestStrategy requestStrategy, TimeoutSettingsProvider timeoutSettingsResolver)
+        public SingularTimeoutSettingsStrategy(IRequestStrategy requestStrategy, TimeoutSettingsProvider timeoutSettingsProvider)
         {
             this.requestStrategy = requestStrategy;
-            this.timeoutSettingsResolver = timeoutSettingsResolver;
+            this.timeoutSettingsProvider = timeoutSettingsProvider;
         }
 
         public async Task SendAsync(
@@ -29,7 +29,7 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
             int replicasCount,
             CancellationToken cancellationToken)
         {
-            var timeout = await timeoutSettingsResolver.Get(request.Method, request.Url.GetRequestPath()).ConfigureAwait(false);
+            var timeout = await timeoutSettingsProvider.Get(request.Method, request.Url.GetRequestPath()).ConfigureAwait(false);
 
             var newBudget = RequestTimeBudget.StartNew(timeout);
 
