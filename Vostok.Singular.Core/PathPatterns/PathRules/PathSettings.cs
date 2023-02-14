@@ -1,7 +1,7 @@
 ﻿using System;
 using Vostok.Singular.Core.Configuration;
 
-namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
+namespace Vostok.Singular.Core.PathPatterns.PathRules
 {
     internal class PathSettings : PathPatternRule
     {

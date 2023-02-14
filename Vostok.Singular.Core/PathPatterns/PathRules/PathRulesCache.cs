@@ -3,14 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Vostok.Singular.Core.Configuration;
 
-namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
+namespace Vostok.Singular.Core.PathPatterns.PathRules
 {
-    internal class PathPatternCache : ISettingsCache<PathSettings>
+    internal class PathRulesCache : ISettingsCache<PathSettings>
     {
         private readonly IServiceSettingsProvider settingsProvider;
         private readonly CachingTransformAsync<SingularSettings.PathPatternSettings, List<PathSettings>> cache;
 
-        public PathPatternCache(IServiceSettingsProvider settingsProvider)
+        public PathRulesCache(IServiceSettingsProvider settingsProvider)
         {
             this.settingsProvider = settingsProvider;
             cache = new CachingTransformAsync<SingularSettings.PathPatternSettings, List<PathSettings>>(PreprocessSettings, () => GetRawValue());

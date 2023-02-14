@@ -2,7 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using Vostok.Clusterclient.Core;
 using Vostok.Singular.Core.Configuration;
-using Vostok.Singular.Core.PathPatterns.SettingsAlias;
+using Vostok.Singular.Core.PathPatterns.PathRules;
 
 namespace Vostok.Singular.Core.PathPatterns.Timeout
 {
@@ -17,7 +17,7 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
         }
         private static TimeoutSettingsProvider Create(IClusterClient singularClient, string environment, string service)
         {
-            return new TimeoutSettingsProvider(SettingsAliasProviderCache.Get(singularClient, environment, service),
+            return new TimeoutSettingsProvider(PathRulesProviderCache.Get(singularClient, environment, service),
                 SettingsProviderCache.Get(singularClient, environment, service));
         }
     }

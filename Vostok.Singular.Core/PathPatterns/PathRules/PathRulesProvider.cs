@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
-namespace Vostok.Singular.Core.PathPatterns.SettingsAlias
+namespace Vostok.Singular.Core.PathPatterns.PathRules
 {
-    internal class SettingsAliasProvider
+    internal class PathRulesProvider
     {
         private readonly ISettingsCache<PathSettings> cache;
 
-        public SettingsAliasProvider(ISettingsCache<PathSettings> cache)
+        public PathRulesProvider(ISettingsCache<PathSettings> cache)
         {
             this.cache = cache;
         }

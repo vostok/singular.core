@@ -13,7 +13,7 @@ using Vostok.Configuration.Printing;
 using Vostok.Singular.Core.Configuration;
 using Vostok.Singular.Core.PathPatterns.Idempotency;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules.Settings;
-using Vostok.Singular.Core.PathPatterns.SettingsAlias;
+using Vostok.Singular.Core.PathPatterns.PathRules;
 using Vostok.Singular.Core.PathPatterns.Timeout;
 
 namespace Vostok.Singular.Core.Tests
@@ -67,7 +67,7 @@ namespace Vostok.Singular.Core.Tests
         }
 
         [Test]
-        public async Task SettingsAliasProviderCache_should_detect_identity_correctly()
+        public async Task PathRulesProviderCache_should_detect_identity_correctly()
         {
             var settings = new SingularSettings
             {
@@ -86,7 +86,7 @@ namespace Vostok.Singular.Core.Tests
             };
             var service = Guid.NewGuid().ToString();
             var client = CreateClientWithServiceSettings(settings, "default", service);
-            var cache = SettingsAliasProviderCache.Get(client, "default", service);
+            var cache = PathRulesProviderCache.Get(client, "default", service);
             var res = await cache.Get("", "");
 
             res.TimeBudget.Should().Be(10.Seconds());
