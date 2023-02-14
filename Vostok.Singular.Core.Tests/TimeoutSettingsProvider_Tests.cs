@@ -111,6 +111,17 @@ namespace Vostok.Singular.Core.Tests
             result.Should().Be(10.Seconds());
         }
 
+        [Test]
+        public async Task Should_return_default_timeout_if_alias_not_exists_if_alias_does_not_exists()
+        {
+            SetupPathPatternRule("GET", "test", alias: "alias");
+            SetupDefaultTimeout(20.Seconds());
+
+            var result = await timeoutProvider.Get("GET", "test");
+
+            result.Should().Be(20.Seconds());
+        }
+
         private void SetUpAliasSettings(string alias, TimeSpan seconds)
         {
             commonSettingsProvider.GetAsync(Arg.Any<SingularSettings>())
