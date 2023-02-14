@@ -25,18 +25,14 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
                 return pathRule.TimeBudget.Value;
 
             var settings = await settingsProvider.GetAsync(EmptySettings).ConfigureAwait(false);
+            
+            if (pathRule?.SettingsAlias == null)
+                return settings.Defaults.TimeBudget;
 
-            return GetFromAlias(pathRule, settings) ?? settings.Defaults.TimeBudget;
-        }
+            if (!settings.SettingsAliases.TryGetValue(pathRule.SettingsAlias, out var aliasSettings))
+                return settings.Defaults.TimeBudget;
 
-        private static TimeSpan? GetFromAlias(PathSettings pathSettings, SingularSettings settings)
-        {
-            if (pathSettings?.SettingsAlias == null)
-                return null;
-
-            return settings.SettingsAliases.TryGetValue(pathSettings.SettingsAlias, out var aliasSettings)
-                ? aliasSettings.Defaults.TimeBudget
-                : null;
+            return aliasSettings.Defaults.TimeBudget;
         }
     }
 }
