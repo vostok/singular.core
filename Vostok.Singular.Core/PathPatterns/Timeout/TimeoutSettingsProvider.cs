@@ -1,25 +1,25 @@
 using System;
 using System.Threading.Tasks;
 using Vostok.Singular.Core.Configuration;
-using Vostok.Singular.Core.PathPatterns.SettingsAlias;
+using Vostok.Singular.Core.PathPatterns.PathRules;
 
 namespace Vostok.Singular.Core.PathPatterns.Timeout
 {
     internal class TimeoutSettingsProvider
     {
-        private readonly SettingsAliasProvider settingsAliasProvider;
+        private readonly PathRulesProvider pathRulesProvider;
         private readonly ISettingsProvider settingsProvider;
         private static readonly SingularSettings EmptySettings = new SingularSettings();
 
-        public TimeoutSettingsProvider(SettingsAliasProvider settingsAliasProvider, ISettingsProvider settingsProvider)
+        public TimeoutSettingsProvider(PathRulesProvider pathRulesProvider, ISettingsProvider settingsProvider)
         {
-            this.settingsAliasProvider = settingsAliasProvider;
+            this.pathRulesProvider = pathRulesProvider;
             this.settingsProvider = settingsProvider;
         }
 
         public async Task<TimeSpan> Get(string method, string path)
         {
-            var pathRule = await settingsAliasProvider.Get(method, path).ConfigureAwait(false);
+            var pathRule = await pathRulesProvider.Get(method, path).ConfigureAwait(false);
 
             if (pathRule?.TimeBudget != null)
                 return pathRule.TimeBudget.Value;

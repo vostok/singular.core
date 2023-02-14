@@ -7,7 +7,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Vostok.Singular.Core.Configuration;
 using Vostok.Singular.Core.PathPatterns;
-using Vostok.Singular.Core.PathPatterns.SettingsAlias;
+using Vostok.Singular.Core.PathPatterns.PathRules;
 using Vostok.Singular.Core.PathPatterns.Timeout;
 
 namespace Vostok.Singular.Core.Tests
@@ -23,7 +23,7 @@ namespace Vostok.Singular.Core.Tests
         {
             aliasSettingsProvider = Substitute.For<ISettingsProvider>();
             commonSettingsProvider = Substitute.For<ISettingsProvider>();
-            var aliasResolver = new SettingsAliasProvider(new PathPatternCache(new SingularServiceSettingsProvider(aliasSettingsProvider)));
+            var aliasResolver = new PathRulesProvider(new PathRulesCache(new SingularServiceSettingsProvider(aliasSettingsProvider)));
             timeoutProvider = new TimeoutSettingsProvider(aliasResolver, commonSettingsProvider);
         }
 

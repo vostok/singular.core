@@ -5,13 +5,13 @@ using NSubstitute;
 using NUnit.Framework;
 using Vostok.Singular.Core.Configuration;
 using Vostok.Singular.Core.PathPatterns;
-using Vostok.Singular.Core.PathPatterns.SettingsAlias;
+using Vostok.Singular.Core.PathPatterns.PathRules;
 
 namespace Vostok.Singular.Core.Tests
 {
-    public class SettingsAliasProvider_Tests
+    public class PathRulesProvider_Tests
     {
-        private SettingsAliasProvider settingsAliasProvider;
+        private PathRulesProvider pathRulesProvider;
 
         [SetUp]
         public void SetUp()
@@ -31,13 +31,13 @@ namespace Vostok.Singular.Core.Tests
                         }
                     }
                 });
-            settingsAliasProvider = new SettingsAliasProvider(new PathPatternCache(new SingularServiceSettingsProvider(settingsProvider)));
+            pathRulesProvider = new PathRulesProvider(new PathRulesCache(new SingularServiceSettingsProvider(settingsProvider)));
         }
 
         [Test]
         public async Task Should_return_null_when_no_aliases()
         {
-            var result = await settingsAliasProvider.Get("*", "*");
+            var result = await pathRulesProvider.Get("*", "*");
 
             result.Should().BeNull();
         }
@@ -53,7 +53,7 @@ namespace Vostok.Singular.Core.Tests
         [TestCase("GET", "/TeStwiThOuTSLaSh", "testAliasWithoutSlash")]
         public async Task Should_return_alias_when_path_matched(string method, string path, string alias)
         {
-            var result = await settingsAliasProvider.Get(method, path);
+            var result = await pathRulesProvider.Get(method, path);
 
             result.SettingsAlias.Should().Be(alias);
         }
@@ -62,7 +62,7 @@ namespace Vostok.Singular.Core.Tests
         [TestCase("PUT", "*")]
         public async Task Should_return_null_when_no_matches(string method, string path)
         {
-            var result = await settingsAliasProvider.Get(method, path);
+            var result = await pathRulesProvider.Get(method, path);
 
             result.Should().BeNull();
         }
