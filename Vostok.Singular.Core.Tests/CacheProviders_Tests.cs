@@ -38,7 +38,7 @@ namespace Vostok.Singular.Core.Tests
                     }
                 }
             };
-
+            
             var service = Guid.NewGuid().ToString();
             var client = CreateClientWithServiceSettings(settings, "not-default", service);
             var cache = IdempotencyIdentifierCache.Get(client, "not-default", service);
@@ -57,7 +57,7 @@ namespace Vostok.Singular.Core.Tests
                     TimeBudget = 10.Seconds()
                 }
             };
-
+            
             var service = Guid.NewGuid().ToString();
             var client = CreateClientWithServiceSettings(settings, "not-default", service);
             var cache = TimeoutSettingsProviderCache.Get(client, "not-default", service);
