@@ -11,7 +11,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
         {
             this.iclCache = iclCache;
         }
-        
+
         public async Task<IdempotencyControlRule> GetRuleAsync(string method, string path)
         {
             var rules = await iclCache.GetAsync().ConfigureAwait(false);

@@ -38,7 +38,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
 
             await selectedStrategy.SendAsync(request, parameters, sender, budget, replicas, replicasCount, cancellationToken).ConfigureAwait(false);
         }
-        
+
         public override string ToString() => "SingularStrategy";
     }
 }

@@ -19,7 +19,7 @@ namespace Vostok.Singular.Core.PathPatterns
         {
             settingsSource = new SingularConfigurationSource(environment, service, singularClient, LogProvider.Get());
         }
-        
+
         public async Task<T> GetAsync<T>(T defaultValue)
         {
             if (sync.WaitTask.Task.IsCompleted)

@@ -12,9 +12,12 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
 
         public static TimeoutSettingsProvider Get(IClusterClient singularClient, string environment, string service)
         {
-            return Cache.GetOrAdd((environment, service), s => new Lazy<TimeoutSettingsProvider>(
-                () => Create(singularClient, s.Item1, s.Item2))).Value;
+            return Cache.GetOrAdd((environment, service),
+                    s => new Lazy<TimeoutSettingsProvider>(
+                        () => Create(singularClient, s.Item1, s.Item2)))
+                .Value;
         }
+
         private static TimeoutSettingsProvider Create(IClusterClient singularClient, string environment, string service)
         {
             return new TimeoutSettingsProvider(PathRulesProviderCache.Get(singularClient, environment, service),

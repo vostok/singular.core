@@ -7,9 +7,9 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
 {
     internal class TimeoutSettingsProvider
     {
+        private static readonly SingularSettings EmptySettings = new SingularSettings();
         private readonly PathRulesProvider pathRulesProvider;
         private readonly ISettingsProvider settingsProvider;
-        private static readonly SingularSettings EmptySettings = new SingularSettings();
 
         public TimeoutSettingsProvider(PathRulesProvider pathRulesProvider, ISettingsProvider settingsProvider)
         {
@@ -25,7 +25,7 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
                 return pathRule.TimeBudget.Value;
 
             var settings = await settingsProvider.GetAsync(EmptySettings).ConfigureAwait(false);
-            
+
             if (pathRule?.SettingsAlias == null)
                 return settings.Defaults.TimeBudget;
 
