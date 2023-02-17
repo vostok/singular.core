@@ -25,7 +25,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             if (!ConfigurationProvider.TrySetDefault(provider))
                 provider.Dispose();
         }
-        
+
         public static IIdempotencyIdentifier Get(IClusterClient singularClient, string environment, string serviceName)
         {
             return Cache.GetOrAdd((environment, serviceName), s => new Lazy<IIdempotencyIdentifier>(() => Create(singularClient, s.Item1, s.Item2))).Value;
@@ -36,7 +36,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             var settingsProvider = SettingsProviderCache.Get(singularClient, environment, serviceName);
             var idempotencySignsCache = new NonIdempotencySignsCache(new NonIdempotencySignsSettingsProvider(settingsProvider));
             var iclCache = new IclCache(new IclRulesSettingsProvider(settingsProvider));
-            
+
             return new IdempotencyIdentifier(
                 new BlackListIdempotencyResolver(idempotencySignsCache),
                 new IclResolver(iclCache)
