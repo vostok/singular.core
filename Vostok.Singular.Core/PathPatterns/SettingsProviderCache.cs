@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Concurrent;
 using Vostok.Clusterclient.Core;
-using Vostok.Singular.Core.PathPatterns;
 
-namespace Vostok.Singular.Core.Configuration
+namespace Vostok.Singular.Core.PathPatterns
 {
     internal static class SettingsProviderCache
     {
