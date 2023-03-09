@@ -75,5 +75,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\vostok.metrics\Vostok.Metrics\bin\Release\$(ReferencesFramework)\Vostok.Metrics.dll</HintPath>
     </Reference>
+    <Reference Include="Vostok.Commons.Time">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\vostok.commons.time\Vostok.Commons.Time\bin\Release\$(ReferencesFramework)\Vostok.Commons.Time.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

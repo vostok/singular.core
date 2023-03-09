@@ -28,7 +28,7 @@ namespace Vostok.Singular.Core.Tests.Helpers
 
         public static X509Certificate2 CreateSigned(string commonName, X509Certificate2 signer)
         {
-            return CreateSigned(commonName, DateTimeOffset.Now, DateTimeOffset.Now.AddYears(5), signer);
+            return CreateSigned(commonName, DateTimeOffset.Now, signer.NotAfter.AddDays(-1), signer);
         }
         
         public static X509Certificate2 CreateSignedExpired(string commonName, X509Certificate2 signer)

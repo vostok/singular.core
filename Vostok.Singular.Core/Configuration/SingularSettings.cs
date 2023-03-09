@@ -385,7 +385,7 @@ namespace Vostok.Singular.Core.Configuration
         }
 
         #endregion
-
+        
         #region PathPatternSettings
 
         [Serializable]
