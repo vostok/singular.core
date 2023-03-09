@@ -14,9 +14,9 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
             }
         };
 
-        private readonly SettingsProvider settingsProvider;
+        private readonly ISettingsProvider settingsProvider;
 
-        public IclRulesSettingsProvider(SettingsProvider settingsProvider)
+        public IclRulesSettingsProvider(ISettingsProvider settingsProvider)
         {
             this.settingsProvider = settingsProvider;
         }

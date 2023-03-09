@@ -7,7 +7,7 @@ using Vostok.Singular.Core.Configuration;
 
 namespace Vostok.Singular.Core.PathPatterns
 {
-    internal class SettingsProvider
+    internal class SettingsProvider : ISettingsProvider
     {
         private readonly SingularConfigurationSource settingsSource;
         private readonly Sync sync = new Sync();
@@ -19,7 +19,7 @@ namespace Vostok.Singular.Core.PathPatterns
         {
             settingsSource = new SingularConfigurationSource(environment, service, singularClient, LogProvider.Get());
         }
-        
+
         public async Task<T> GetAsync<T>(T defaultValue)
         {
             if (sync.WaitTask.Task.IsCompleted)

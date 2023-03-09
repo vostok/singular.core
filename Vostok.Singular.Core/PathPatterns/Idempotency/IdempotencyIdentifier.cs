@@ -23,7 +23,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
 
             if (!rule.OverrideHeader && bool.TryParse(headerValue, out var value))
                 return value;
-            
+
             return await blackListIdempotencyResolver.IsIdempotent(method, path).ConfigureAwait(false) && rule.IsIdempotent;
         }
     }

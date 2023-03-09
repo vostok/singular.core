@@ -4,6 +4,7 @@ using Vostok.Clusterclient.Core;
 using Vostok.Configuration;
 using Vostok.Configuration.Logging;
 using Vostok.Logging.Abstractions;
+using Vostok.Singular.Core.Configuration;
 using Vostok.Singular.Core.PathPatterns.BlackList;
 using Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules;
 
@@ -32,10 +33,10 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
 
         private static IIdempotencyIdentifier Create(IClusterClient singularClient, string environment, string serviceName)
         {
-            var settingsProvider = new SettingsProvider(singularClient, environment, serviceName);
+            var settingsProvider = SettingsProviderCache.Get(singularClient, environment, serviceName);
             var idempotencySignsCache = new NonIdempotencySignsCache(new NonIdempotencySignsSettingsProvider(settingsProvider));
             var iclCache = new IclCache(new IclRulesSettingsProvider(settingsProvider));
-            
+
             return new IdempotencyIdentifier(
                 new BlackListIdempotencyResolver(idempotencySignsCache),
                 new IclResolver(iclCache)
