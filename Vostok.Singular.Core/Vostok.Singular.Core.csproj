@@ -29,6 +29,7 @@
     <Compile Include="..\..\vostok.commons.collections\Vostok.Commons.Collections\CachingTransform.cs" Link="Commons\CachingTransform.cs" />
     <Compile Include="..\..\vostok.commons.threading\Vostok.Commons.Threading\AsyncLock.cs" Link="Commons\AsyncLock.cs" />
     <Compile Include="..\..\vostok.commons.threading\Vostok.Commons.Threading\AtomicBoolean.cs" Link="Commons\AtomicBoolean.cs" />
+    <Compile Include="..\..\vostok.commons.time\Vostok.Commons.Time\TimeBudget.cs" Link="Commons\TimeBudget.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Vostok.ClusterClient.Core">
@@ -74,10 +75,6 @@
     <Reference Include="Vostok.Metrics">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\vostok.metrics\Vostok.Metrics\bin\Release\$(ReferencesFramework)\Vostok.Metrics.dll</HintPath>
-    </Reference>
-    <Reference Include="Vostok.Commons.Time">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\vostok.commons.time\Vostok.Commons.Time\bin\Release\$(ReferencesFramework)\Vostok.Commons.Time.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
