@@ -336,6 +336,8 @@ namespace Vostok.Singular.Core.Configuration
             public List<int> RetryCodesForNotIdempotentRequests = new List<int>();
 
             public LoggingOptions Logging = new LoggingOptions();
+
+            public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
         }
 
         #endregion
