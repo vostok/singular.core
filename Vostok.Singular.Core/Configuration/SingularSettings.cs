@@ -154,6 +154,8 @@ namespace Vostok.Singular.Core.Configuration
                 20000,
                 20001
             };
+
+            public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
         }
 
         [Serializable]
