@@ -92,6 +92,8 @@ namespace Vostok.Singular.Core.Configuration
             public TimeSpan ConnectionTimeBudget = TimeSpan.FromMilliseconds(100);
 
             public TimeSpan RequestTimeBudget = TimeSpan.FromSeconds(30);
+            
+            public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
         }
 
         #endregion
