@@ -1,11 +1,11 @@
 using System;
+using System.Collections.Generic;
 
 namespace Vostok.Singular.Core.Configuration
 {
     [Serializable]
-    internal class HostHeaderTransformationSettings
+    internal class HeadersTransformationSettings
     {
-        public bool UseTargetHostValue { get; set; }
-        public string CustomValue { get; set; }
+        public Dictionary<string, string> Rewrites { get; set; }
     }
 }
