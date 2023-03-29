@@ -154,6 +154,8 @@ namespace Vostok.Singular.Core.Configuration
                 20000,
                 20001
             };
+            
+            public HeadersTransformationSettings HeadersTransformation = new HeadersTransformationSettings();
         }
 
         [Serializable]
@@ -336,6 +338,8 @@ namespace Vostok.Singular.Core.Configuration
             public List<int> RetryCodesForNotIdempotentRequests = new List<int>();
 
             public LoggingOptions Logging = new LoggingOptions();
+
+            public HttpHeadersTransformationSettings HeadersTransformation = new HttpHeadersTransformationSettings();
         }
 
         #endregion
