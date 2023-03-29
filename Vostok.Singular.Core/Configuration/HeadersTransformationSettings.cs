@@ -6,6 +6,6 @@ namespace Vostok.Singular.Core.Configuration
     [Serializable]
     internal class HeadersTransformationSettings
     {
-        public Dictionary<string, string> Rewrites { get; set; }
+        public Dictionary<string, string> Rewrites { get; set; } = new Dictionary<string, string>();
     }
 }
