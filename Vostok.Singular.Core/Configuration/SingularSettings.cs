@@ -339,9 +339,7 @@ namespace Vostok.Singular.Core.Configuration
 
             public LoggingOptions Logging = new LoggingOptions();
 
-            public bool UseTargetHostnameInHostHeader = false;
-
-            public HeadersTransformationSettings HeadersTransformation = new HeadersTransformationSettings();
+            public HttpHeadersTransformationSettings HeadersTransformation = new HttpHeadersTransformationSettings();
         }
 
         #endregion
