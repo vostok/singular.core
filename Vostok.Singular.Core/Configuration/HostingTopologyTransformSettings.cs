@@ -5,7 +5,7 @@ namespace Vostok.Singular.Core.Configuration
     [Serializable]
     internal class HostingTopologyTransformSettings
     {
-        public bool UseHostingTopologyTransform = true;
+        public bool UseHostingTopologyTransform = false;
         public double? AcceptableAliveBeaconsRatio;
         public double? MinCommonReplicasRatio;
     }
