@@ -157,6 +157,8 @@ namespace Vostok.Singular.Core.Configuration
                 20001
             };
 
+            public HeadersTransformationSettings HeadersTransformation = new HeadersTransformationSettings();
+
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
         }
 
@@ -340,6 +342,8 @@ namespace Vostok.Singular.Core.Configuration
             public List<int> RetryCodesForNotIdempotentRequests = new List<int>();
 
             public LoggingOptions Logging = new LoggingOptions();
+
+            public HttpHeadersTransformationSettings HeadersTransformation = new HttpHeadersTransformationSettings();
 
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
         }
