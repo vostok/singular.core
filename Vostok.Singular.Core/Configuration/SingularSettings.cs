@@ -212,6 +212,8 @@ namespace Vostok.Singular.Core.Configuration
             public string UrlPrefixToAdd = string.Empty;
 
             public List<RewriteSettings> RewriteSettings = new List<RewriteSettings>();
+
+            public HeadersTransformationSettings HeadersTransformation = new HeadersTransformationSettings();
         }
 
         #endregion
@@ -343,7 +345,7 @@ namespace Vostok.Singular.Core.Configuration
 
             public LoggingOptions Logging = new LoggingOptions();
 
-            public HttpHeadersTransformationSettings HeadersTransformation = new HttpHeadersTransformationSettings();
+            public bool RewriteHostHeaderWithTargetHostValue = false;
 
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
         }
