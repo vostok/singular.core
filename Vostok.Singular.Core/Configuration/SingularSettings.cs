@@ -92,6 +92,8 @@ namespace Vostok.Singular.Core.Configuration
             public TimeSpan ConnectionTimeBudget = TimeSpan.FromMilliseconds(100);
 
             public TimeSpan RequestTimeBudget = TimeSpan.FromSeconds(30);
+            
+            public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
         }
 
         #endregion
@@ -154,6 +156,10 @@ namespace Vostok.Singular.Core.Configuration
                 20000,
                 20001
             };
+
+            public HeadersTransformationSettings HeadersTransformation = new HeadersTransformationSettings();
+
+            public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
         }
 
         [Serializable]
@@ -340,6 +346,8 @@ namespace Vostok.Singular.Core.Configuration
             public LoggingOptions Logging = new LoggingOptions();
 
             public bool RewriteHostHeaderWithTargetHostValue = false;
+
+            public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
         }
 
         #endregion
