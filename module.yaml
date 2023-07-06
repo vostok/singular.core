@@ -18,7 +18,7 @@ src:
     - vostok.devtools
     - vostok.logging.abstractions
     - vostok.metrics
-    - vostok.commons.time
+    - vostok.commons.time/src
     
 notests *default:
   build:
@@ -45,7 +45,7 @@ notests *default:
     - vostok.devtools
     - vostok.logging.abstractions
     - vostok.metrics
-    - vostok.commons.time
+    - vostok.commons.time/src
 
 full-build > notests:
   deps:
