@@ -6,7 +6,7 @@ namespace Vostok.Singular.Core.Configuration
     [Serializable]
     internal class MatchPattern
     {
-        public SingularSettings.RejectTarget Target;
+        public SingularSettings.ConstrainTarget Target;
 
         public string KeyPattern;
 
@@ -17,17 +17,4 @@ namespace Vostok.Singular.Core.Configuration
         public List<MatchPattern> NestingRules;
     }
     
-    [Serializable]
-    internal class RedirectMatchPattern
-    {
-        public SingularSettings.RedirectTarget Target;
-
-        public string KeyPattern;
-
-        public string ValuePattern;
-
-        public LogicalOperand LogicalOperand;
-
-        public List<RedirectMatchPattern> NestingRules;
-    }
 }

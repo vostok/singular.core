@@ -410,33 +410,37 @@ namespace Vostok.Singular.Core.Configuration
 
         #endregion
 
-        #region RequestRejectSettings
+        #region RequestConstrainsSettings
 
+        [Flags]
+        public enum ConstrainTarget
+        {
+            Url = 0,
+            Header = 1,
+            Query = 2,
+            Method = 3,
+            Fake = 4,
+        }
+        
+        #endregion
+        
+        #region RequestRejectSettings
+        
         [Serializable]
         public class RequestRejectSettings
         {
             public List<RejectPattern> Rules = new List<RejectPattern>();
         }
-
+        
         [Serializable]
         public class RejectPattern
         {
             public MatchPattern RequestMatchPattern;
-
             public int RejectCode;
         }
-
-        [Flags]
-        public enum RejectTarget
-        {
-            Url = 0,
-            Header = 1,
-            Query = 2
-        }
-
+        
         #endregion
         
-        // новый функционал
         #region RequestRedirectSettings
         
         [Serializable]
@@ -444,24 +448,14 @@ namespace Vostok.Singular.Core.Configuration
         {
             public List<RedirectPattern> Rules = new List<RedirectPattern>();
         }
-
+        
+        
         [Serializable]
         public class RedirectPattern
         {
-            public RedirectMatchPattern RequestMatchPattern;
-
-            public string Method;
+            public MatchPattern RequestMatchPattern;
             public string DstService;
             public string DstZone;
-        }
-
-        [Flags]
-        public enum RedirectTarget
-        {
-            Url = 0,
-            Header = 1,
-            Query = 2,
-            Fake = 3
         }
 
         #endregion
