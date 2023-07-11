@@ -418,8 +418,7 @@ namespace Vostok.Singular.Core.Configuration
             Url = 0,
             Header = 1,
             Query = 2,
-            Method = 3,
-            Fake = 4,
+            Method = 3
         }
         
         #endregion
