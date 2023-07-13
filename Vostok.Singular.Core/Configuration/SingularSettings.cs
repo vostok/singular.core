@@ -410,10 +410,10 @@ namespace Vostok.Singular.Core.Configuration
 
         #endregion
 
-        #region RequestConstrainsSettings
+        #region RequestMatchRuleSettings
 
         [Flags]
-        public enum ConstrainTarget
+        public enum MatchTarget
         {
             Url = 0,
             Header = 1,
