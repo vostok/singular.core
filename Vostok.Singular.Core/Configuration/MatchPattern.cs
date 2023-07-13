@@ -6,7 +6,7 @@ namespace Vostok.Singular.Core.Configuration
     [Serializable]
     internal class MatchPattern
     {
-        public SingularSettings.ConstrainTarget? Target;
+        public SingularSettings.MatchTarget? Target;
 
         public string KeyPattern;
 
