@@ -12,7 +12,7 @@ namespace Vostok.Singular.Core.Configuration
 
         public string ValuePattern;
 
-        public LogicalOperand? LogicalOperand;
+        public LogicalOperand LogicalOperand;
 
         public List<MatchPattern> NestingRules;
     }
