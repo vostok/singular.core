@@ -410,7 +410,7 @@ namespace Vostok.Singular.Core.Configuration
 
         #endregion
 
-        #region RequestMatchRuleSettings
+        #region MatchRuleSettings
 
         [Flags]
         public enum MatchTarget
