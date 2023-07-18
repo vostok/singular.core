@@ -453,8 +453,8 @@ namespace Vostok.Singular.Core.Configuration
         public class RedirectPattern
         {
             public MatchPattern RequestMatchPattern;
-            public string DstService;
-            public string DstZone;
+            public string DestinationService;
+            public string DestinationZone;
         }
 
         #endregion
