@@ -13,11 +13,11 @@ namespace Vostok.Singular.Core.PathPatterns
         {
             pattern = Escape(pattern)
                 .Replace(@"\\\?", "?")
-                .Replace(@"\\\*", "*")
+                .Replace(@"\\\*", "**")
                 .Replace("\\*", ".*")
                 .Replace("\\?", ".")
                 .Replace("?", "\\?")
-                .Replace("[^.]*", "\\*");
+                .Replace("**", "\\*");
             return "^" + pattern + "$";
         }
     }
