@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Configuration.Primitives;
 using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
@@ -474,6 +475,8 @@ namespace Vostok.Singular.Core.Configuration
         public class StickinessModelSettings
         {
             public StickinessMode Mode = StickinessMode.Disabled;
+
+            public bool WsStrongStickiness = false;
 
             public bool SetupCookie = false;
 
