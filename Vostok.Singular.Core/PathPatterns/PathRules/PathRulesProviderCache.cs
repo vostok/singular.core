@@ -5,7 +5,7 @@ using Vostok.Singular.Core.Configuration;
 
 namespace Vostok.Singular.Core.PathPatterns.PathRules
 {
-    internal static class  PathRulesProviderCache
+    internal static class PathRulesProviderCache
     {
         private static readonly ConcurrentDictionary<(string, string), Lazy<PathRulesProvider>> Cache = new ConcurrentDictionary<(string, string), Lazy<PathRulesProvider>>();
 
