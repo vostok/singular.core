@@ -39,6 +39,8 @@ namespace Vostok.Singular.Core.Configuration
         public PathPatternSettings PathPatternSigns = new PathPatternSettings();
 
         public RequestRejectSettings RequestReject = new RequestRejectSettings();
+        
+        public RequestRedirectSettings RequestRedirect = new RequestRedirectSettings();
 
         public Dictionary<string, SingularSettings> SettingsAliases = new Dictionary<string, SingularSettings>();
 
@@ -408,32 +410,55 @@ namespace Vostok.Singular.Core.Configuration
 
         #endregion
 
-        #region RequestRejectSettings
+        #region MatchRuleSettings
 
+        [Flags]
+        public enum MatchTarget
+        {
+            Url = 0,
+            Header = 1,
+            Query = 2,
+            Method = 3
+        }
+        
+        #endregion
+        
+        #region RequestRejectSettings
+        
         [Serializable]
         public class RequestRejectSettings
         {
             public List<RejectPattern> Rules = new List<RejectPattern>();
         }
-
+        
         [Serializable]
         public class RejectPattern
         {
             public MatchPattern RequestMatchPattern;
-
             public int RejectCode;
         }
-
-        [Flags]
-        public enum RejectTarget
+        
+        #endregion
+        
+        #region RequestRedirectSettings
+        
+        [Serializable]
+        public class RequestRedirectSettings
         {
-            Url = 0,
-            Header = 1,
-            Query = 2
+            public List<RedirectPattern> Rules = new List<RedirectPattern>();
+        }
+        
+        
+        [Serializable]
+        public class RedirectPattern
+        {
+            public MatchPattern RequestMatchPattern;
+            public string DestinationService;
+            public string DestinationZone;
         }
 
         #endregion
-
+        
         #region StickinessModelSettings
 
         [Flags]
