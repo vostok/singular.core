@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Security.Cryptography.X509Certificates;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Configuration.Primitives;
@@ -40,7 +41,7 @@ namespace Vostok.Singular.Core.Configuration
         public PathPatternSettings PathPatternSigns = new PathPatternSettings();
 
         public RequestRejectSettings RequestReject = new RequestRejectSettings();
-        
+
         public RequestRedirectSettings RequestRedirect = new RequestRedirectSettings();
 
         public Dictionary<string, SingularSettings> SettingsAliases = new Dictionary<string, SingularSettings>();
@@ -95,7 +96,7 @@ namespace Vostok.Singular.Core.Configuration
             public TimeSpan ConnectionTimeBudget = TimeSpan.FromMilliseconds(100);
 
             public TimeSpan RequestTimeBudget = TimeSpan.FromSeconds(30);
-            
+
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
         }
 
@@ -107,6 +108,26 @@ namespace Vostok.Singular.Core.Configuration
         public class WsDefaultsSettings
         {
             public TimeSpan ConnectionTimeBudget = TimeSpan.FromSeconds(30);
+        }
+
+        [Serializable]
+        public class WsDisconnectSettings
+        {
+            public List<WsDisconnectPattern> Conditions = new List<WsDisconnectPattern>();
+        }
+
+        [Flags]
+        public enum DisconnectTarget
+        {
+            StrongStickiness = 0
+        }
+
+        [Serializable]
+        public class WsDisconnectPattern
+        {
+            public DisconnectTarget Target = DisconnectTarget.StrongStickiness;
+            public WebSocketCloseStatus CloseStatus = (WebSocketCloseStatus)4000;
+            public string CloseDescription = "close by singular";
         }
 
         [Serializable]
@@ -163,6 +184,8 @@ namespace Vostok.Singular.Core.Configuration
             public HeadersTransformationSettings HeadersTransformation = new HeadersTransformationSettings();
 
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
+
+            public WsDisconnectSettings DisconnectSettings = new WsDisconnectSettings();
         }
 
         [Serializable]
@@ -197,7 +220,7 @@ namespace Vostok.Singular.Core.Configuration
             public TimeSpan TimeBudget = TimeSpan.FromSeconds(30);
 
             public RequestPriority Priority = RequestPriority.Ordinary;
-            
+
             public List<RequestProtocol> ProtocolsBlackList = new List<RequestProtocol>();
         }
 
@@ -400,7 +423,7 @@ namespace Vostok.Singular.Core.Configuration
         }
 
         #endregion
-        
+
         #region PathPatternSettings
 
         [Serializable]
@@ -421,35 +444,34 @@ namespace Vostok.Singular.Core.Configuration
             Query = 2,
             Method = 3
         }
-        
+
         #endregion
-        
+
         #region RequestRejectSettings
-        
+
         [Serializable]
         public class RequestRejectSettings
         {
             public List<RejectPattern> Rules = new List<RejectPattern>();
         }
-        
+
         [Serializable]
         public class RejectPattern
         {
             public MatchPattern RequestMatchPattern;
             public int RejectCode;
         }
-        
+
         #endregion
-        
+
         #region RequestRedirectSettings
-        
+
         [Serializable]
         public class RequestRedirectSettings
         {
             public List<RedirectPattern> Rules = new List<RedirectPattern>();
         }
-        
-        
+
         [Serializable]
         public class RedirectPattern
         {
@@ -459,7 +481,7 @@ namespace Vostok.Singular.Core.Configuration
         }
 
         #endregion
-        
+
         #region StickinessModelSettings
 
         [Flags]
@@ -475,8 +497,6 @@ namespace Vostok.Singular.Core.Configuration
         public class StickinessModelSettings
         {
             public StickinessMode Mode = StickinessMode.Disabled;
-
-            public bool WsStrongStickiness = false;
 
             public bool SetupCookie = false;
 
