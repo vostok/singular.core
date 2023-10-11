@@ -253,6 +253,8 @@ namespace Vostok.Singular.Core.Configuration
             public bool AddSingularBackendHeader = true;
 
             public bool AddHeadersWithInternalTopologyForNginxRequests = true;
+
+            public HeadersTransformationSettings HeadersTransformation = new HeadersTransformationSettings();
         }
 
         #endregion
