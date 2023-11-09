@@ -15,6 +15,7 @@
         public const string XNginxDistributedContext = "X-Nginx-Distributed-Context";
         public const string Traceparent = "traceparent";
         public const string Idempotent = "X-Singular-Idempotent";
+        public const string OriginalUri = "X-Singular-OriginalUri";
 
         public static class ThrottlingTriggerReason
         {
