@@ -186,7 +186,7 @@ namespace Vostok.Singular.Core.Configuration
 
             public WsDisconnectSettings DisconnectSettings = new WsDisconnectSettings();
 
-            public bool ProvideOriginalUri = false;
+            public bool RewriteHostHeaderWithTargetHostValue = false;
         }
 
         [Serializable]
@@ -377,8 +377,6 @@ namespace Vostok.Singular.Core.Configuration
             public bool RewriteHostHeaderWithTargetHostValue = false;
 
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
-
-            public bool ProvideOriginalUri = false;
         }
 
         #endregion
