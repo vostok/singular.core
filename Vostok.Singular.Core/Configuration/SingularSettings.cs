@@ -180,13 +180,9 @@ namespace Vostok.Singular.Core.Configuration
                 20001
             };
 
-            public HeadersTransformationSettings HeadersTransformation = new HeadersTransformationSettings();
-
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
 
             public WsDisconnectSettings DisconnectSettings = new WsDisconnectSettings();
-
-            public bool RewriteHostHeaderWithTargetHostValue = false;
         }
 
         [Serializable]
