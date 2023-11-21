@@ -7,7 +7,7 @@ namespace Vostok.Singular.Core.Configuration
     internal class HeadersTransformationSettings
     {
         public string ProxyClientIpHeader { get; set; } = string.Empty;
-        public bool ProxyOriginalUri { get; set; } = false;
+        public bool ProxyOriginalUriHeader { get; set; } = false;
         public bool ProxyNginxMarkerHeader { get; set; } = false;
         public Dictionary<string, string> Rewrites { get; set; } = new Dictionary<string, string>();
     }
