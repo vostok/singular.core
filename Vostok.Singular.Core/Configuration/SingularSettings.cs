@@ -55,6 +55,8 @@ namespace Vostok.Singular.Core.Configuration
 
         public TlsClientSettings TlsClient = new TlsClientSettings();
 
+        public WafSettings Waf = new WafSettings();
+        
         #region TcpSettings
 
         [Serializable]
@@ -547,6 +549,14 @@ namespace Vostok.Singular.Core.Configuration
             public bool LogReplicaRequests { get; set; } = true;
 
             public bool LogReplicaResults { get; set; } = true;
+        }
+
+        [Serializable]
+        public class WafSettings
+        {
+            public bool Enable = false;
+            public DataSize BodySize = 4.Kilobytes();
+            public int DenyHttpCode = 403;
         }
     }
 }
