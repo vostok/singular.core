@@ -180,13 +180,9 @@ namespace Vostok.Singular.Core.Configuration
                 20001
             };
 
-            public HeadersTransformationSettings HeadersTransformation = new HeadersTransformationSettings();
-
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
 
             public WsDisconnectSettings DisconnectSettings = new WsDisconnectSettings();
-
-            public bool ProvideOriginalUri = false;
         }
 
         [Serializable]
@@ -377,8 +373,6 @@ namespace Vostok.Singular.Core.Configuration
             public bool RewriteHostHeaderWithTargetHostValue = false;
 
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
-
-            public bool ProvideOriginalUri = false;
         }
 
         #endregion
