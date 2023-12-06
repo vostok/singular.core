@@ -309,9 +309,9 @@ namespace Vostok.Singular.Core.Configuration
 
             public double MaxReplicasUsageRatio = 1.25d;
 
-            public double AdaptiveThrottlingCriticalRatio = 2.0d;
+            public double AdaptiveThrottlingCriticalRatio = SingularConstants.AdaptiveThrottlingCriticalRatio;
 
-            public double AdaptiveThrottlingProbabilityCap = 0.8d;
+            public double AdaptiveThrottlingProbabilityCap = SingularConstants.AdaptiveThrottlingMaximumRejectProbability;
 
             public double LocalDatacenterBoostModifier = 3.0d;
 
@@ -322,6 +322,8 @@ namespace Vostok.Singular.Core.Configuration
             public bool UseReplicaBudgeting = true;
 
             public bool UseAdaptiveThrottling = true;
+
+            public bool UseAdaptiveThrottlingByPriority = false;
 
             public bool UseDatacenterWeightModifiers = true;
 
@@ -373,6 +375,8 @@ namespace Vostok.Singular.Core.Configuration
             public bool RewriteHostHeaderWithTargetHostValue = false;
 
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
+
+            public AdaptiveThrottlingSettings AdaptiveThrottlingSettings = new AdaptiveThrottlingSettings();
         }
 
         #endregion
@@ -514,6 +518,27 @@ namespace Vostok.Singular.Core.Configuration
             public double MinAllowableWeight = 0.05;
 
             public double MinPercentageOfHealthyReplicas = 0.3;
+        }
+
+        #endregion
+
+        #region AdaptiveThrottlingSettings
+
+        [Serializable]
+        public class AdaptiveThrottlingOptions
+        {
+            public int MinutesToTrack = SingularConstants.AdaptiveThrottlingMinutesToTrack;
+            public int MinimumRequests = SingularConstants.AdaptiveThrottlingMinimumRequests;
+            public double CriticalRatio = SingularConstants.AdaptiveThrottlingCriticalRatio;
+            public double MaximumRejectProbability =SingularConstants.AdaptiveThrottlingMaximumRejectProbability;
+        }
+        
+        [Serializable]
+        public class AdaptiveThrottlingSettings
+        {
+            public AdaptiveThrottlingOptions CriticalOptions;
+            public AdaptiveThrottlingOptions OrdinalOptions;
+            public AdaptiveThrottlingOptions SheddableOptions;
         }
 
         #endregion

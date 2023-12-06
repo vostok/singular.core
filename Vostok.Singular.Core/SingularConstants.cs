@@ -15,6 +15,12 @@
 
         public const string CCTlsSettingsName = "singular/tls.json";
 
+        
+        public const int AdaptiveThrottlingMinutesToTrack = 2;
+        public const int AdaptiveThrottlingMinimumRequests = 30;
+        public const double AdaptiveThrottlingCriticalRatio = 2.0d;
+        public const double AdaptiveThrottlingMaximumRejectProbability = 0.8d;
+
         public class DistributedProperties
         {
             public const string ForcedEnvironment = "forced.sd.environment";
