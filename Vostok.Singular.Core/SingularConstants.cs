@@ -1,4 +1,5 @@
-﻿using Vostok.Singular.Core.Configuration;
+﻿using Vostok.Clusterclient.Core.Model;
+using Vostok.Singular.Core.Configuration;
 
 namespace Vostok.Singular.Core
 {
@@ -26,6 +27,7 @@ namespace Vostok.Singular.Core
 
         public static class AdaptiveThrottlingConstant
         {
+            public const RequestPriority DefaultPriority = RequestPriority.Ordinary;
             public const int AdaptiveThrottlingMinutesToTrack = 2;
             public const int AdaptiveThrottlingMinimumRequests = 30;
             public const double AdaptiveThrottlingCriticalRatio = 2.0d;

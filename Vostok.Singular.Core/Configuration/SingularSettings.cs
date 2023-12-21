@@ -525,7 +525,7 @@ namespace Vostok.Singular.Core.Configuration
         [Serializable]
         public class AdaptiveThrottlingOptions
         {
-            public RequestPriority Priority = RequestPriority.Sheddable;
+            public RequestPriority Priority = SingularConstants.AdaptiveThrottlingConstant.DefaultPriority;
             public int MinutesToTrack = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingMinutesToTrack;
             public int MinimumRequests = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingMinimumRequests;
             public double CriticalRatio = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingCriticalRatio;
