@@ -309,9 +309,9 @@ namespace Vostok.Singular.Core.Configuration
 
             public double MaxReplicasUsageRatio = 1.25d;
 
-            public double AdaptiveThrottlingCriticalRatio = SingularConstants.AdaptiveThrottlingCriticalRatio;
+            public double AdaptiveThrottlingCriticalRatio = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingCriticalRatio;
 
-            public double AdaptiveThrottlingProbabilityCap = SingularConstants.AdaptiveThrottlingMaximumRejectProbability;
+            public double AdaptiveThrottlingProbabilityCap = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingMaximumRejectProbability;
 
             public double LocalDatacenterBoostModifier = 3.0d;
 
@@ -526,10 +526,10 @@ namespace Vostok.Singular.Core.Configuration
         public class AdaptiveThrottlingOptions
         {
             public RequestPriority Priority = RequestPriority.Sheddable;
-            public int MinutesToTrack = SingularConstants.AdaptiveThrottlingMinutesToTrack;
-            public int MinimumRequests = SingularConstants.AdaptiveThrottlingMinimumRequests;
-            public double CriticalRatio = SingularConstants.AdaptiveThrottlingCriticalRatio;
-            public double MaximumRejectProbability = SingularConstants.AdaptiveThrottlingMaximumRejectProbability;
+            public int MinutesToTrack = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingMinutesToTrack;
+            public int MinimumRequests = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingMinimumRequests;
+            public double CriticalRatio = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingCriticalRatio;
+            public double MaximumRejectProbability = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingMaximumRejectProbability;
         }
         
         [Serializable]
