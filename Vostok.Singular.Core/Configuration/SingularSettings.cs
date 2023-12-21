@@ -323,8 +323,6 @@ namespace Vostok.Singular.Core.Configuration
 
             public bool UseAdaptiveThrottling = true;
 
-            public bool UseAdaptiveThrottlingByPriority = false;
-
             public bool UseDatacenterWeightModifiers = true;
 
             public bool UseSnitchWeights = true;
@@ -527,18 +525,17 @@ namespace Vostok.Singular.Core.Configuration
         [Serializable]
         public class AdaptiveThrottlingOptions
         {
+            public RequestPriority Priority = RequestPriority.Sheddable;
             public int MinutesToTrack = SingularConstants.AdaptiveThrottlingMinutesToTrack;
             public int MinimumRequests = SingularConstants.AdaptiveThrottlingMinimumRequests;
             public double CriticalRatio = SingularConstants.AdaptiveThrottlingCriticalRatio;
-            public double MaximumRejectProbability =SingularConstants.AdaptiveThrottlingMaximumRejectProbability;
+            public double MaximumRejectProbability = SingularConstants.AdaptiveThrottlingMaximumRejectProbability;
         }
         
         [Serializable]
         public class AdaptiveThrottlingSettings
         {
-            public AdaptiveThrottlingOptions CriticalOptions;
-            public AdaptiveThrottlingOptions OrdinalOptions;
-            public AdaptiveThrottlingOptions SheddableOptions;
+            public List<AdaptiveThrottlingOptions> Options = new List<AdaptiveThrottlingOptions>();
         }
 
         #endregion
