@@ -25,7 +25,7 @@ namespace Vostok.Singular.Core
 
         #region AdaptiveThrottlingConstant
 
-        public static class AdaptiveThrottlingConstant
+        public static class AdaptiveThrottling
         {
             public const RequestPriority DefaultPriority = RequestPriority.Ordinary;
             public const int AdaptiveThrottlingMinutesToTrack = 2;

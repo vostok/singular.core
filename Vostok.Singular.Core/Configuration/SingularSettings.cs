@@ -309,9 +309,9 @@ namespace Vostok.Singular.Core.Configuration
 
             public double MaxReplicasUsageRatio = 1.25d;
 
-            public double AdaptiveThrottlingCriticalRatio = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingCriticalRatio;
+            public double AdaptiveThrottlingCriticalRatio = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingCriticalRatio;
 
-            public double AdaptiveThrottlingProbabilityCap = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingMaximumRejectProbability;
+            public double AdaptiveThrottlingProbabilityCap = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingMaximumRejectProbability;
 
             public double LocalDatacenterBoostModifier = 3.0d;
 
@@ -525,17 +525,16 @@ namespace Vostok.Singular.Core.Configuration
         [Serializable]
         public class AdaptiveThrottlingOptions
         {
-            public RequestPriority Priority = SingularConstants.AdaptiveThrottlingConstant.DefaultPriority;
-            public int MinutesToTrack = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingMinutesToTrack;
-            public int MinimumRequests = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingMinimumRequests;
-            public double CriticalRatio = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingCriticalRatio;
-            public double MaximumRejectProbability = SingularConstants.AdaptiveThrottlingConstant.AdaptiveThrottlingMaximumRejectProbability;
+            public int MinutesToTrack = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingMinutesToTrack;
+            public int MinimumRequests = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingMinimumRequests;
+            public double CriticalRatio = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingCriticalRatio;
+            public double MaximumRejectProbability = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingMaximumRejectProbability;
         }
-        
+
         [Serializable]
         public class AdaptiveThrottlingSettings
         {
-            public List<AdaptiveThrottlingOptions> Options = new List<AdaptiveThrottlingOptions>();
+            public Dictionary<RequestPriority, AdaptiveThrottlingOptions> Options = new Dictionary<RequestPriority, AdaptiveThrottlingOptions>();
         }
 
         #endregion
