@@ -1,7 +1,4 @@
-﻿using Vostok.Clusterclient.Core.Model;
-using Vostok.Singular.Core.Configuration;
-
-namespace Vostok.Singular.Core
+﻿namespace Vostok.Singular.Core
 {
     internal static class SingularConstants
     {
