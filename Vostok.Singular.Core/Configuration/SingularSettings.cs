@@ -309,9 +309,9 @@ namespace Vostok.Singular.Core.Configuration
 
             public double MaxReplicasUsageRatio = 1.25d;
 
-            public double AdaptiveThrottlingCriticalRatio = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingCriticalRatio;
+            public double AdaptiveThrottlingCriticalRatio = 2.0d;
 
-            public double AdaptiveThrottlingProbabilityCap = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingMaximumRejectProbability;
+            public double AdaptiveThrottlingProbabilityCap = 0.8d;
 
             public double LocalDatacenterBoostModifier = 3.0d;
 
@@ -525,16 +525,17 @@ namespace Vostok.Singular.Core.Configuration
         [Serializable]
         public class AdaptiveThrottlingOptions
         {
-            public int MinutesToTrack = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingMinutesToTrack;
-            public int MinimumRequests = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingMinimumRequests;
-            public double CriticalRatio = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingCriticalRatio;
-            public double MaximumRejectProbability = SingularConstants.AdaptiveThrottling.AdaptiveThrottlingMaximumRejectProbability;
+            public int MinutesToTrack = 2;
+            public int MinimumRequests = 30;
+            public double CriticalRatio = 2.0d;
+            public double MaximumRejectProbability = 0.8d;
         }
 
         [Serializable]
         public class AdaptiveThrottlingSettings
         {
             public Dictionary<RequestPriority, AdaptiveThrottlingOptions> Options = new Dictionary<RequestPriority, AdaptiveThrottlingOptions>();
+            public AdaptiveThrottlingOptions DefaultIOptions = new AdaptiveThrottlingOptions();
         }
 
         #endregion
