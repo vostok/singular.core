@@ -322,6 +322,8 @@ namespace Vostok.Singular.Core.Configuration
             public bool UseReplicaBudgeting = true;
 
             public bool UseAdaptiveThrottling = true;
+            
+            public AdaptiveThrottlingSettings AdaptiveThrottlingSettings = new AdaptiveThrottlingSettings();
 
             public bool UseDatacenterWeightModifiers = true;
 
@@ -373,8 +375,6 @@ namespace Vostok.Singular.Core.Configuration
             public bool RewriteHostHeaderWithTargetHostValue = false;
 
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
-
-            public AdaptiveThrottlingSettings AdaptiveThrottlingSettings = new AdaptiveThrottlingSettings();
         }
 
         #endregion
@@ -535,7 +535,7 @@ namespace Vostok.Singular.Core.Configuration
         public class AdaptiveThrottlingSettings
         {
             public Dictionary<RequestPriority, AdaptiveThrottlingOptions> Options = new Dictionary<RequestPriority, AdaptiveThrottlingOptions>();
-            public AdaptiveThrottlingOptions DefaultIOptions = new AdaptiveThrottlingOptions();
+            public AdaptiveThrottlingOptions DefaultOptions = new AdaptiveThrottlingOptions();
         }
 
         #endregion
