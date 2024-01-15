@@ -22,6 +22,8 @@ namespace Vostok.Singular.Core.Tls
 
         public bool Verify(object _, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
+            log.Info($"RemoteCertificate: {certificate.ToString()}");
+            
             // Certificate (and the whole chain) is trusted by OS. We can safely proceed.
             if (sslPolicyErrors == SslPolicyErrors.None)
                 return true;
@@ -36,6 +38,7 @@ namespace Vostok.Singular.Core.Tls
 
             if (sslPolicyErrors.HasFlag(SslPolicyErrors.RemoteCertificateNameMismatch))
             {
+                log.Info($"RemoteCertificate: {certificate.ToString()}");
                 LogCertificateNameMismatch();
                 return false;
             }
