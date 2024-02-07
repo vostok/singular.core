@@ -309,10 +309,6 @@ namespace Vostok.Singular.Core.Configuration
 
             public double MaxReplicasUsageRatio = 1.25d;
 
-            public double AdaptiveThrottlingCriticalRatio = 2.0d;
-
-            public double AdaptiveThrottlingProbabilityCap = 0.8d;
-
             public double LocalDatacenterBoostModifier = 3.0d;
 
             public double LocalDatacenterBoostMinWeight = 0.75d;
@@ -322,6 +318,8 @@ namespace Vostok.Singular.Core.Configuration
             public bool UseReplicaBudgeting = true;
 
             public bool UseAdaptiveThrottling = true;
+
+            public AdaptiveThrottlingOptionsPerPriority AdaptiveThrottlingOptionsPerPriority = new AdaptiveThrottlingOptionsPerPriority();
 
             public bool UseDatacenterWeightModifiers = true;
 
@@ -514,6 +512,26 @@ namespace Vostok.Singular.Core.Configuration
             public double MinAllowableWeight = 0.05;
 
             public double MinPercentageOfHealthyReplicas = 0.3;
+        }
+
+        #endregion
+
+        #region AdaptiveThrottlingSettings
+
+        [Serializable]
+        public class AdaptiveThrottlingOptions
+        {
+            public int MinutesToTrack = 2;
+            public int MinimumRequests = 30;
+            public double CriticalRatio = 2.0d;
+            public double MaximumRejectProbability = 0.8d;
+        }
+
+        [Serializable]
+        public class AdaptiveThrottlingOptionsPerPriority
+        {
+            public Dictionary<RequestPriority, AdaptiveThrottlingOptions> Options = new Dictionary<RequestPriority, AdaptiveThrottlingOptions>();
+            public AdaptiveThrottlingOptions DefaultOptions = new AdaptiveThrottlingOptions();
         }
 
         #endregion
