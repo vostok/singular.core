@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.WebSockets;
+using Vostok.Clusterclient.Core.Misc;
 using Vostok.Clusterclient.Core.Model;
 using Vostok.Configuration.Primitives;
 using Vostok.Singular.Core.PathPatterns.BlackList.Settings;
@@ -559,6 +560,8 @@ namespace Vostok.Singular.Core.Configuration
             public bool LogReplicaRequests { get; set; } = true;
 
             public bool LogReplicaResults { get; set; } = true;
+
+            public LoggingMode LoggingMode { get; set; } = LoggingMode.Detailed;
         }
     }
 }
