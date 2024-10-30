@@ -500,7 +500,7 @@ namespace Vostok.Singular.Core.Configuration
 
             public bool SetupCookie = false;
             
-            public bool SetupSecuredCookie = false;
+            public bool SetupSecureCookie = false;
 
             public string CookieName = string.Empty;
 
