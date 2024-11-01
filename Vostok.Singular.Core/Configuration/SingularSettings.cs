@@ -57,7 +57,7 @@ namespace Vostok.Singular.Core.Configuration
         public TlsClientSettings TlsClient = new TlsClientSettings();
 
         public WafSettings Waf = new WafSettings();
-        
+
         #region TcpSettings
 
         [Serializable]
@@ -499,6 +499,8 @@ namespace Vostok.Singular.Core.Configuration
             public StickinessMode Mode = StickinessMode.Disabled;
 
             public bool SetupCookie = false;
+            
+            public bool CookieSecure = false;
 
             public string CookieName = string.Empty;
 
