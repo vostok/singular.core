@@ -135,6 +135,8 @@ namespace Vostok.Singular.Core.Configuration
         [Serializable]
         public class WsClientSettings
         {
+            public bool AllowAutoRedirect = false;
+            
             public TimeSpan KeepAliveInterval = TimeSpan.FromMinutes(2);
 
             public int MaxReplicasPerRequest = 3;
