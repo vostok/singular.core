@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net.WebSockets;
 using Vostok.Clusterclient.Core.Misc;
@@ -135,6 +135,8 @@ namespace Vostok.Singular.Core.Configuration
         [Serializable]
         public class WsClientSettings
         {
+            public bool AllowAutoRedirect = true;
+            
             public TimeSpan KeepAliveInterval = TimeSpan.FromMinutes(2);
 
             public int MaxReplicasPerRequest = 3;
