@@ -194,6 +194,8 @@ namespace Vostok.Singular.Core.Configuration
         public class WsServerSettings
         {
             public TimeSpan KeepAliveInterval = TimeSpan.FromMinutes(2);
+            
+            public bool ProxyResponseHeaders = false;
         }
 
         #endregion
