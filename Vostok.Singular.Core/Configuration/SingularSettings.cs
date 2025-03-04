@@ -142,6 +142,8 @@ namespace Vostok.Singular.Core.Configuration
             public int MaxReplicasPerRequest = 3;
 
             public bool TryReadFullMessage = false;
+            
+            public bool ProxyResponseHeaders = false;
 
             public DataSize BufferSize = 16.Kilobytes();
 
@@ -194,8 +196,6 @@ namespace Vostok.Singular.Core.Configuration
         public class WsServerSettings
         {
             public TimeSpan KeepAliveInterval = TimeSpan.FromMinutes(2);
-            
-            public bool ProxyResponseHeaders = false;
         }
 
         #endregion
