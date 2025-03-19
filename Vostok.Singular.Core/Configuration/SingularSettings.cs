@@ -142,6 +142,8 @@ namespace Vostok.Singular.Core.Configuration
             public int MaxReplicasPerRequest = 3;
 
             public bool TryReadFullMessage = false;
+            
+            public bool ProxyResponseHeaders = false;
 
             public DataSize BufferSize = 16.Kilobytes();
 
