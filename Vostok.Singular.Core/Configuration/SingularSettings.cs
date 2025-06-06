@@ -190,12 +190,16 @@ namespace Vostok.Singular.Core.Configuration
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
 
             public WsDisconnectSettings DisconnectSettings = new WsDisconnectSettings();
+
+            public bool CompressionEnabled = false;
         }
 
         [Serializable]
         public class WsServerSettings
         {
             public TimeSpan KeepAliveInterval = TimeSpan.FromMinutes(2);
+            public bool CompressionEnabled = false;
+            public WsServerCompressionSettings CompressionSettings = new WsServerCompressionSettings();
         }
 
         #endregion
@@ -578,6 +582,12 @@ namespace Vostok.Singular.Core.Configuration
             public bool Enable = false;
             public DataSize BodySize = 4.Kilobytes();
             public int DenyHttpCode = 403;
+        }
+        
+        [Serializable]
+        public class WsServerCompressionSettings
+        {
+            
         }
     }
 }
