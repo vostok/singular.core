@@ -199,7 +199,6 @@ namespace Vostok.Singular.Core.Configuration
         {
             public TimeSpan KeepAliveInterval = TimeSpan.FromMinutes(2);
             public bool CompressionEnabled = false;
-            public WsServerCompressionSettings CompressionSettings = new WsServerCompressionSettings();
         }
 
         #endregion
@@ -582,12 +581,6 @@ namespace Vostok.Singular.Core.Configuration
             public bool Enable = false;
             public DataSize BodySize = 4.Kilobytes();
             public int DenyHttpCode = 403;
-        }
-        
-        [Serializable]
-        public class WsServerCompressionSettings
-        {
-            
         }
     }
 }
