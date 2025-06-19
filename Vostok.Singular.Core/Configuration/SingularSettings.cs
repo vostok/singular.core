@@ -191,14 +191,15 @@ namespace Vostok.Singular.Core.Configuration
 
             public WsDisconnectSettings DisconnectSettings = new WsDisconnectSettings();
 
-            public bool CompressionEnabled = false;
+            public bool EnableClientToSingularCompression = false;
+
+            public bool EnableSingularToBackendCompression = false;
         }
 
         [Serializable]
         public class WsServerSettings
         {
             public TimeSpan KeepAliveInterval = TimeSpan.FromMinutes(2);
-            public bool CompressionEnabled = false;
         }
 
         #endregion
