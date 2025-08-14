@@ -190,6 +190,10 @@ namespace Vostok.Singular.Core.Configuration
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
 
             public WsDisconnectSettings DisconnectSettings = new WsDisconnectSettings();
+
+            public bool EnableClientToSingularCompression = false;
+
+            public bool EnableSingularToBackendCompression = false;
         }
 
         [Serializable]
