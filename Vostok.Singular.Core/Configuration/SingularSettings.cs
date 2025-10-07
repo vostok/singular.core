@@ -382,6 +382,10 @@ namespace Vostok.Singular.Core.Configuration
             public bool RewriteHostHeaderWithTargetHostValue = false;
 
             public HostingTopologyTransformSettings HostingTopologyTransform = new HostingTopologyTransformSettings();
+            
+            public bool AllowHttp2Upgrade = false;
+
+            public bool EnableMultipleHttp2Connections = false;
         }
 
         #endregion
