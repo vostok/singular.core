@@ -17,7 +17,7 @@ namespace Vostok.Singular.Core.PathPatterns.Timeout
             this.settingsProvider = settingsProvider;
         }
 
-        public async Task<TimeSpan> Get(string method, string path)
+        public async ValueTask<TimeSpan> Get(string method, string path)
         {
             var pathRule = await pathRulesProvider.Get(method, path).ConfigureAwait(false);
 

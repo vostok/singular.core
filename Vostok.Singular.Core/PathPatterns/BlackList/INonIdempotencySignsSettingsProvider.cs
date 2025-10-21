@@ -5,6 +5,6 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
 {
     internal interface INonIdempotencySignsSettingsProvider
     {
-        Task<NonIdempotencySignsSettings> GetAsync();
+        ValueTask<NonIdempotencySignsSettings> GetAsync();
     }
 }

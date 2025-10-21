@@ -12,7 +12,7 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
             this.nonIdempotencySignsCache = nonIdempotencySignsCache;
         }
 
-        public async Task<bool> IsIdempotent(string method, string path)
+        public async ValueTask<bool> IsIdempotent(string method, string path)
         {
             var signs = await nonIdempotencySignsCache.GetAsync().ConfigureAwait(false);
             if (signs.Count > 0 && path.StartsWith("/"))

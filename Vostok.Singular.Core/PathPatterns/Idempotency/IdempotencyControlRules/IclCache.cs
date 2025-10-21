@@ -14,14 +14,14 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
             IsIdempotent = true,
             OverrideHeader = false
         };
-        private readonly CachingTransformAsync<IdempotencySettings, List<IdempotencyControlRule>> cache;
+        private readonly ValueTaskCachingTransformAsync<IdempotencySettings, List<IdempotencyControlRule>> cache;
 
         public IclCache(IIclRulesSettingsProvider iclRulesSettingsProvider)
         {
-            cache = new CachingTransformAsync<IdempotencySettings, List<IdempotencyControlRule>>(PreprocessSettings, iclRulesSettingsProvider.GetAsync);
+            cache = new ValueTaskCachingTransformAsync<IdempotencySettings, List<IdempotencyControlRule>>(PreprocessSettings, iclRulesSettingsProvider.GetAsync);
         }
 
-        public async Task<List<IdempotencyControlRule>> GetAsync()
+        public async ValueTask<List<IdempotencyControlRule>> GetAsync()
         {
             return await cache.GetAsync().ConfigureAwait(false);
         }

@@ -12,7 +12,7 @@ namespace Vostok.Singular.Core.PathPatterns.PathRules
             this.cache = cache;
         }
 
-        public async Task<PathSettings> Get(string method, string path)
+        public async ValueTask<PathSettings> Get(string method, string path)
         {
             var rules = await cache.GetAsync().ConfigureAwait(false);
 

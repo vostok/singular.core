@@ -17,7 +17,7 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency
             this.iclRulesProvider = iclRulesProvider;
         }
 
-        public async Task<bool> IsIdempotentAsync(string method, string path, string headerValue)
+        public async ValueTask<bool> IsIdempotentAsync(string method, string path, string headerValue)
         {
             var rule = await iclRulesProvider.GetRuleAsync(method, path).ConfigureAwait(false);
 
