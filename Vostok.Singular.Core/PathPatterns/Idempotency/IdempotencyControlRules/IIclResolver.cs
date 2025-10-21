@@ -7,6 +7,6 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
     /// </summary>
     internal interface IIclResolver
     {
-        Task<IdempotencyControlRule> GetRuleAsync(string path, string method);
+        ValueTask<IdempotencyControlRule> GetRuleAsync(string path, string method);
     }
 }

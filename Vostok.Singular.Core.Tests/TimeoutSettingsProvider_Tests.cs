@@ -22,7 +22,9 @@ namespace Vostok.Singular.Core.Tests
         public void SetUp()
         {
             aliasSettingsProvider = Substitute.For<ISettingsProvider>();
+            aliasSettingsProvider.GetAsync(Arg.Any<SingularSettings>()).Returns(new SingularSettings());
             commonSettingsProvider = Substitute.For<ISettingsProvider>();
+            commonSettingsProvider.GetAsync(Arg.Any<SingularSettings>()).Returns(new SingularSettings());
             var aliasResolver = new PathRulesProvider(new PathRulesCache(new SingularServiceSettingsProvider(aliasSettingsProvider)));
             timeoutProvider = new TimeoutSettingsProvider(aliasResolver, commonSettingsProvider);
         }

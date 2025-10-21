@@ -13,9 +13,9 @@ namespace Vostok.Singular.Core.PathPatterns
             this.settingsProvider = settingsProvider;
         }
 
-        public Task<SingularSettings> Get()
+        public async ValueTask<SingularSettings> Get()
         {
-            return settingsProvider.GetAsync(EmptySettings);
+            return await settingsProvider.GetAsync(EmptySettings).ConfigureAwait(false);
         }
     }
 }

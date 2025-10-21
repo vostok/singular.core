@@ -4,6 +4,6 @@ namespace Vostok.Singular.Core.PathPatterns
 {
     internal interface ISettingsProvider
     {
-        Task<T> GetAsync<T>(T defaultValue);
+        ValueTask<T> GetAsync<T>(T defaultValue);
     }
 }

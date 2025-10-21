@@ -5,6 +5,6 @@ namespace Vostok.Singular.Core.PathPatterns
 {
     internal interface IServiceSettingsProvider
     {
-        Task<SingularSettings> Get();
+        ValueTask<SingularSettings> Get();
     }
 }

@@ -5,6 +5,6 @@ namespace Vostok.Singular.Core.PathPatterns
 {
     internal interface ISettingsCache<TSettings>
     {
-        Task<List<TSettings>> GetAsync();
+        ValueTask<List<TSettings>> GetAsync();
     }
 }

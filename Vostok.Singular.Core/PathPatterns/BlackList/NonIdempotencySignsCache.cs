@@ -7,16 +7,16 @@ namespace Vostok.Singular.Core.PathPatterns.BlackList
 {
     internal class NonIdempotencySignsCache : ISettingsCache<NonIdempotencySign>
     {
-        private readonly CachingTransformAsync<NonIdempotencySignsSettings, List<NonIdempotencySign>> cache;
+        private readonly ValueTaskCachingTransformAsync<NonIdempotencySignsSettings, List<NonIdempotencySign>> cache;
 
         public NonIdempotencySignsCache(INonIdempotencySignsSettingsProvider nonIdempotencySignsSettingsProvider)
         {
-            cache = new CachingTransformAsync<NonIdempotencySignsSettings, List<NonIdempotencySign>>(
+            cache = new ValueTaskCachingTransformAsync<NonIdempotencySignsSettings, List<NonIdempotencySign>>(
                 PreprocessSigns,
                 nonIdempotencySignsSettingsProvider.GetAsync);
         }
 
-        public async Task<List<NonIdempotencySign>> GetAsync()
+        public async ValueTask<List<NonIdempotencySign>> GetAsync()
         {
             return await cache.GetAsync().ConfigureAwait(false);
         }

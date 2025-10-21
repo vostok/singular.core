@@ -5,6 +5,6 @@ namespace Vostok.Singular.Core.PathPatterns.Idempotency.IdempotencyControlRules
 {
     internal interface IIclRulesSettingsProvider
     {
-        Task<IdempotencySettings> GetAsync();
+        ValueTask<IdempotencySettings> GetAsync();
     }
 }
