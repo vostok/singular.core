@@ -16,6 +16,7 @@
         public const string Traceparent = "traceparent";
         public const string Idempotent = "X-Singular-Idempotent";
         public const string OriginalUri = "X-Singular-Original-Uri";
+        public const string Test = "X-Singular-Original-Uri";
 
         public static class ThrottlingTriggerReason
         {
