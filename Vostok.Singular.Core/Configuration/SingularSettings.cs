@@ -542,6 +542,8 @@ namespace Vostok.Singular.Core.Configuration
             public int MinimumRequests = 30;
             public double CriticalRatio = 2.0d;
             public double MaximumRejectProbability = 0.8d;
+            public bool TrackGranularStatistics = true;
+            public double AnomalousStatisticsThreshold = 2d;
         }
 
         [Serializable]
