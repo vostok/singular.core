@@ -543,6 +543,7 @@ namespace Vostok.Singular.Core.Configuration
             public double CriticalRatio = 2.0d;
             public double MaximumRejectProbability = 0.8d;
             public bool TrackGranularStatistics = false;
+            public bool TrackGlobalStatistics = true;
             public double GranularToGlobalStatisticsRatioAnomalyThreshold = 2d;
         }
 
