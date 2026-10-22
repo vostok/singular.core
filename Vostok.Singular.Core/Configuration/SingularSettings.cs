@@ -352,10 +352,6 @@ namespace Vostok.Singular.Core.Configuration
 
             public bool ValidateHttpMethod = true;
 
-            public bool PreserveOriginalUri = true;
-
-            public bool LogNonAsciiRequestUrls = true;
-
             public List<int> AdditionalAcceptedCodes = new List<int>
             {
                 1000,
