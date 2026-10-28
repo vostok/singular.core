@@ -73,6 +73,12 @@ namespace Vostok.Singular.Core.Configuration
 
             public TimeSpan? TcpKeepAliveInterval;
 
+            public bool TcpKeepAliveEnabled = true;
+
+            public TimeSpan HalfCloseDrainTimeout = TimeSpan.FromSeconds(30);
+
+            public TimeSpan IdleTimeout = TimeSpan.Zero;
+
             public double LocalDatacenterBoostModifier = 3.0d;
 
             public double LocalDatacenterBoostMinWeight = 0.75d;

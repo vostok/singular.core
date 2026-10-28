@@ -1,3 +1,7 @@
+## 0.1.1 (28-10-2026):
+
+Added SingularSettings.TcpClient.{TcpKeepAliveEnabled, HalfCloseDrainTimeout, IdleTimeout}.
+
 ## 0.1.0 (23-10-2026):
 
 Breaking change: SingularSettings.Client.{PreserveOriginalUrl, LogNonAsciiUrls} snapped from existence.
